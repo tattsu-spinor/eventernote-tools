@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 
 export default {
-  content: ["./docs/**/*.{html,js,ts,md}"],
+  content: ["./{components,docs}/**/*.{html,js,ts,md,vue}"],
   theme: {
     extend: {},
   },
