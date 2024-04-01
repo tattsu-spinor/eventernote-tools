@@ -5,6 +5,7 @@ export default defineConfig({
   lang: "ja",
   base: "/eventernote-tools/",
   cleanUrls: true,
+  appearance: false,
   themeConfig: {
     sidebar: [
       { text: "Markdown Examples", link: "/markdown-examples" },
