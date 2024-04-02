@@ -5,7 +5,13 @@ export default defineConfig({
   lang: "ja",
   base: "/eventernote-tools/",
   cleanUrls: true,
-  appearance: false,
+  appearance: {
+    onChanged(isDark, defaultHandler, mode) {
+      defaultHandler(mode);
+      const html = document.querySelector("html")!;
+      html.setAttribute("data-theme", isDark ? "dark" : "light");
+    },
+  },
   themeConfig: {
     sidebar: [
       { text: "Markdown Examples", link: "/markdown-examples" },
