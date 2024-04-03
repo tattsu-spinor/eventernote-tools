@@ -3,7 +3,6 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Eventernote Tools",
   lang: "ja",
-  base: "/eventernote-tools/",
   cleanUrls: true,
   appearance: "force-dark",
   themeConfig: {
