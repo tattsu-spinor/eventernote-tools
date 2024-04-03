@@ -83,7 +83,7 @@ const searchActorId = async (name: string) => {
     .find((node) => node.textContent === name)
     ?.getAttribute("href");
   if (!href) {
-    throw new Error(`出演者が見つかりません [${name}]`);
+    throw new Error(`出演者が見つかりません: ${name}`);
   }
   return parseInt(href.substring(href.lastIndexOf("/") + 1));
 };
