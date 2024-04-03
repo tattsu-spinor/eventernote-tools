@@ -5,8 +5,19 @@ export default defineConfig({
   lang: "ja",
   cleanUrls: true,
   appearance: "force-dark",
+  vite: {
+    server: {
+      proxy: {
+        "/actors/": {
+          target: "https://www.eventernote.com",
+          changeOrigin: true,
+        },
+      },
+    },
+  },
   themeConfig: {
     sidebar: [
+      { text: "共演者検索", link: "/coacting-events" },
       { text: "Markdown Examples", link: "/markdown-examples" },
       { text: "Runtime API Examples", link: "/api-examples" },
     ],
