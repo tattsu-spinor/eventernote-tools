@@ -19,6 +19,20 @@
     検索
     <span v-show="store.loading" class="loading loading-spinner"></span>
   </button>
+  <button
+    @click="store.actorNames.push('')"
+    :disabled="store.loading"
+    class="btn btn-secondary ml-3"
+  >
+    追加
+  </button>
+  <button
+    @click="store.actorNames.pop()"
+    :disabled="store.loading || store.actorNames.length <= 2"
+    class="btn btn-warning ml-3"
+  >
+    削除
+  </button>
   <div v-if="store.error" role="alert" class="alert alert-error my-3">
     <span>{{ store.error.message }}</span>
   </div>
