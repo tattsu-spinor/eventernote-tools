@@ -17,15 +17,15 @@
 import { intersectionWith } from "remeda";
 import { store, type Event } from "../../store/coacting-events";
 
-const actor1 = defineModel<string>("actor1", { default: "本渡楓" });
-const actor2 = defineModel<string>("actor2", { default: "桑原由気" });
-const loading = defineModel<boolean>("loading");
+const actor1 = defineModel("actor1", { default: "本渡楓" });
+const actor2 = defineModel("actor2", { default: "桑原由気" });
+const loading = defineModel("loading", { default: false });
 
 const searchCoactingEvents = async () => {
   loading.value = true;
   const eventLists: Event[][] = await Promise.all(
     [actor1, actor2].map(async (actor) => {
-      const id = await searchActor(actor.value);
+      const id = await searchActorId(actor.value);
       const res = await fetch(`/actors/${id}/events?limit=10000`);
       const nodeList = new DOMParser()
         .parseFromString(await res.text(), "text/html")!
@@ -45,7 +45,7 @@ const searchCoactingEvents = async () => {
   loading.value = false;
 };
 
-const searchActor = async (name: string) => {
+const searchActorId = async (name: string) => {
   const res = await fetch(`/actors/search?keyword=${name}`);
   const nodeList = new DOMParser()
     .parseFromString(await res.text(), "text/html")
