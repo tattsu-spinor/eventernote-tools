@@ -15,5 +15,5 @@
 </template>
 
 <script setup lang="ts">
-import { store } from "../../store/coacting-events";
+import { store } from "./store";
 </script>

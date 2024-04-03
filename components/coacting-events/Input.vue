@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { intersectionWith } from "remeda";
-import { store, type Event } from "../../store/coacting-events";
+import { store, type Event } from "./store";
 
 const searchCoactingEvents = async () => {
   store.loading = true;
