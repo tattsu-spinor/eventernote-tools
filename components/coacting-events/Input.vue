@@ -1,20 +1,14 @@
 <template>
-  <label class="input input-bordered flex items-center gap-2 my-3">
-    出演者1
+  <label
+    v-for="(_, index) in store.actorNames"
+    class="input input-bordered flex items-center gap-2 my-3"
+  >
+    出演者{{ index + 1 }}
     <input
-      v-model="store.actorNames[0]"
+      v-model="store.actorNames[index]"
       type="text"
       class="grow"
       placeholder="本渡楓"
-    />
-  </label>
-  <label class="input input-bordered flex items-center gap-2 my-3">
-    出演者2
-    <input
-      v-model="store.actorNames[1]"
-      type="text"
-      class="grow"
-      placeholder="桑原由気"
     />
   </label>
   <button
