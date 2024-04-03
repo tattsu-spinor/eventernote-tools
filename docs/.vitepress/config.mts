@@ -16,11 +16,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    sidebar: [
-      { text: "共演者検索", link: "/coacting-events" },
-      { text: "Markdown Examples", link: "/markdown-examples" },
-      { text: "Runtime API Examples", link: "/api-examples" },
-    ],
+    sidebar: [{ text: "共演者検索", link: "/coacting-events" }],
     socialLinks: [
       {
         icon: "github",
