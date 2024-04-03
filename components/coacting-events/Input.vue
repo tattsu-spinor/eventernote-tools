@@ -17,7 +17,11 @@
       placeholder="桑原由気"
     />
   </label>
-  <button @click="searchCoactingEvents" class="btn btn-primary">
+  <button
+    @click="searchCoactingEvents"
+    :disabled="store.loading"
+    class="btn btn-primary"
+  >
     検索
     <span v-show="store.loading" class="loading loading-spinner"></span>
   </button>
