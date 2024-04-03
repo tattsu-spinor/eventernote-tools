@@ -1,15 +1,25 @@
 <template>
   <label class="input input-bordered flex items-center gap-2 my-3">
     出演者1
-    <input v-model="actor1" type="text" class="grow" placeholder="本渡楓" />
+    <input
+      v-model="store.actorNames[0]"
+      type="text"
+      class="grow"
+      placeholder="本渡楓"
+    />
   </label>
   <label class="input input-bordered flex items-center gap-2 my-3">
     出演者2
-    <input v-model="actor2" type="text" class="grow" placeholder="桑原由気" />
+    <input
+      v-model="store.actorNames[1]"
+      type="text"
+      class="grow"
+      placeholder="桑原由気"
+    />
   </label>
   <button @click="searchCoactingEvents" class="btn btn-primary">
     検索
-    <span v-show="loading" class="loading loading-spinner"></span>
+    <span v-show="store.loading" class="loading loading-spinner"></span>
   </button>
 </template>
 
@@ -17,15 +27,11 @@
 import { intersectionWith } from "remeda";
 import { store, type Event } from "../../store/coacting-events";
 
-const actor1 = defineModel("actor1", { default: "本渡楓" });
-const actor2 = defineModel("actor2", { default: "桑原由気" });
-const loading = defineModel("loading", { default: false });
-
 const searchCoactingEvents = async () => {
-  loading.value = true;
+  store.loading = true;
   const eventLists: Event[][] = await Promise.all(
-    [actor1, actor2].map(async (actor) => {
-      const id = await searchActorId(actor.value);
+    store.actorNames.map(async (actorName) => {
+      const id = await searchActorId(actorName);
       const res = await fetch(`/actors/${id}/events?limit=10000`);
       const nodeList = new DOMParser()
         .parseFromString(await res.text(), "text/html")!
@@ -38,11 +44,10 @@ const searchCoactingEvents = async () => {
       }));
     })
   );
-  const result = eventLists.reduce((previous, current) =>
+  store.events = eventLists.reduce((previous, current) =>
     intersectionWith(previous, current, (a, b) => a.href === b.href)
   );
-  store.result = result;
-  loading.value = false;
+  store.loading = false;
 };
 
 const searchActorId = async (name: string) => {

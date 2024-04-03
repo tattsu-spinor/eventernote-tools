@@ -1,7 +1,9 @@
 import { reactive } from "vue";
 
 export const store = reactive({
-  result: undefined as Event[] | undefined,
+  actorNames: ["", ""],
+  events: undefined as Event[] | undefined,
+  loading: false,
 });
 
 export interface Event {

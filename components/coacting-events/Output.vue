@@ -1,9 +1,9 @@
 <template>
-  <p v-if="store.result">
-    {{ store.result.length }}件のイベントが見つかりました。
+  <p v-if="store.events">
+    {{ store.events.length }}件のイベントが見つかりました。
   </p>
   <ul>
-    <li v-for="event in store.result">
+    <li v-for="event in store.events">
       <a
         :href="'https://www.eventernote.com' + event.href"
         target="_blank"
