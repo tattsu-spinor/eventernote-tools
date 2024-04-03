@@ -4,9 +4,10 @@ export const store = reactive({
   actorNames: ["", ""],
   events: undefined as Event[] | undefined,
   loading: false,
+  error: undefined as Error | undefined,
 });
 
 export interface Event {
-  name: string | null;
-  href: string | null;
+  name: string;
+  href: string;
 }
