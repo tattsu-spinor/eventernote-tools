@@ -1,6 +1,7 @@
 {
   "type": "module",
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240402.0",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.9.0",
     "postcss": "^8.4.38",
