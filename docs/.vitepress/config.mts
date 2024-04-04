@@ -11,6 +11,10 @@ export default defineConfig({
         text: "共演イベント検索",
         link: "/coacting-events/",
       },
+      {
+        text: "出演数統計",
+        link: "/appearance-statistics/",
+      },
     ],
     socialLinks: [
       {
