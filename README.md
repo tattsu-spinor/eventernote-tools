@@ -4,7 +4,7 @@
 
 - [Typescript](https://www.typescriptlang.org/)
 
-## パッケージマネージャー
+## パッケージマネージャ
 
 - [Bun](https://bun.sh/)
 
