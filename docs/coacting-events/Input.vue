@@ -49,7 +49,10 @@ const searchCoactingEvents = async () => {
     const eventLists: Event[][] = await Promise.all(
       store.actorNames.map(async (actorName) => {
         const id = await searchActorId(actorName);
-        const res = await fetch(`/actors/${id}/events?limit=10000`);
+        const res = await fetch(`/actors/${id}/events?limit=1000`);
+        if (res.status !== 200) {
+          throw new Error(res.statusText);
+        }
         const nodeList = new DOMParser()
           .parseFromString(await res.text(), "text/html")!
           .querySelectorAll(
@@ -74,6 +77,9 @@ const searchCoactingEvents = async () => {
 
 const searchActorId = async (name: string) => {
   const res = await fetch(`/actors/search?keyword=${name}`);
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
   const nodeList = new DOMParser()
     .parseFromString(await res.text(), "text/html")
     .querySelectorAll(
