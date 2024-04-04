@@ -10,15 +10,15 @@
       <thead>
         <tr>
           <th></th>
-          <th>出演者名</th>
-          <th>出演数</th>
+          <th style="text-align: center">出演者名</th>
+          <th style="text-align: right">出演数</th>
         </tr>
       </thead>
       <tbody v-for="([actorName, count], index) in store.statistics">
         <tr>
-          <th>{{ index + 1 }}</th>
-          <td>{{ actorName }}</td>
-          <td>{{ count }}</td>
+          <th style="text-align: right">{{ index + 1 }}</th>
+          <td style="text-align: center">{{ actorName }}</td>
+          <td style="text-align: right">{{ count }}</td>
         </tr>
       </tbody>
     </table>
