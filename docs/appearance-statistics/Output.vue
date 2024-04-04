@@ -1,7 +1,9 @@
 <template>
   <div v-if="store.eventCount">
     <span>{{ store.eventCount }}件のイベントを検索しました。</span>
-    <a :href="store.searchUrl">検索結果</a>
+    <a :href="store.searchUrl" target="_blank" rel="noopener noreferrer">
+      検索結果
+    </a>
   </div>
   <div class="overflow-x-auto">
     <table v-if="store.statistics" class="table table-md table-pin-rows">
