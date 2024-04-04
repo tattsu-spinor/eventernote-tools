@@ -34,6 +34,10 @@ export default defineConfig({
           target: "https://www.eventernote.com",
           changeOrigin: true,
         },
+        "/events/": {
+          target: "https://www.eventernote.com",
+          changeOrigin: true,
+        },
       },
     },
   },

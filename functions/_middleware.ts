@@ -1,7 +1,10 @@
 const handleReverseProxy: PagesFunction = async (context) => {
   const originalUrl = context.request.url;
   const url = new URL(originalUrl);
-  if (url.pathname.indexOf("/actors/") !== 0) {
+  if (
+    url.pathname.indexOf("/actors/") !== 0 &&
+    url.pathname.indexOf("/events/") !== 0
+  ) {
     return await context.next();
   }
   const newUrl = new URL(
