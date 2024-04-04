@@ -4,9 +4,9 @@ prev: false
 next: false
 ---
 
-<script setup>
-import Input from "../components/coacting-events/Input.vue"
-import Output from "../components/coacting-events/Output.vue"
+<script setup lang="ts">
+import Input from "./Input.vue"
+import Output from "./Output.vue"
 </script>
 
 # 共演イベント検索

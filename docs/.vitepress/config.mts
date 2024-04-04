@@ -4,10 +4,14 @@ export default defineConfig({
   title: "Eventernote Tools",
   description: "Eventernoteの高度な検索を提供するサイト",
   lang: "ja",
-  cleanUrls: true,
   appearance: "force-dark",
   themeConfig: {
-    sidebar: [{ text: "共演イベント検索", link: "/coacting-events" }],
+    sidebar: [
+      {
+        text: "共演イベント検索",
+        link: "/coacting-events/",
+      },
+    ],
     socialLinks: [
       {
         icon: "github",
