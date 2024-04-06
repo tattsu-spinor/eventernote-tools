@@ -11,21 +11,21 @@
         v-model="searchCondition.yaer"
         class="join-item select select-bordered w-full rounded-t-none"
       >
-        <option selected value>{{ " - " }}年</option>
+        <option selected :value="undefined">{{ " - " }}年</option>
         <option v-for="n in yearValues" :value="n">{{ n }}年</option>
       </select>
       <select
         v-model="searchCondition.month"
         class="join-item select select-bordered w-full rounded-t-none"
       >
-        <option selected value>{{ " - " }}月</option>
+        <option selected :value="undefined">{{ " - " }}月</option>
         <option v-for="n in 12" :value="n">{{ n }}月</option>
       </select>
       <select
         v-model="searchCondition.day"
         class="join-item select select-bordered w-full rounded-t-none"
       >
-        <option selected value>{{ " - " }}日</option>
+        <option selected :value="undefined">{{ " - " }}日</option>
         <option v-for="n in 31" :value="n">{{ n }}日</option>
       </select>
     </div>
@@ -61,7 +61,14 @@ const yearValues = pipe(1980, range(new Date().getFullYear() + 1), reverse);
 const searchUrl = Vue.computed(() => {
   const { keyword, yaer, month, day, areaId, prefectureId } =
     searchCondition.value;
-  return `/events/search?keyword=${keyword}&year=${yaer}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}&limit=1000`;
+  return `/events/search
+    ?keyword=${keyword}
+    &year=${yaer ?? ""}
+    &month=${month ?? ""}
+    &day=${day ?? ""}
+    &area_id=${areaId ?? ""}
+    &prefecture_id=${prefectureId ?? ""}
+    &limit=1000`.replace(/\s+/g, "");
 });
 const canNotSearch = Vue.computed(() =>
   Object.values(searchCondition.value).every((v) => !v)

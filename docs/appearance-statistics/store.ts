@@ -2,20 +2,15 @@ import * as Vue from "vue";
 
 export interface SearchCondition {
   keyword: string;
-  yaer: string;
-  month: string;
-  day: string;
-  areaId: string;
-  prefectureId: string;
+  yaer?: number;
+  month?: number;
+  day?: number;
+  areaId?: number;
+  prefectureId?: number;
 }
 
 export const searchCondition = Vue.ref<SearchCondition>({
   keyword: "",
-  yaer: "",
-  month: "",
-  day: "",
-  areaId: "",
-  prefectureId: "",
 });
 
 export const resultUrl = Vue.ref<string>();
