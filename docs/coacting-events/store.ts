@@ -1,13 +1,14 @@
-import { reactive } from "vue";
+import * as Vue from "vue";
 
-export const store = reactive({
-  actorNames: ["", ""],
-  events: undefined as Event[] | undefined,
-  loading: false,
-  error: undefined as Error | undefined,
-});
+export const actorNames = Vue.ref(["", ""]);
 
 export interface Event {
   name: string;
   href: string;
 }
+
+export const events = Vue.ref<Event[]>();
+
+export const loading = Vue.ref(false);
+
+export const error = Vue.ref<Error>();

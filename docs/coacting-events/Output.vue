@@ -1,9 +1,7 @@
 <template>
-  <p v-if="store.events">
-    {{ store.events.length }}件のイベントが見つかりました。
-  </p>
+  <p v-if="events">{{ events.length }}件のイベントが見つかりました。</p>
   <ul>
-    <li v-for="event in store.events">
+    <li v-for="event in events">
       <a
         :href="'https://www.eventernote.com' + event.href"
         target="_blank"
@@ -15,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import { store } from "./store";
+import { events } from "./store";
 </script>

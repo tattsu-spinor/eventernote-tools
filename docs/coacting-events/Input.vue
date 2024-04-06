@@ -1,11 +1,11 @@
 <template>
   <label
-    v-for="(_, index) in store.actorNames"
+    v-for="(_, index) in actorNames"
     class="input input-bordered flex items-center gap-2 my-3"
   >
     出演者{{ index + 1 }}
     <input
-      v-model="store.actorNames[index]"
+      v-model="actorNames[index]"
       type="text"
       class="grow"
       placeholder="本渡楓"
@@ -13,41 +13,41 @@
   </label>
   <button
     @click="searchCoactingEvents"
-    :disabled="store.loading"
+    :disabled="loading"
     class="btn btn-primary"
   >
     検索
-    <span v-show="store.loading" class="loading loading-spinner"></span>
+    <span v-show="loading" class="loading loading-spinner"></span>
   </button>
   <button
-    @click="store.actorNames.push('')"
-    :disabled="store.loading"
+    @click="actorNames.push('')"
+    :disabled="loading"
     class="btn btn-secondary ml-3"
   >
     追加
   </button>
   <button
-    @click="store.actorNames.pop()"
-    :disabled="store.loading || store.actorNames.length <= 2"
+    @click="actorNames.pop()"
+    :disabled="loading || actorNames.length <= 2"
     class="btn btn-warning ml-3"
   >
     削除
   </button>
-  <div v-if="store.error" role="alert" class="alert alert-error my-3">
-    <span>{{ store.error.message }}</span>
+  <div v-if="error" role="alert" class="alert alert-error my-3">
+    <span>{{ error.message }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { intersectionWith } from "remeda";
-import { store, type Event } from "./store";
+import { actorNames, Event, events, loading, error } from "./store";
 
 const searchCoactingEvents = async () => {
-  store.loading = true;
-  store.error = undefined;
+  loading.value = true;
+  error.value = undefined;
   try {
     const eventLists: Event[][] = await Promise.all(
-      store.actorNames.map(async (actorName) => {
+      actorNames.value.map(async (actorName) => {
         const id = await searchActorId(actorName);
         const res = await fetch(`/actors/${id}/events?limit=1000`);
         if (res.status !== 200) {
@@ -64,14 +64,14 @@ const searchCoactingEvents = async () => {
         }));
       })
     );
-    store.events = eventLists.reduce((previous, current) =>
+    events.value = eventLists.reduce((previous, current) =>
       intersectionWith(previous, current, (a, b) => a.href === b.href)
     );
   } catch (e) {
     console.error(e);
-    store.error = e;
+    error.value = e;
   } finally {
-    store.loading = false;
+    loading.value = false;
   }
 };
 
