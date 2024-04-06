@@ -89,7 +89,7 @@ import {
   error,
 } from "./store";
 
-const yearValues = range(1980, new Date().getFullYear() + 1).toReversed();
+const yearValues = range(1980, new Date().getFullYear() + 2).toReversed();
 const searchUrl = Vue.computed(() => {
   const { keyword, yaer, month, day, areaId, prefectureId } =
     searchCondition.value;
