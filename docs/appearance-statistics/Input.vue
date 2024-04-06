@@ -112,7 +112,7 @@ const searchAppearanceStatistics = async () => {
   error.value = undefined;
   try {
     const res = await fetch(searchUrl.value);
-    if (res.status !== 200) {
+    if (!res.ok) {
       throw new Error(res.statusText);
     }
     const document = new DOMParser().parseFromString(
@@ -132,6 +132,9 @@ const searchAppearanceStatistics = async () => {
     const actorList = await Promise.all(
       range(1, 1 + count / 100).map(async (page) => {
         const res = await fetch(searchUrl.value + `&limit=100&page=${page}`);
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
         const document = new DOMParser().parseFromString(
           await res.text(),
           "text/html"

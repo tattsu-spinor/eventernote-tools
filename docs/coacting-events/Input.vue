@@ -51,7 +51,7 @@ const searchCoactingEvents = async () => {
       actorNames.value.map(async (actorName) => {
         const id = await searchActorId(actorName);
         const res = await fetch(`/actors/${id}/events?limit=1000`);
-        if (res.status !== 200) {
+        if (!res.ok) {
           throw new Error(res.statusText);
         }
         const nodeList = new DOMParser()
@@ -78,7 +78,7 @@ const searchCoactingEvents = async () => {
 
 const searchActorId = async (name: string) => {
   const res = await fetch(`/actors/search?keyword=${name}`);
-  if (res.status !== 200) {
+  if (!res.ok) {
     throw new Error(res.statusText);
   }
   const nodeList = new DOMParser()
