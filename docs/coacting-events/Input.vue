@@ -1,7 +1,7 @@
 <template>
   <label
     v-for="(_, index) in actorNames"
-    class="input input-bordered flex items-center gap-2 my-3"
+    class="input input-bordered flex items-center gap-2 mt-3"
   >
     出演者{{ index + 1 }}
     <input
@@ -11,29 +11,31 @@
       placeholder="本渡楓"
     />
   </label>
-  <button
-    @click="searchCoactingEvents"
-    :disabled="loading || canNotSearch"
-    class="btn btn-primary"
-  >
-    検索
-    <span v-show="loading" class="loading loading-spinner"></span>
-  </button>
-  <button
-    @click="actorNames.push('')"
-    :disabled="loading"
-    class="btn btn-secondary ml-3"
-  >
-    追加
-  </button>
-  <button
-    @click="actorNames.pop()"
-    :disabled="loading || actorNames.length <= 2"
-    class="btn btn-warning ml-3"
-  >
-    削除
-  </button>
-  <div v-if="error" role="alert" class="alert alert-error my-3">
+  <div class="mt-3">
+    <button
+      @click="searchCoactingEvents"
+      :disabled="loading || canNotSearch"
+      class="btn btn-primary"
+    >
+      検索
+      <span v-show="loading" class="loading loading-spinner"></span>
+    </button>
+    <button
+      @click="actorNames.push('')"
+      :disabled="loading"
+      class="btn btn-secondary ml-3"
+    >
+      追加
+    </button>
+    <button
+      @click="actorNames.pop()"
+      :disabled="loading || actorNames.length <= 1"
+      class="btn btn-warning ml-3"
+    >
+      削除
+    </button>
+  </div>
+  <div v-if="error" role="alert" class="alert alert-error mt-3">
     <span>{{ error.message }}</span>
   </div>
 </template>
