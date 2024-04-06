@@ -15,6 +15,8 @@ import Output from "./Output.vue"
 
 検索条件は、[Eventernote](https://www.eventernote.com)のものと同等です。
 
+検索するイベント数が多すぎると負荷がかかるため、できるだけ緩い条件での検索はお控えください。
+
 ## Input
 
 <Input />
