@@ -96,11 +96,11 @@ const searchAppearanceStatistics = async () => {
     });
 
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
+    eventCount.value = Math.min(count, 1000);
     statistics.value = pipe(
       Array.from(map),
       sort((a, b) => b[1] - a[1])
     );
-    eventCount.value = Math.min(count, 1000);
   } catch (e) {
     console.error(e);
     error.value = e;
