@@ -50,7 +50,7 @@ const searchCoactingEvents = async () => {
     const eventLists: Event[][] = await Promise.all(
       actorNames.value.map(async (actorName) => {
         const id = await searchActorId(actorName);
-        const res = await fetch(`/actors/${id}/events?limit=1000`);
+        const res = await fetch(`/actors/${id}/events?limit=10000`);
         if (!res.ok) {
           throw new Error(res.statusText);
         }
