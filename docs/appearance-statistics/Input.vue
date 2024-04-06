@@ -99,8 +99,7 @@ const searchUrl = Vue.computed(() => {
     &month=${month ?? ""}
     &day=${day ?? ""}
     &area_id=${areaId ?? ""}
-    &prefecture_id=${prefectureId ?? ""}
-    &limit=1000`.replace(/\s+/g, "");
+    &prefecture_id=${prefectureId ?? ""}`.replace(/\s+/g, "");
 });
 const canNotSearch = Vue.computed(() => {
   const { keyword, yaer, month, day, areaId, prefectureId } =
@@ -126,18 +125,31 @@ const searchAppearanceStatistics = async () => {
     const count = parseInt(
       eventCountString.substring(0, eventCountString.indexOf("件"))
     );
-    const nodeList = document.querySelectorAll(
-      "body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a"
+    if (count > 10000) {
+      throw new Error(`イベント数が1万件を超えています: ${count}件`);
+    }
+
+    const actorList = await Promise.all(
+      range(1, 1 + count / 100).map(async (page) => {
+        const res = await fetch(searchUrl.value + `&limit=100&page=${page}`);
+        const document = new DOMParser().parseFromString(
+          await res.text(),
+          "text/html"
+        );
+        const nodeList = document.querySelectorAll(
+          "body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a"
+        );
+        return [...nodeList].map((node) => node.textContent!);
+      })
     );
     const map = new Map<string, number>();
-    nodeList.forEach((node) => {
-      const actorName = node.textContent!;
+    actorList.flat().forEach((actorName) => {
       const count = map.get(actorName) ?? 0;
       map.set(actorName, count + 1);
     });
 
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
-    eventCount.value = Math.min(count, 1000);
+    eventCount.value = count;
     statistics.value = Array.from(map).toSorted((a, b) => b[1] - a[1]);
   } catch (e) {
     console.error(e);
