@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { pipe, range, reverse, sort } from "remeda";
+import { range } from "remeda";
 import * as Vue from "vue";
 import {
   searchCondition,
@@ -57,7 +57,7 @@ import {
   error,
 } from "./store";
 
-const yearValues = pipe(1980, range(new Date().getFullYear() + 1), reverse);
+const yearValues = range(1980, new Date().getFullYear() + 1).toReversed();
 const searchUrl = Vue.computed(() => {
   const { keyword, yaer, month, day, areaId, prefectureId } =
     searchCondition.value;
@@ -104,10 +104,7 @@ const searchAppearanceStatistics = async () => {
 
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
     eventCount.value = Math.min(count, 1000);
-    statistics.value = pipe(
-      Array.from(map),
-      sort((a, b) => b[1] - a[1])
-    );
+    statistics.value = Array.from(map).toSorted((a, b) => b[1] - a[1]);
   } catch (e) {
     console.error(e);
     error.value = e;
