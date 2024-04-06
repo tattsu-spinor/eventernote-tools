@@ -153,7 +153,9 @@ const searchAppearanceStatistics = async () => {
 
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
     eventCount.value = count;
-    statistics.value = Array.from(map).toSorted((a, b) => b[1] - a[1]);
+    statistics.value = Array.from(map)
+      .toSorted((a, b) => b[1] - a[1])
+      .slice(0, 1000);
   } catch (e) {
     console.error(e);
     error.value = e;
