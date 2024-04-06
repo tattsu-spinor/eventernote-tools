@@ -16,7 +16,6 @@ export const searchCondition = Vue.ref<SearchCondition>({
 });
 
 Vue.watchEffect(() => {
-  console.log(searchCondition.value);
   if (searchCondition.value.isPrefectureMode) {
     searchCondition.value.areaId = undefined;
   } else {
