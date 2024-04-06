@@ -15,7 +15,7 @@ import Output from "./Output.vue"
 
 検索条件は、[Eventernote](https://www.eventernote.com)のものと同等です。
 
-パフォーマンスの観点から、検索するイベントは最大1000件の直近のものとなります。
+Eventernoteサーバへの負荷軽減のため、検索するイベントは最大1000件の直近のものとなります。
 
 ## Input
 
