@@ -47,9 +47,9 @@
 
 <script setup lang="ts">
 import { pipe, range, reverse, sort } from "remeda";
+import * as Vue from "vue";
 import {
   searchCondition,
-  searchUrl,
   resultUrl,
   eventCount,
   statistics,
@@ -58,6 +58,11 @@ import {
 } from "./store";
 
 const yearValues = pipe(1980, range(new Date().getFullYear() + 1), reverse);
+const searchUrl = Vue.computed(() => {
+  const { keyword, yaer, month, day, areaId, prefectureId } =
+    searchCondition.value;
+  return `/events/search?keyword=${keyword}&year=${yaer}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}&limit=1000`;
+});
 
 const searchAppearanceStatistics = async () => {
   loading.value = true;

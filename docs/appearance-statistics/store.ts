@@ -18,12 +18,6 @@ export const searchCondition = Vue.ref<SearchCondition>({
   prefectureId: "",
 });
 
-export const searchUrl = Vue.computed(() => {
-  const { keyword, yaer, month, day, areaId, prefectureId } =
-    searchCondition.value;
-  return `/events/search?keyword=${keyword}&year=${yaer}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}&limit=1000`;
-});
-
 export const resultUrl = Vue.ref<string>();
 
 export const eventCount = Vue.ref<number>();
