@@ -13,7 +13,7 @@
   </label>
   <button
     @click="searchCoactingEvents"
-    :disabled="loading"
+    :disabled="loading || canNotSearch"
     class="btn btn-primary"
   >
     検索
@@ -40,7 +40,10 @@
 
 <script setup lang="ts">
 import { intersectionWith } from "remeda";
+import * as Vue from "vue";
 import { actorNames, Event, events, loading, error } from "./store";
+
+const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
 
 const searchCoactingEvents = async () => {
   loading.value = true;

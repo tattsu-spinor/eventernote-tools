@@ -33,7 +33,7 @@
   <div class="mt-3">
     <button
       @click="searchAppearanceStatistics"
-      :disabled="loading"
+      :disabled="loading || canNotSearch"
       class="btn btn-primary"
     >
       検索
@@ -63,6 +63,9 @@ const searchUrl = Vue.computed(() => {
     searchCondition.value;
   return `/events/search?keyword=${keyword}&year=${yaer}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}&limit=1000`;
 });
+const canNotSearch = Vue.computed(() =>
+  Object.values(searchCondition.value).every((v) => !v)
+);
 
 const searchAppearanceStatistics = async () => {
   loading.value = true;
