@@ -9,24 +9,55 @@
     <div class="join w-full">
       <select
         v-model="searchCondition.yaer"
-        class="join-item select select-bordered w-full rounded-t-none"
+        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
       >
         <option selected :value="undefined">{{ " - " }}年</option>
         <option v-for="n in yearValues" :value="n">{{ n }}年</option>
       </select>
       <select
         v-model="searchCondition.month"
-        class="join-item select select-bordered w-full rounded-t-none"
+        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
       >
         <option selected :value="undefined">{{ " - " }}月</option>
         <option v-for="n in 12" :value="n">{{ n }}月</option>
       </select>
       <select
         v-model="searchCondition.day"
-        class="join-item select select-bordered w-full rounded-t-none"
+        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
       >
         <option selected :value="undefined">{{ " - " }}日</option>
         <option v-for="n in 31" :value="n">{{ n }}日</option>
+      </select>
+    </div>
+    <div class="join w-full">
+      <label class="join-item swap input w-36 rounded-t-none">
+        <input v-model="searchCondition.isPrefectureMode" type="checkbox" />
+        <div class="swap-on">都道府県:</div>
+        <div class="swap-off">地域:</div>
+      </label>
+      <select
+        v-if="searchCondition.isPrefectureMode"
+        v-model="searchCondition.prefectureId"
+        class="join-item select w-full rounded-t-none"
+      >
+        <option selected :value="undefined">-</option>
+        <option
+          v-for="prefecture in PREFECTURES"
+          selected
+          :value="prefecture.id.toString()"
+        >
+          {{ prefecture.name }}
+        </option>
+      </select>
+      <select
+        v-else
+        v-model="searchCondition.areaId"
+        class="join-item select w-full rounded-t-none"
+      >
+        <option selected :value="undefined">-</option>
+        <option v-for="area in AREAS" selected :value="area.id.toString()">
+          {{ area.name }}
+        </option>
       </select>
     </div>
   </div>
@@ -48,6 +79,7 @@
 <script setup lang="ts">
 import { range } from "remeda";
 import * as Vue from "vue";
+import { AREAS, PREFECTURES } from "./const";
 import {
   searchCondition,
   resultUrl,
@@ -70,9 +102,11 @@ const searchUrl = Vue.computed(() => {
     &prefecture_id=${prefectureId ?? ""}
     &limit=1000`.replace(/\s+/g, "");
 });
-const canNotSearch = Vue.computed(() =>
-  Object.values(searchCondition.value).every((v) => !v)
-);
+const canNotSearch = Vue.computed(() => {
+  const { keyword, yaer, month, day, areaId, prefectureId } =
+    searchCondition.value;
+  return [keyword, yaer, month, day, areaId, prefectureId].every((v) => !v);
+});
 
 const searchAppearanceStatistics = async () => {
   loading.value = true;

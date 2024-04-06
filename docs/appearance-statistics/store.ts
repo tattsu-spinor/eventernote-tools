@@ -7,10 +7,21 @@ export interface SearchCondition {
   day?: number;
   areaId?: number;
   prefectureId?: number;
+  isPrefectureMode: boolean;
 }
 
 export const searchCondition = Vue.ref<SearchCondition>({
   keyword: "",
+  isPrefectureMode: false,
+});
+
+Vue.watchEffect(() => {
+  console.log(searchCondition.value);
+  if (searchCondition.value.isPrefectureMode) {
+    searchCondition.value.areaId = undefined;
+  } else {
+    searchCondition.value.prefectureId = undefined;
+  }
 });
 
 export const resultUrl = Vue.ref<string>();
