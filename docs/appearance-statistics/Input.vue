@@ -1,34 +1,34 @@
 <template>
-  <div>
+  <div class="max-w-md">
     <input
       v-model="searchCondition.keyword"
       type="text"
       placeholder="キーワード"
-      class="input input-bordered w-full max-w-xs"
+      class="join-item input input-bordered w-full rounded-b-none"
     />
-  </div>
-  <div class="join w-full max-w-xs mt-3">
-    <select
-      v-model="searchCondition.yaer"
-      class="select select-bordered join-item"
-    >
-      <option selected value>&nbsp;-&nbsp;年</option>
-      <option v-for="n in yearValues" :value="n">{{ n }}年</option>
-    </select>
-    <select
-      v-model="searchCondition.month"
-      class="select select-bordered join-item"
-    >
-      <option selected value>&nbsp;-&nbsp;月</option>
-      <option v-for="n in 12" :value="n">{{ n }}月</option>
-    </select>
-    <select
-      v-model="searchCondition.day"
-      class="select select-bordered join-item"
-    >
-      <option selected value>&nbsp;-&nbsp;日</option>
-      <option v-for="n in 31" :value="n">{{ n }}日</option>
-    </select>
+    <div class="join w-full">
+      <select
+        v-model="searchCondition.yaer"
+        class="join-item select select-bordered w-full rounded-t-none"
+      >
+        <option selected value>{{ " - " }}年</option>
+        <option v-for="n in yearValues" :value="n">{{ n }}年</option>
+      </select>
+      <select
+        v-model="searchCondition.month"
+        class="join-item select select-bordered w-full rounded-t-none"
+      >
+        <option selected value>{{ " - " }}月</option>
+        <option v-for="n in 12" :value="n">{{ n }}月</option>
+      </select>
+      <select
+        v-model="searchCondition.day"
+        class="join-item select select-bordered w-full rounded-t-none"
+      >
+        <option selected value>{{ " - " }}日</option>
+        <option v-for="n in 31" :value="n">{{ n }}日</option>
+      </select>
+    </div>
   </div>
   <div class="mt-3">
     <button

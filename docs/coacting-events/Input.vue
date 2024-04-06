@@ -1,16 +1,12 @@
 <template>
-  <label
-    v-for="(_, index) in actorNames"
-    class="input input-bordered flex items-center gap-2 mt-3"
-  >
-    出演者{{ index + 1 }}
+  <div v-for="(_, index) in actorNames">
     <input
       v-model="actorNames[index]"
       type="text"
-      class="grow"
-      placeholder="本渡楓"
+      class="input mt-3 w-full max-w-md"
+      :placeholder="'出演者' + (index + 1)"
     />
-  </label>
+  </div>
   <div class="mt-3">
     <button
       @click="searchCoactingEvents"
