@@ -89,7 +89,7 @@ import {
   error,
 } from "./store";
 
-const yearValues = range(1980, new Date().getFullYear() + 2).toReversed();
+const yearValues = range(1980, new Date().getFullYear() + 2).reverse();
 const searchUrl = Vue.computed(() => {
   const { keyword, yaer, month, day, areaId, prefectureId } =
     searchCondition.value;
@@ -154,7 +154,7 @@ const searchAppearanceStatistics = async () => {
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
     eventCount.value = count;
     statistics.value = Array.from(map)
-      .toSorted((a, b) => b[1] - a[1])
+      .sort((a, b) => b[1] - a[1])
       .slice(0, 1000);
   } catch (e) {
     console.error(e);
