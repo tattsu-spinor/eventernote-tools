@@ -13,6 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as appearanceStatics from "../appearanceStatics.js";
 import type * as coactingEvents from "../coactingEvents.js";
 
 /**
@@ -24,6 +25,7 @@ import type * as coactingEvents from "../coactingEvents.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  appearanceStatics: typeof appearanceStatics;
   coactingEvents: typeof coactingEvents;
 }>;
 export declare const api: FilterApi<

@@ -8,7 +8,7 @@
     />
     <div class="join w-full">
       <select
-        v-model="searchCondition.yaer"
+        v-model="searchCondition.year"
         class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
       >
         <option selected :value="undefined">{{ " - " }}年</option>
@@ -71,17 +71,21 @@
       <span v-show="loading" class="loading loading-spinner"></span>
     </button>
   </div>
-  <div v-if="error" role="alert" class="alert alert-error my-3">
-    <span>{{ error.message }}</span>
+  <div v-if="errorMessage" role="alert" class="alert alert-error my-3">
+    <span>{{ errorMessage }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ConvexClient } from 'convex/browser';
+import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
 import * as Vue from 'vue';
+import { api } from '../../convex/_generated/api';
+import { actorNames } from '../coacting-events/store';
 import { AREAS, PREFECTURES } from './const';
 import {
-  error,
+  errorMessage,
   eventCount,
   loading,
   resultUrl,
@@ -93,13 +97,7 @@ const yearValues = range(1980, new Date().getFullYear() + 2).reverse();
 const searchUrl = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
     searchCondition.value;
-  return `/events/search
-    ?keyword=${keyword}
-    &year=${year ?? ''}
-    &month=${month ?? ''}
-    &day=${day ?? ''}
-    &area_id=${areaId ?? ''}
-    &prefecture_id=${prefectureId ?? ''}`.replace(/\s+/g, '');
+  return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year ?? ''}&month=${month ?? ''}&day=${day ?? ''}&area_id=${areaId ?? ''}&prefecture_id=${prefectureId ?? ''}`;
 });
 const canNotSearch = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
@@ -109,58 +107,23 @@ const canNotSearch = Vue.computed(() => {
 
 const searchAppearanceStatistics = async () => {
   loading.value = true;
-  error.value = undefined;
-  try {
-    const res = await fetch(searchUrl.value);
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    const document = new DOMParser().parseFromString(
-      await res.text(),
-      'text/html',
-    );
-    const eventCountString = document.querySelector(
-      'body > div.container > div > div.span8.page > p:nth-child(4)',
-    )?.textContent;
-    const count = Number.parseInt(
-      eventCountString.substring(0, eventCountString.indexOf('件')),
-    );
-    if (count > 10000) {
-      throw new Error(`イベント数が1万件を超えています: ${count}件`);
-    }
-
-    const actorList = await Promise.all(
-      range(1, 1 + count / 100).map(async (page) => {
-        const res = await fetch(`${searchUrl.value}&limit=100&page=${page}`);
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        const document = new DOMParser().parseFromString(
-          await res.text(),
-          'text/html',
-        );
-        const nodeList = document.querySelectorAll(
-          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
-        );
-        return [...nodeList].map((node) => node.textContent);
-      }),
-    );
-    const map = new Map<string, number>();
-    for (const actorName of actorList.flat()) {
-      const count = map.get(actorName) ?? 0;
-      map.set(actorName, count + 1);
-    }
-
-    resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
-    eventCount.value = count;
-    statistics.value = Array.from(map)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 1000);
-  } catch (e) {
-    console.error(e);
-    error.value = e;
-  } finally {
-    loading.value = false;
-  }
+  errorMessage.value = undefined;
+  new ConvexClient(import.meta.env.VITE_CONVEX_URL)
+    .action(api.appearanceStatics.searchAppearanceStatistics, {
+      searchUrl: searchUrl.value,
+    })
+    .then((result) => {
+      resultUrl.value = result.searchUrl;
+      eventCount.value = result.eventCount;
+      statistics.value = result.statistics;
+    })
+    .catch((e) => {
+      console.error(e);
+      errorMessage.value =
+        e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 </script>

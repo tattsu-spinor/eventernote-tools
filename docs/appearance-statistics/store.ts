@@ -31,4 +31,4 @@ export const statistics = Vue.ref<[string, number][]>();
 
 export const loading = Vue.ref(false);
 
-export const error = Vue.ref<Error>();
+export const errorMessage = Vue.ref<string>();
