@@ -32,8 +32,8 @@
     <div class="join w-full">
       <label class="join-item swap input w-36 rounded-t-none">
         <input v-model="searchCondition.isPrefectureMode" type="checkbox" />
-        <div class="swap-on">都道府県:</div>
-        <div class="swap-off">地域:</div>
+        <span class="swap-on">都道府県:</span>
+        <span class="swap-off">地域:</span>
       </label>
       <select
         v-if="searchCondition.isPrefectureMode"
@@ -82,7 +82,6 @@ import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
 import * as Vue from 'vue';
 import { api } from '../../convex/_generated/api';
-import { actorNames } from '../coacting-events/store';
 import { AREAS, PREFECTURES } from './const';
 import {
   errorMessage,
