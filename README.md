@@ -18,8 +18,10 @@
   - Tailwind CSSで作られたUIライブラリ
 - [Remeda](https://remedajs.com/)
   - TypeScript用のユーティリティライブラリ
+- [Cheerio](https://cheerio.js.org/)
+  - Node.js環境でのDOM解析用のライブラリ
 
 ## デプロイ環境
 
 - [Cloudflare Pages](https://developers.cloudflare.com/pages/)
-  - [Functions](https://developers.cloudflare.com/pages/functions/)が便利そう
+- [Convex](https://docs.convex.dev/home)
