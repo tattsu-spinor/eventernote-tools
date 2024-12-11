@@ -1,5 +1,3 @@
-'use node';
-
 import * as cheerio from 'cheerio';
 import { ConvexError, v } from 'convex/values';
 import { range } from 'remeda';
