@@ -5,8 +5,8 @@ next: false
 ---
 
 <script setup lang="ts">
-import Input from "./Input.vue"
-import Output from "./Output.vue"
+import Input from './Input.vue';
+import Output from './Output.vue';
 </script>
 
 # 共演イベント検索
