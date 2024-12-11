@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss";
-import daisyui from "daisyui";
+import daisyui from 'daisyui';
+import type { Config } from 'tailwindcss';
 
 export default {
-  content: ["./docs/**/*.vue"],
+  content: ['./docs/**/*.vue'],
   theme: {
     extend: {},
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["dark"],
+    themes: ['dark'],
   },
 } satisfies Config;

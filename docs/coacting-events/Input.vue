@@ -37,9 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { intersectionWith } from "remeda";
-import * as Vue from "vue";
-import { actorNames, Event, events, loading, error } from "./store";
+import { intersectionWith } from 'remeda';
+import * as Vue from 'vue';
+import { events, type Event, actorNames, error, loading } from './store';
 
 const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
 
@@ -55,18 +55,18 @@ const searchCoactingEvents = async () => {
           throw new Error(res.statusText);
         }
         const nodeList = new DOMParser()
-          .parseFromString(await res.text(), "text/html")!
-          .querySelectorAll(
-            "body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > h4 > a"
+          .parseFromString(await res.text(), 'text/html')
+          ?.querySelectorAll(
+            'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > h4 > a',
           );
         return [...nodeList].map((node) => ({
-          name: node.textContent ?? "",
-          href: node.getAttribute("href") ?? "",
+          name: node.textContent ?? '',
+          href: node.getAttribute('href') ?? '',
         }));
-      })
+      }),
     );
     events.value = eventLists.reduce((previous, current) =>
-      intersectionWith(previous, current, (a, b) => a.href === b.href)
+      intersectionWith(previous, current, (a, b) => a.href === b.href),
     );
   } catch (e) {
     console.error(e);
@@ -82,16 +82,16 @@ const searchActorId = async (name: string) => {
     throw new Error(res.statusText);
   }
   const nodeList = new DOMParser()
-    .parseFromString(await res.text(), "text/html")
+    .parseFromString(await res.text(), 'text/html')
     .querySelectorAll(
-      "body > div.container > div > div.span8.page > ul > li > a"
+      'body > div.container > div > div.span8.page > ul > li > a',
     );
   const href = [...nodeList]
     .find((node) => node.textContent === name)
-    ?.getAttribute("href");
+    ?.getAttribute('href');
   if (!href) {
     throw new Error(`出演者が見つかりません: ${name}`);
   }
-  return parseInt(href.substring(href.lastIndexOf("/") + 1));
+  return Number.parseInt(href.substring(href.lastIndexOf('/') + 1));
 };
 </script>

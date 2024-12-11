@@ -1,8 +1,8 @@
-import * as Vue from "vue";
+import * as Vue from 'vue';
 
 export interface SearchCondition {
   keyword: string;
-  yaer?: number;
+  year?: number;
   month?: number;
   day?: number;
   areaId?: number;
@@ -11,7 +11,7 @@ export interface SearchCondition {
 }
 
 export const searchCondition = Vue.ref<SearchCondition>({
-  keyword: "",
+  keyword: '',
   isPrefectureMode: false,
 });
 

@@ -2,13 +2,13 @@ const handleReverseProxy: PagesFunction = async (context) => {
   const originalUrl = context.request.url;
   const url = new URL(originalUrl);
   if (
-    url.pathname.indexOf("/actors/") !== 0 &&
-    url.pathname.indexOf("/events/") !== 0
+    url.pathname.indexOf('/actors/') !== 0 &&
+    url.pathname.indexOf('/events/') !== 0
   ) {
     return await context.next();
   }
   const newUrl = new URL(
-    `https://www.eventernote.com${url.pathname}${url.search}`
+    `https://www.eventernote.com${url.pathname}${url.search}`,
   );
   const response = await fetch(new Request(newUrl));
   return new Response(response.body, {

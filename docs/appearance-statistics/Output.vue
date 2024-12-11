@@ -24,5 +24,5 @@
 </template>
 
 <script setup lang="ts">
-import { resultUrl, eventCount, statistics } from "./store";
+import { eventCount, resultUrl, statistics } from './store';
 </script>

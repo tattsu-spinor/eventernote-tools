@@ -77,34 +77,34 @@
 </template>
 
 <script setup lang="ts">
-import { range } from "remeda";
-import * as Vue from "vue";
-import { AREAS, PREFECTURES } from "./const";
+import { range } from 'remeda';
+import * as Vue from 'vue';
+import { AREAS, PREFECTURES } from './const';
 import {
-  searchCondition,
-  resultUrl,
-  eventCount,
-  statistics,
-  loading,
   error,
-} from "./store";
+  eventCount,
+  loading,
+  resultUrl,
+  searchCondition,
+  statistics,
+} from './store';
 
 const yearValues = range(1980, new Date().getFullYear() + 2).reverse();
 const searchUrl = Vue.computed(() => {
-  const { keyword, yaer, month, day, areaId, prefectureId } =
+  const { keyword, year, month, day, areaId, prefectureId } =
     searchCondition.value;
   return `/events/search
     ?keyword=${keyword}
-    &year=${yaer ?? ""}
-    &month=${month ?? ""}
-    &day=${day ?? ""}
-    &area_id=${areaId ?? ""}
-    &prefecture_id=${prefectureId ?? ""}`.replace(/\s+/g, "");
+    &year=${year ?? ''}
+    &month=${month ?? ''}
+    &day=${day ?? ''}
+    &area_id=${areaId ?? ''}
+    &prefecture_id=${prefectureId ?? ''}`.replace(/\s+/g, '');
 });
 const canNotSearch = Vue.computed(() => {
-  const { keyword, yaer, month, day, areaId, prefectureId } =
+  const { keyword, year, month, day, areaId, prefectureId } =
     searchCondition.value;
-  return [keyword, yaer, month, day, areaId, prefectureId].every((v) => !v);
+  return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
 });
 
 const searchAppearanceStatistics = async () => {
@@ -117,13 +117,13 @@ const searchAppearanceStatistics = async () => {
     }
     const document = new DOMParser().parseFromString(
       await res.text(),
-      "text/html"
+      'text/html',
     );
     const eventCountString = document.querySelector(
-      "body > div.container > div > div.span8.page > p:nth-child(4)"
-    )!.textContent!;
-    const count = parseInt(
-      eventCountString.substring(0, eventCountString.indexOf("件"))
+      'body > div.container > div > div.span8.page > p:nth-child(4)',
+    )?.textContent;
+    const count = Number.parseInt(
+      eventCountString.substring(0, eventCountString.indexOf('件')),
     );
     if (count > 10000) {
       throw new Error(`イベント数が1万件を超えています: ${count}件`);
@@ -131,25 +131,25 @@ const searchAppearanceStatistics = async () => {
 
     const actorList = await Promise.all(
       range(1, 1 + count / 100).map(async (page) => {
-        const res = await fetch(searchUrl.value + `&limit=100&page=${page}`);
+        const res = await fetch(`${searchUrl.value}&limit=100&page=${page}`);
         if (!res.ok) {
           throw new Error(res.statusText);
         }
         const document = new DOMParser().parseFromString(
           await res.text(),
-          "text/html"
+          'text/html',
         );
         const nodeList = document.querySelectorAll(
-          "body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a"
+          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
         );
-        return [...nodeList].map((node) => node.textContent!);
-      })
+        return [...nodeList].map((node) => node.textContent);
+      }),
     );
     const map = new Map<string, number>();
-    actorList.flat().forEach((actorName) => {
+    for (const actorName of actorList.flat()) {
       const count = map.get(actorName) ?? 0;
       map.set(actorName, count + 1);
-    });
+    }
 
     resultUrl.value = `https://www.eventernote.com${searchUrl.value}`;
     eventCount.value = count;

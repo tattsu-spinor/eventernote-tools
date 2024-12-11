@@ -1,6 +1,6 @@
-import * as Vue from "vue";
+import * as Vue from 'vue';
 
-export const actorNames = Vue.ref(["", ""]);
+export const actorNames = Vue.ref(['', '']);
 
 export interface Event {
   name: string;

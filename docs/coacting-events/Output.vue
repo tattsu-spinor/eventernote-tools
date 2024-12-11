@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import { events } from "./store";
+import { events } from './store';
 </script>
