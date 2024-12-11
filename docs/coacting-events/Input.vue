@@ -48,7 +48,7 @@ const searchCoactingEvents = () => {
   loading.value = true;
   errorMessage.value = undefined;
   new ConvexClient(import.meta.env.VITE_CONVEX_URL)
-    .action(api.coactingEvents.searchCoactingEvents, {
+    .action(api.coactingEvents.search, {
       actorNames: actorNames.value,
     })
     .then((result) => {

@@ -9,7 +9,7 @@ interface Event {
   href: string;
 }
 
-export const searchCoactingEvents = action({
+export const search = action({
   args: { actorNames: v.array(v.string()) },
   handler: async (_, { actorNames }) => {
     const eventLists: Event[][] = await Promise.all(

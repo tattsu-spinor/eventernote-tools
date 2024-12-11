@@ -5,7 +5,7 @@ import { ConvexError, v } from 'convex/values';
 import { range } from 'remeda';
 import { action } from './_generated/server';
 
-export const searchAppearanceStatistics = action({
+export const search = action({
   args: {
     searchUrl: v.string(),
   },

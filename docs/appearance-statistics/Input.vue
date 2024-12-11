@@ -109,7 +109,7 @@ const searchAppearanceStatistics = async () => {
   loading.value = true;
   errorMessage.value = undefined;
   new ConvexClient(import.meta.env.VITE_CONVEX_URL)
-    .action(api.appearanceStatics.searchAppearanceStatistics, {
+    .action(api.appearanceStatics.search, {
       searchUrl: searchUrl.value,
     })
     .then((result) => {
