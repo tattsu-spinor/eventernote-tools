@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "cheerio": "^1.0.0",
     "convex": "^1.17.3",
     "remeda": "^2.17.4"
   },

@@ -11,4 +11,4 @@ export const events = Vue.ref<Event[]>();
 
 export const loading = Vue.ref(false);
 
-export const error = Vue.ref<Error>();
+export const errorMessage = Vue.ref<string>();

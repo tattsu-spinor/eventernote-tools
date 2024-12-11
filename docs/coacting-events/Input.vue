@@ -31,67 +31,36 @@
       削除
     </button>
   </div>
-  <div v-if="error" role="alert" class="alert alert-error mt-3">
-    <span>{{ error.message }}</span>
+  <div v-if="errorMessage" role="alert" class="alert alert-error mt-3">
+    <span>{{ errorMessage }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { intersectionWith } from 'remeda';
+import { ConvexClient } from 'convex/browser';
+import { ConvexError } from 'convex/values';
 import * as Vue from 'vue';
-import { events, type Event, actorNames, error, loading } from './store';
+import { api } from '../../convex/_generated/api';
+import { events, actorNames, errorMessage, loading } from './store';
 
 const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
-
-const searchCoactingEvents = async () => {
+const searchCoactingEvents = () => {
   loading.value = true;
-  error.value = undefined;
-  try {
-    const eventLists: Event[][] = await Promise.all(
-      actorNames.value.map(async (actorName) => {
-        const id = await searchActorId(actorName);
-        const res = await fetch(`/actors/${id}/events?limit=10000`);
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        const nodeList = new DOMParser()
-          .parseFromString(await res.text(), 'text/html')
-          ?.querySelectorAll(
-            'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > h4 > a',
-          );
-        return [...nodeList].map((node) => ({
-          name: node.textContent ?? '',
-          href: node.getAttribute('href') ?? '',
-        }));
-      }),
-    );
-    events.value = eventLists.reduce((previous, current) =>
-      intersectionWith(previous, current, (a, b) => a.href === b.href),
-    );
-  } catch (e) {
-    console.error(e);
-    error.value = e;
-  } finally {
-    loading.value = false;
-  }
-};
-
-const searchActorId = async (name: string) => {
-  const res = await fetch(`/actors/search?keyword=${name}`);
-  if (!res.ok) {
-    throw new Error(res.statusText);
-  }
-  const nodeList = new DOMParser()
-    .parseFromString(await res.text(), 'text/html')
-    .querySelectorAll(
-      'body > div.container > div > div.span8.page > ul > li > a',
-    );
-  const href = [...nodeList]
-    .find((node) => node.textContent === name)
-    ?.getAttribute('href');
-  if (!href) {
-    throw new Error(`出演者が見つかりません: ${name}`);
-  }
-  return Number.parseInt(href.substring(href.lastIndexOf('/') + 1));
+  errorMessage.value = undefined;
+  new ConvexClient(import.meta.env.VITE_CONVEX_URL)
+    .action(api.coactingEvents.searchCoactingEvents, {
+      actorNames: actorNames.value,
+    })
+    .then((result) => {
+      events.value = result;
+    })
+    .catch((e) => {
+      console.error(e);
+      errorMessage.value =
+        e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 </script>
