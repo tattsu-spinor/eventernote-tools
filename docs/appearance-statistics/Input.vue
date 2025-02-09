@@ -1,36 +1,32 @@
 <template>
-  <div class="max-w-md">
+  <fieldset class="fieldset max-w-md">
+    <label class="fieldset-label">キーワード</label>
     <input
       v-model="searchCondition.keyword"
       type="text"
-      placeholder="キーワード"
-      class="join-item input input-bordered w-full rounded-b-none"
+      placeholder="声優、アイドル、アーティスト名等"
+      class="input! w-full!"
     />
-    <div class="join w-full">
-      <select
-        v-model="searchCondition.year"
-        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
-      >
+
+    <label class="fieldset-label">開催日</label>
+    <div class="join w-full!">
+      <select v-model="searchCondition.year" class="join-item select! w-full!">
         <option selected :value="undefined">{{ " - " }}年</option>
         <option v-for="n in yearValues" :value="n">{{ n }}年</option>
       </select>
-      <select
-        v-model="searchCondition.month"
-        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
-      >
+      <select v-model="searchCondition.month" class="join-item select! w-full!">
         <option selected :value="undefined">{{ " - " }}月</option>
         <option v-for="n in 12" :value="n">{{ n }}月</option>
       </select>
-      <select
-        v-model="searchCondition.day"
-        class="join-item select select-bordered w-full rounded-t-none rounded-b-none"
-      >
+      <select v-model="searchCondition.day" class="join-item select! w-full!">
         <option selected :value="undefined">{{ " - " }}日</option>
         <option v-for="n in 31" :value="n">{{ n }}日</option>
       </select>
     </div>
+
+    <label class="fieldset-label">開催地</label>
     <div class="join w-full">
-      <label class="join-item swap input w-36 rounded-t-none">
+      <label class="join-item swap! input w-36">
         <input v-model="searchCondition.isPrefectureMode" type="checkbox" />
         <span class="swap-on">都道府県:</span>
         <span class="swap-off">地域:</span>
@@ -38,7 +34,7 @@
       <select
         v-if="searchCondition.isPrefectureMode"
         v-model="searchCondition.prefectureId"
-        class="join-item select w-full rounded-t-none"
+        class="join-item select! w-full!"
       >
         <option selected :value="undefined">-</option>
         <option
@@ -52,7 +48,7 @@
       <select
         v-else
         v-model="searchCondition.areaId"
-        class="join-item select w-full rounded-t-none"
+        class="join-item select! w-full!"
       >
         <option selected :value="undefined">-</option>
         <option v-for="area in AREAS" selected :value="area.id.toString()">
@@ -60,15 +56,15 @@
         </option>
       </select>
     </div>
-  </div>
+  </fieldset>
   <div class="mt-3">
     <button
       @click="searchAppearanceStatistics"
       :disabled="loading || canNotSearch"
-      class="btn btn-primary"
+      class="btn! btn-primary"
     >
       検索
-      <span v-show="loading" class="loading loading-spinner"></span>
+      <span v-if="loading" class="loading loading-spinner"></span>
     </button>
   </div>
   <div v-if="errorMessage" role="alert" class="alert alert-error my-3">
@@ -77,12 +73,12 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from 'convex/browser';
-import { ConvexError } from 'convex/values';
-import { range } from 'remeda';
-import * as Vue from 'vue';
-import { api } from '../../convex/_generated/api';
-import { AREAS, PREFECTURES } from './const';
+import { ConvexClient } from "convex/browser";
+import { ConvexError } from "convex/values";
+import { range } from "remeda";
+import * as Vue from "vue";
+import { api } from "../../convex/_generated/api";
+import { AREAS, PREFECTURES } from "./const";
 import {
   errorMessage,
   eventCount,
@@ -90,13 +86,13 @@ import {
   resultUrl,
   searchCondition,
   statistics,
-} from './store';
+} from "./store";
 
 const yearValues = range(1980, new Date().getFullYear() + 2).reverse();
 const searchUrl = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
     searchCondition.value;
-  return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year ?? ''}&month=${month ?? ''}&day=${day ?? ''}&area_id=${areaId ?? ''}&prefecture_id=${prefectureId ?? ''}`;
+  return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year ?? ""}&month=${month ?? ""}&day=${day ?? ""}&area_id=${areaId ?? ""}&prefecture_id=${prefectureId ?? ""}`;
 });
 const canNotSearch = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
@@ -119,7 +115,7 @@ const searchAppearanceStatistics = async () => {
     .catch((e) => {
       console.error(e);
       errorMessage.value =
-        e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
+        e instanceof ConvexError ? e.data : "予期せぬエラーが発生しました。";
     })
     .finally(() => {
       loading.value = false;
