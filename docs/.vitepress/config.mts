@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   title: 'Eventernote Tools',
@@ -28,6 +29,7 @@ export default defineConfig({
     ],
   },
   vite: {
+    plugins: [tailwindcss()],
     server: {
       proxy: {
         '/actors/': {
