@@ -2,10 +2,13 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "biome:check": "biome check",
+    "biome:write": "biome check --write",
+    "biome:write:unsafe": "biome check --write --unsafe",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --check --write ."
   },
   "dependencies": {
     "@astrojs/starlight": "^0.31.1",
