@@ -22,4 +22,5 @@ pnpm-debug.log*
 
 # JetBrains IDEs
 .idea/*
+!.idea/biome.xml
 !.idea/prettier.xml
