@@ -16,6 +16,7 @@
     "@astrojs/vue": "^5.0.6",
     "@tailwindcss/vite": "^4.0.6",
     "astro": "^5.1.5",
+    "convex": "^1.19.1",
     "daisyui": "^5.0.0-beta.7",
     "sharp": "^0.32.5",
     "tailwindcss": "^4.0.6",

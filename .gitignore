@@ -24,3 +24,5 @@ pnpm-debug.log*
 .idea/*
 !.idea/biome.xml
 !.idea/prettier.xml
+
+.env.local
