@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: false
+  jobs:
+    - name: prettier
+      run: bunx prettier --check --write --ignore-unknown {staged_files}
+      glob: '*.{vue,css,md,mdx,json,yml,yaml}'
+      stage_fix: true
+    - name: biome check
+      run: bunx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off --staged
+      stage_fix: true

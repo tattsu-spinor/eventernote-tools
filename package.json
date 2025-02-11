@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "lefthook": "^1.10.10",
     "prettier": "^3.5.0"
   }
 }
