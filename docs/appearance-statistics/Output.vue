@@ -4,7 +4,7 @@
     <a :href="resultUrl" target="_blank" rel="noopener noreferrer">検索結果</a>
   </div>
   <div class="overflow-x-auto">
-    <table v-if="statistics" class="table table-md table-pin-rows">
+    <table v-if="statistics" class="d-table! d-table-zebra! rounded-none!">
       <thead>
         <tr>
           <th></th>
@@ -12,8 +12,8 @@
           <th class="!text-right">出演数</th>
         </tr>
       </thead>
-      <tbody v-for="([actorName, count], index) in statistics">
-        <tr>
+      <tbody>
+        <tr v-for="([actorName, count], index) in statistics">
           <th class="!text-right">{{ index + 1 }}</th>
           <td class="!text-center">{{ actorName }}</td>
           <td class="!text-right">{{ count }}</td>

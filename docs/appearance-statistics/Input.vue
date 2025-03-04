@@ -1,40 +1,40 @@
 <template>
-  <fieldset class="fieldset max-w-md">
-    <label class="fieldset-label">キーワード</label>
+  <fieldset class="d-fieldset max-w-md">
+    <label class="d-fieldset-label">キーワード</label>
     <input
       v-model="searchCondition.keyword"
       type="text"
       placeholder="声優、アイドル、アーティスト名等"
-      class="input! w-full!"
+      class="d-input! w-full!"
     />
 
-    <label class="fieldset-label">開催日</label>
-    <div class="join w-full!">
-      <select v-model="searchCondition.year" class="join-item select! w-full!">
+    <label class="d-fieldset-label">開催日</label>
+    <div class="d-join">
+      <select v-model="searchCondition.year" class="d-join-item d-select! w-full!">
         <option selected :value="undefined">{{ " - " }}年</option>
         <option v-for="n in yearValues" :value="n">{{ n }}年</option>
       </select>
-      <select v-model="searchCondition.month" class="join-item select! w-full!">
+      <select v-model="searchCondition.month" class="d-join-item d-select! w-full!">
         <option selected :value="undefined">{{ " - " }}月</option>
         <option v-for="n in 12" :value="n">{{ n }}月</option>
       </select>
-      <select v-model="searchCondition.day" class="join-item select! w-full!">
+      <select v-model="searchCondition.day" class="d-join-item d-select! w-full!">
         <option selected :value="undefined">{{ " - " }}日</option>
         <option v-for="n in 31" :value="n">{{ n }}日</option>
       </select>
     </div>
 
-    <label class="fieldset-label">開催地</label>
-    <div class="join w-full">
-      <label class="join-item swap! input w-36">
+    <label class="d-fieldset-label">開催地</label>
+    <div class="d-join w-full">
+      <label class="d-join-item d-swap! d-input w-36">
         <input v-model="searchCondition.isPrefectureMode" type="checkbox" />
-        <span class="swap-on">都道府県:</span>
-        <span class="swap-off">地域:</span>
+        <span class="d-swap-on">都道府県:</span>
+        <span class="d-swap-off">地域:</span>
       </label>
       <select
         v-if="searchCondition.isPrefectureMode"
         v-model="searchCondition.prefectureId"
-        class="join-item select! w-full!"
+        class="d-join-item d-select! w-full!"
       >
         <option selected :value="undefined">-</option>
         <option
@@ -48,7 +48,7 @@
       <select
         v-else
         v-model="searchCondition.areaId"
-        class="join-item select! w-full!"
+        class="d-join-item d-select! w-full!"
       >
         <option selected :value="undefined">-</option>
         <option v-for="area in AREAS" selected :value="area.id.toString()">
@@ -61,13 +61,13 @@
     <button
       @click="searchAppearanceStatistics"
       :disabled="loading || canNotSearch"
-      class="btn! btn-primary"
+      class="d-btn! d-btn-primary"
     >
       検索
-      <span v-if="loading" class="loading loading-spinner"></span>
+      <span v-if="loading" class="d-loading d-loading-spinner"></span>
     </button>
   </div>
-  <div v-if="errorMessage" role="alert" class="alert alert-error my-3">
+  <div v-if="errorMessage" role="alert" class="d-alert d-alert-error my-3">
     <span>{{ errorMessage }}</span>
   </div>
 </template>

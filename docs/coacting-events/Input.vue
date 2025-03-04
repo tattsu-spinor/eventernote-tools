@@ -3,7 +3,7 @@
     <input
       v-model="actorNames[index]"
       type="text"
-      class="input! mt-3 w-full! max-w-md"
+      class="d-input! mt-3 w-full! max-w-md"
       :placeholder="'出演者' + (index + 1)"
     />
   </div>
@@ -11,27 +11,27 @@
     <button
       @click="searchCoactingEvents"
       :disabled="loading || canNotSearch"
-      class="btn! btn-primary"
+      class="d-btn! d-btn-primary"
     >
       検索
-      <span v-if="loading" class="loading loading-spinner"></span>
+      <span v-if="loading" class="d-loading d-loading-spinner"></span>
     </button>
     <button
       @click="actorNames.push('')"
       :disabled="loading"
-      class="btn! btn-secondary ml-3"
+      class="d-btn! d-btn-secondary ml-3"
     >
       追加
     </button>
     <button
       @click="actorNames.pop()"
       :disabled="loading || actorNames.length <= 1"
-      class="btn! btn-warning ml-3"
+      class="d-btn! d-btn-warning ml-3"
     >
       削除
     </button>
   </div>
-  <div v-show="errorMessage" role="alert" class="alert alert-error mt-3">
+  <div v-show="errorMessage" role="alert" class="d-alert d-alert-error mt-3">
     <span>{{ errorMessage }}</span>
   </div>
 </template>
