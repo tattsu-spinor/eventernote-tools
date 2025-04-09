@@ -4,15 +4,15 @@
     "": {
       "dependencies": {
         "cheerio": "^1.0.0",
-        "convex": "^1.19.4",
-        "remeda": "^2.21.0",
+        "convex": "^1.20.0",
+        "remeda": "^2.21.2",
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
-        "@tailwindcss/vite": "^4.0.9",
+        "@tailwindcss/vite": "^4.0.12",
         "concurrently": "^9.1.2",
         "daisyui": "^5.0.0",
-        "tailwindcss": "^4.0.9",
+        "tailwindcss": "^4.0.12",
         "vitepress": "^1.6.3",
       },
     },
@@ -452,7 +452,7 @@
 
     "regex-utilities": ["regex-utilities@2.3.0", "", {}, "sha512-8VhliFJAWRaUiVvREIiW2NXXTmHs4vMNnSzuJVhscgmGav3g9VDxLrQndI3dZZVVdp0ZO/5v0xmX516/7M9cng=="],
 
-    "remeda": ["remeda@2.21.1", "", { "dependencies": { "type-fest": "^4.37.0" } }, "sha512-7I3JaB+geXL0Vq8V3TEwX6mMlWUCv18OdweAovYKiwDCbjKYf1DIHB58B6z8K7juPuZ1whwj79fOvUaHHHjbew=="],
+    "remeda": ["remeda@2.21.2", "", { "dependencies": { "type-fest": "^4.37.0" } }, "sha512-wdhkMDou8HRpD7RnxKJ/FHJWEGXRH7jV/pb0NsdLLSoBo+G9RjtxcY41hVhogLfEMkThk6aySKjs+Yd6PnpzBA=="],
 
     "require-directory": ["require-directory@2.1.1", "", {}, "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q=="],
 
