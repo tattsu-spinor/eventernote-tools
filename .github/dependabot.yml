@@ -8,6 +8,14 @@ enable-beta-ecosystems: true
 updates:
   - package-ecosystem: "bun"
     directory: "/"
+    groups:
+      patch:
+        update-types:
+          - "patch"
+    ignore:
+      dependency-name: "*"
+      update-types: ["version-update:semver-major"]
+    open-pull-requests-limit: 10
     schedule:
       interval: "weekly"
       day: "friday"
