@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress';
 import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   title: 'Eventernote Tools',

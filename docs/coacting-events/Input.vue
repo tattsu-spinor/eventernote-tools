@@ -37,11 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from "convex/browser";
-import { ConvexError } from "convex/values";
-import * as Vue from "vue";
-import { api } from "../../convex/_generated/api";
-import { events, actorNames, errorMessage, loading } from "./store";
+import { ConvexClient } from 'convex/browser';
+import { ConvexError } from 'convex/values';
+import * as Vue from 'vue';
+import { api } from '../../convex/_generated/api';
+import { events, actorNames, errorMessage, loading } from './store';
 
 const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
 const searchCoactingEvents = () => {
@@ -57,7 +57,7 @@ const searchCoactingEvents = () => {
     .catch((e) => {
       console.error(e);
       errorMessage.value =
-        e instanceof ConvexError ? e.data : "予期せぬエラーが発生しました。";
+        e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
     })
     .finally(() => {
       loading.value = false;

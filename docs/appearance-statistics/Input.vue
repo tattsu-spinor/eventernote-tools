@@ -73,12 +73,12 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from "convex/browser";
-import { ConvexError } from "convex/values";
-import { range } from "remeda";
-import * as Vue from "vue";
-import { api } from "../../convex/_generated/api";
-import { AREAS, PREFECTURES } from "./const";
+import { ConvexClient } from 'convex/browser';
+import { ConvexError } from 'convex/values';
+import { range } from 'remeda';
+import * as Vue from 'vue';
+import { api } from '../../convex/_generated/api';
+import { AREAS, PREFECTURES } from './const';
 import {
   errorMessage,
   eventCount,
@@ -86,13 +86,13 @@ import {
   resultUrl,
   searchCondition,
   statistics,
-} from "./store";
+} from './store';
 
 const yearValues = range(1980, new Date().getFullYear() + 2).reverse();
 const searchUrl = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
     searchCondition.value;
-  return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year ?? ""}&month=${month ?? ""}&day=${day ?? ""}&area_id=${areaId ?? ""}&prefecture_id=${prefectureId ?? ""}`;
+  return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year ?? ''}&month=${month ?? ''}&day=${day ?? ''}&area_id=${areaId ?? ''}&prefecture_id=${prefectureId ?? ''}`;
 });
 const canNotSearch = Vue.computed(() => {
   const { keyword, year, month, day, areaId, prefectureId } =
@@ -115,7 +115,7 @@ const searchAppearanceStatistics = async () => {
     .catch((e) => {
       console.error(e);
       errorMessage.value =
-        e instanceof ConvexError ? e.data : "予期せぬエラーが発生しました。";
+        e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
     })
     .finally(() => {
       loading.value = false;
