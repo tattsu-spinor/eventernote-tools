@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   pull_request:
@@ -22,3 +22,16 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: bun install --frozen-lockfile
       - run: bun run biome:ci
+  deploy:
+    if: github.ref_name == 'main'
+    needs:
+      - build
+      - biome
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install --frozen-lockfile
+      - run: bun run deploy
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
