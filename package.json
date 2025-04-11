@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "concurrently bun:dev:*",
     "dev:frontend": "vitepress dev docs",
     "dev:backend": "convex dev",
@@ -10,6 +11,7 @@
     "biome:check": "biome check",
     "biome:write": "biome check --write",
     "biome:write:unsafe": "biome check --write --unsafe",
+    "biome:write:staged": "biome check --write --staged --no-errors-on-unmatched",
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
