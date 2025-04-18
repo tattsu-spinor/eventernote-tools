@@ -1,11 +1,7 @@
 import * as Vue from 'vue';
+import type { Event } from '../../convex/coactingEvents';
 
 export const actorNames = Vue.ref(['', '']);
-
-export interface Event {
-  name: string;
-  href: string;
-}
 
 export const events = Vue.ref<Event[]>();
 
