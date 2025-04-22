@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from 'convex/browser';
+import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
 import * as Vue from 'vue';
@@ -103,7 +103,7 @@ const canNotSearch = Vue.computed(() => {
 const searchAppearanceStatistics = async () => {
   loading.value = true;
   errorMessage.value = undefined;
-  new ConvexClient(import.meta.env.VITE_CONVEX_URL)
+  new ConvexHttpClient(import.meta.env.VITE_CONVEX_URL)
     .action(api.appearanceStatics.search, {
       searchUrl: searchUrl.value,
     })

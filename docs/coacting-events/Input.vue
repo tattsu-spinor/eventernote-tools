@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from 'convex/browser';
+import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import * as Vue from 'vue';
 import { api } from '../../convex/_generated/api';
@@ -47,7 +47,7 @@ const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
 const searchCoactingEvents = () => {
   loading.value = true;
   errorMessage.value = undefined;
-  new ConvexClient(import.meta.env.VITE_CONVEX_URL)
+  new ConvexHttpClient(import.meta.env.VITE_CONVEX_URL)
     .action(api.coactingEvents.search, {
       actorNames: actorNames.value,
     })
