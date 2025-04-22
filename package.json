@@ -3,7 +3,7 @@
   "scripts": {
     "prepare": "lefthook install",
     "dev": "concurrently bun:dev:*",
-    "dev:frontend": "vitepress dev docs",
+    "dev:frontend": "vitepress dev docs --open",
     "dev:backend": "convex dev",
     "build": "vitepress build docs",
     "preview": "vitepress preview docs",
