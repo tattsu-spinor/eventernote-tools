@@ -16,11 +16,14 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.34.0",
+    "@astrojs/starlight-tailwind": "^4.0.1",
+    "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.3",
     "cheerio": "^1.0.0",
     "convex": "^1.23.0",
     "remeda": "^2.21.2",
-    "sharp": "^0.32.6"
+    "sharp": "^0.32.6",
+    "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
