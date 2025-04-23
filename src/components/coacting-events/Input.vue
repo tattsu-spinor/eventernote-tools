@@ -3,7 +3,7 @@
     <input
       v-model="actorNames[index]"
       type="text"
-      class="d-input! mt-3 w-full! max-w-md"
+      class="d-input mt-3 w-full max-w-md"
       :placeholder="'出演者' + (index + 1)"
     />
   </div>
@@ -11,7 +11,7 @@
     <button
       @click="searchCoactingEvents"
       :disabled="loading || canNotSearch"
-      class="d-btn! d-btn-primary"
+      class="d-btn d-btn-primary"
     >
       検索
       <span v-if="loading" class="d-loading d-loading-spinner"></span>
@@ -19,14 +19,14 @@
     <button
       @click="actorNames.push('')"
       :disabled="loading"
-      class="d-btn! d-btn-secondary ml-3"
+      class="d-btn d-btn-secondary ml-3"
     >
       追加
     </button>
     <button
       @click="actorNames.pop()"
       :disabled="loading || actorNames.length <= 1"
-      class="d-btn! d-btn-warning ml-3"
+      class="d-btn d-btn-warning ml-3"
     >
       削除
     </button>
@@ -37,17 +37,17 @@
 </template>
 
 <script setup lang="ts">
-import { ConvexClient } from 'convex/browser';
+import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import * as Vue from 'vue';
-import { api } from '../../convex/_generated/api';
+import { api } from '../../../convex/_generated/api';
 import { events, actorNames, errorMessage, loading } from './store';
 
 const canNotSearch = Vue.computed(() => actorNames.value.some((v) => !v));
 const searchCoactingEvents = () => {
   loading.value = true;
   errorMessage.value = undefined;
-  new ConvexClient(import.meta.env.VITE_CONVEX_URL)
+  new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL)
     .action(api.coactingEvents.search, {
       actorNames: actorNames.value,
     })
