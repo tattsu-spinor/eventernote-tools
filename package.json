@@ -21,6 +21,7 @@
     "astro": "^5.7.3",
     "cheerio": "^1.0.0",
     "convex": "^1.23.0",
+    "daisyui": "^5.0.28",
     "remeda": "^2.21.2",
     "sharp": "^0.32.6",
     "tailwindcss": "^4.1.4"

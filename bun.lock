@@ -9,6 +9,7 @@
         "astro": "^5.7.3",
         "cheerio": "^1.0.0",
         "convex": "^1.23.0",
+        "daisyui": "^5.0.28",
         "remeda": "^2.21.2",
         "sharp": "^0.32.6",
         "tailwindcss": "^4.1.4",
@@ -430,6 +431,8 @@
     "css-what": ["css-what@6.1.0", "", {}, "sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw=="],
 
     "cssesc": ["cssesc@3.0.0", "", { "bin": { "cssesc": "bin/cssesc" } }, "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg=="],
+
+    "daisyui": ["daisyui@5.0.28", "", {}, "sha512-H082p8Lg3c7Se9wTbjfSOOhfUbp3BnOM2+cdr3OeY5G1Ll7GYLXB9NWLHgitkTsB1pQKwHRYYchqN2YG0VVShg=="],
 
     "debug": ["debug@4.4.0", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA=="],
 
