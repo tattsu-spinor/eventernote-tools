@@ -1,4 +1,5 @@
 import starlight from '@astrojs/starlight';
+import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
@@ -29,6 +30,7 @@ export default defineConfig({
       ],
       customCss: ['./src/styles/global.css'],
     }),
+    vue(),
   ],
   vite: {
     plugins: [tailwindcss()],
