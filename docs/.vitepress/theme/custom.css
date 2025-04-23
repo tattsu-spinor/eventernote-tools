@@ -1,6 +1,0 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-  /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
-  themes: dark --default;
-  prefix: "d-";
-}
