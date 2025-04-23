@@ -7,28 +7,33 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'Eventernote Tools',
+      tableOfContents: false,
+      sidebar: ['coacting-events', 'appearance-statistics'],
+      locales: {
+        root: {
+          label: '日本語',
+          lang: 'ja',
+        },
+      },
       social: [
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/withastro/starlight',
-        },
-      ],
-      sidebar: [
-        {
-          label: 'Guides',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: 'Example Guide', slug: 'guides/example' },
-          ],
+          href: 'https://github.com/tattsu-spinor/eventernote-tools',
         },
         {
-          label: 'Reference',
-          autogenerate: { directory: 'reference' },
+          icon: 'twitter',
+          label: 'Twitter',
+          href: 'https://twitter.com/Tattsu_dagaya_',
         },
       ],
       customCss: ['./src/styles/global.css'],
+      markdown: {
+        headingLinks: false,
+      },
+      pagefind: false,
+      pagination: false,
     }),
     vue(),
   ],
