@@ -1,10 +1,21 @@
-import * as Vue from 'vue';
-import type { Event } from '../../convex/coactingEvents';
+import { createMutable } from 'solid-js/store';
+import type { Event } from '../../../convex/coactingEvents';
 
-export const actorNames = Vue.ref(['', '']);
+type Store = {
+  actorNames: string[];
+  canNotSearch: boolean;
+  loading: boolean;
+  errorMessage: string;
+  result?: {
+    events: Event[];
+  };
+};
 
-export const events = Vue.ref<Event[]>();
-
-export const loading = Vue.ref(false);
-
-export const errorMessage = Vue.ref<string>();
+export const store = createMutable<Store>({
+  actorNames: ['', ''] as string[],
+  get canNotSearch() {
+    return this.actorNames.some((v: string) => !v);
+  },
+  loading: false,
+  errorMessage: '',
+});

@@ -1,5 +1,5 @@
+import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
-import vue from '@astrojs/vue';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
@@ -35,7 +35,7 @@ export default defineConfig({
       pagefind: false,
       pagination: false,
     }),
-    vue(),
+    solidJs(),
   ],
   vite: {
     plugins: [tailwindcss()],

@@ -16,9 +16,9 @@
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
+    "@astrojs/solid-js": "^5.0.9",
     "@astrojs/starlight": "^0.34.0",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "@astrojs/vue": "^5.0.11",
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.5",
     "cheerio": "^1.0.0",
@@ -26,8 +26,8 @@
     "daisyui": "^5.0.28",
     "remeda": "^2.21.3",
     "sharp": "^0.34.1",
-    "tailwindcss": "^4.1.4",
-    "vue": "^3.5.13"
+    "solid-js": "^1.9.5",
+    "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

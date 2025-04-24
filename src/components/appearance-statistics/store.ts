@@ -1,34 +1,55 @@
-import * as Vue from 'vue';
+import { createEffect } from 'solid-js';
+import { createMutable } from 'solid-js/store';
 
-export interface SearchCondition {
-  keyword: string;
-  year?: number;
-  month?: number;
-  day?: number;
-  areaId?: number;
-  prefectureId?: number;
-  isPrefectureMode: boolean;
+interface Store {
+  searchCondition: {
+    keyword: string;
+    year: string;
+    month: string;
+    day: string;
+    areaId: string;
+    prefectureId: string;
+    isPrefectureMode: boolean;
+  };
+  searchUrl: string;
+  canNotSearch: boolean;
+  loading: boolean;
+  errorMessage: string;
+  result?: {
+    searchUrl: string;
+    eventCount: number;
+    statistics: [string, number][];
+  };
 }
 
-export const searchCondition = Vue.ref<SearchCondition>({
-  keyword: '',
-  isPrefectureMode: false,
+export const store = createMutable<Store>({
+  searchCondition: {
+    keyword: '',
+    year: '',
+    month: '',
+    day: '',
+    areaId: '',
+    prefectureId: '',
+    isPrefectureMode: false,
+  },
+  get searchUrl() {
+    const { keyword, year, month, day, areaId, prefectureId } =
+      this.searchCondition;
+    return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
+  },
+  get canNotSearch() {
+    const { keyword, year, month, day, areaId, prefectureId } =
+      this.searchCondition;
+    return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
+  },
+  loading: false,
+  errorMessage: '',
 });
 
-Vue.watchEffect(() => {
-  if (searchCondition.value.isPrefectureMode) {
-    searchCondition.value.areaId = undefined;
+createEffect(() => {
+  if (store.searchCondition.isPrefectureMode) {
+    store.searchCondition.areaId = '';
   } else {
-    searchCondition.value.prefectureId = undefined;
+    store.searchCondition.prefectureId = '';
   }
 });
-
-export const resultUrl = Vue.ref<string>();
-
-export const eventCount = Vue.ref<number>();
-
-export const statistics = Vue.ref<[string, number][]>();
-
-export const loading = Vue.ref(false);
-
-export const errorMessage = Vue.ref<string>();

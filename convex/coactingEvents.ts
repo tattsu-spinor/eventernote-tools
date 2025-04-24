@@ -37,9 +37,11 @@ export const search = action({
           .toArray();
       }),
     );
-    return eventLists.reduce((previous, current) =>
-      intersect(previous, current),
-    );
+    return {
+      events: eventLists.reduce((previous, current) =>
+        intersect(previous, current),
+      ),
+    };
   },
 });
 
