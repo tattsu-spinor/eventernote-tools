@@ -4,7 +4,7 @@
     "prepare": "lefthook install",
     "predev": "convex dev --until-success",
     "dev": "concurrently bun:dev:*",
-    "dev:astro": "astro dev",
+    "dev:astro": "astro dev --open",
     "dev:convex": "convex dev",
     "build": "astro build",
     "preview": "astro preview",

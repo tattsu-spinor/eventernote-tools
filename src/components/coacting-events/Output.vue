@@ -1,13 +1,17 @@
 <template>
   <p v-if="events">{{ events.length }}件のイベントが見つかりました。</p>
-  <ul>
-    <li v-for="event in events">
-      <a
-        :href="'https://www.eventernote.com' + event.href"
-        target="_blank"
-        rel="noopener noreferrer"
-        >{{ event.name }}</a
-      >
+  <ul class="d-list">
+    <li class="d-list-row" v-for="event in events">
+      <div>
+        <a
+          :href="'https://www.eventernote.com' + event.href"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{{ event.name }}</a
+        >
+        <div class="text-xs">{{ event.date }}</div>
+        <div class="text-xs">{{ event.place }}</div>
+      </div>
     </li>
   </ul>
 </template>

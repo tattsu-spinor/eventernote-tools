@@ -2,15 +2,17 @@ import * as cheerio from 'cheerio';
 import { ConvexError, v } from 'convex/values';
 import { action } from './_generated/server';
 
-interface Event {
+export interface Event {
   name: string;
   href: string;
+  date: string;
+  place: string;
 }
 
 export const search = action({
   args: { actorNames: v.array(v.string()) },
   handler: async (_, { actorNames }) => {
-    const eventLists: Event[][] = await Promise.all(
+    const eventLists = await Promise.all(
       actorNames.map(async (actorName) => {
         const id = await searchActorId(actorName);
         const res = await fetch(
@@ -21,12 +23,17 @@ export const search = action({
         }
         const $ = cheerio.load(await res.text());
         return $(
-          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > h4 > a',
+          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li',
         )
-          .map((_, el) => ({
-            name: $(el).text(),
-            href: $(el).attr('href') ?? '',
-          }))
+          .map((_, element) => {
+            const eventElement = $(element).find('div.event > h4 > a').first();
+            return {
+              name: eventElement.text(),
+              href: eventElement.attr('href') ?? '',
+              date: $(element).find('div.date > p').first().text(),
+              place: $(element).find('div.place > a').first().text(),
+            };
+          })
           .toArray();
       }),
     );
