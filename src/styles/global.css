@@ -7,3 +7,15 @@
 @plugin "daisyui" {
   prefix: "d-";
 }
+
+:root {
+  --sl-text-body: var(--sl-text-sm);
+  --sl-text-body-sm: var(--sl-text-2xs);
+  --sl-text-code: var(--sl-text-xs);
+  --sl-text-code-sm: var(--sl-text-2xs);
+  --sl-text-h1: var(--sl-text-3xl);
+  --sl-text-h2: var(--sl-text-2xl);
+  --sl-text-h3: var(--sl-text-xl);
+  --sl-text-h4: var(--sl-text-lg);
+  --sl-text-h5: var(--sl-text-base);
+}
