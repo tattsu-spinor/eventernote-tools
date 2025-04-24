@@ -25,7 +25,7 @@ export const search = action({
         )
           .map((_, el) => ({
             name: $(el).text(),
-            href: $(el).attr('href'),
+            href: $(el).attr('href') ?? '',
           }))
           .toArray();
       }),
