@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "prepare": "lefthook install",
+    "predev": "convex dev --until-success",
     "dev": "concurrently bun:dev:*",
     "dev:astro": "astro dev",
     "dev:convex": "convex dev",
