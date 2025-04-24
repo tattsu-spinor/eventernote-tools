@@ -45,7 +45,6 @@
         <option selected :value="undefined">-</option>
         <option
           v-for="prefecture in PREFECTURES"
-          selected
           :value="prefecture.id.toString()"
         >
           {{ prefecture.name }}
@@ -57,7 +56,7 @@
         class="d-join-item d-select w-full"
       >
         <option selected :value="undefined">-</option>
-        <option v-for="area in AREAS" selected :value="area.id.toString()">
+        <option v-for="area in AREAS" :value="area.id.toString()">
           {{ area.name }}
         </option>
       </select>
