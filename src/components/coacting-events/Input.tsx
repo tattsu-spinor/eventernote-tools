@@ -1,6 +1,6 @@
 import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
-import { For, Show } from 'solid-js';
+import { Index, Show } from 'solid-js';
 import { api } from '../../../convex/_generated/api';
 import { store } from './store';
 
@@ -28,19 +28,19 @@ export const Input = () => {
   return (
     <>
       <div>
-        <For each={store.actorNames}>
+        <Index each={store.actorNames}>
           {(actorName, index) => (
             <input
-              value={actorName}
-              onChange={(e) => {
-                store.actorNames[index()] = e.target.value;
+              value={actorName()}
+              onInput={(e) => {
+                store.actorNames[index] = e.currentTarget.value;
               }}
               type="text"
               class="d-input mt-3 w-full max-w-md"
-              placeholder={`出演者${index() + 1}`}
+              placeholder={`出演者${index + 1}`}
             />
           )}
-        </For>
+        </Index>
       </div>
       <div class="mt-3">
         <button

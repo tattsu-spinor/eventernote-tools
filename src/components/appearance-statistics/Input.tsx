@@ -36,7 +36,7 @@ export const Input = () => {
         <input
           id="keyword"
           value={store.searchCondition.keyword}
-          onChange={(e) => {
+          onInput={(e) => {
             store.searchCondition.keyword = e.target.value;
           }}
           type="text"
@@ -50,7 +50,7 @@ export const Input = () => {
         <div id="date" class="d-join">
           <select
             value={store.searchCondition.year}
-            onChange={(e) => {
+            onInput={(e) => {
               store.searchCondition.year = e.target.value;
             }}
             class="d-join-item d-select w-full"
@@ -64,7 +64,7 @@ export const Input = () => {
           </select>
           <select
             value={store.searchCondition.month}
-            onChange={(e) => {
+            onInput={(e) => {
               store.searchCondition.month = e.target.value;
             }}
             class="d-join-item d-select w-full"
@@ -78,7 +78,7 @@ export const Input = () => {
           </select>
           <select
             value={store.searchCondition.day}
-            onChange={(e) => {
+            onInput={(e) => {
               store.searchCondition.day = e.target.value;
             }}
             class="d-join-item d-select w-full"
@@ -99,7 +99,7 @@ export const Input = () => {
           <label class="d-join-item d-swap d-input w-36">
             <input
               checked={store.searchCondition.isPrefectureMode}
-              onChange={(e) => {
+              onInput={(e) => {
                 store.searchCondition.isPrefectureMode = e.target.checked;
               }}
               type="checkbox"
@@ -111,7 +111,7 @@ export const Input = () => {
             <Match when={store.searchCondition.isPrefectureMode}>
               <select
                 value={store.searchCondition.prefectureId}
-                onChange={(e) => {
+                onInput={(e) => {
                   store.searchCondition.prefectureId = e.target.value;
                 }}
                 class="d-join-item d-select w-full"
@@ -129,7 +129,7 @@ export const Input = () => {
             <Match when={true}>
               <select
                 value={store.searchCondition.areaId}
-                onChange={(e) => {
+                onInput={(e) => {
                   store.searchCondition.areaId = e.target.value;
                 }}
                 class="d-join-item d-select w-full"
