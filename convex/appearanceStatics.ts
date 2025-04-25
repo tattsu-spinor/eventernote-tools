@@ -16,9 +16,10 @@ export const search = action({
     const eventCountString = $(
       'body > div.container > div > div.span8.page > p:nth-child(4)',
     ).text();
-    const eventCount = Number.parseInt(
-      eventCountString.substring(0, eventCountString.indexOf('件')),
-    );
+    const eventCount =
+      Number.parseInt(
+        eventCountString.substring(0, eventCountString.indexOf('件')),
+      ) || 0;
     if (eventCount > 10000) {
       throw new ConvexError(`イベント数が1万件を超えています: ${eventCount}件`);
     }
