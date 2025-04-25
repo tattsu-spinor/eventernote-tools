@@ -35,11 +35,11 @@ export const Input = () => {
         </label>
         <input
           id="keyword"
+          type="text"
           value={store.searchCondition.keyword}
           onInput={(e) => {
             store.searchCondition.keyword = e.target.value;
           }}
-          type="text"
           placeholder="声優、アイドル、アーティスト名等"
           class="d-input w-full"
         />
@@ -98,11 +98,11 @@ export const Input = () => {
         <div id="location" class="d-join w-full">
           <label class="d-join-item d-swap d-input w-36">
             <input
+              type="checkbox"
               checked={store.searchCondition.isPrefectureMode}
               onInput={(e) => {
                 store.searchCondition.isPrefectureMode = e.target.checked;
               }}
-              type="checkbox"
             />
             <span class="d-swap-on">都道府県:</span>
             <span class="d-swap-off">地域:</span>

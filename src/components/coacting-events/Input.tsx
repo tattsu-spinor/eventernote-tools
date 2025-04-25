@@ -31,13 +31,13 @@ export const Input = () => {
         <Index each={store.actorNames}>
           {(actorName, index) => (
             <input
+              type="text"
               value={actorName()}
               onInput={(e) => {
                 store.actorNames[index] = e.currentTarget.value;
               }}
-              type="text"
-              class="d-input mt-3 w-full max-w-md"
               placeholder={`出演者${index + 1}`}
+              class="d-input mt-3 w-full max-w-md"
             />
           )}
         </Index>
