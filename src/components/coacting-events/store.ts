@@ -1,14 +1,12 @@
 import { createMutable } from 'solid-js/store';
-import type { Event } from '../../../convex/coactingEvents';
+import type { Result } from '../../../convex/coactingEvents';
 
 type Store = {
   actorNames: string[];
   canNotSearch: boolean;
   loading: boolean;
   errorMessage: string;
-  result?: {
-    events: Event[];
-  };
+  result?: Result;
 };
 
 export const store = createMutable<Store>({

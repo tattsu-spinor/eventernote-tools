@@ -1,5 +1,6 @@
 import { createEffect } from 'solid-js';
 import { createMutable } from 'solid-js/store';
+import type { Result } from '../../../convex/appearanceStatics';
 
 interface Store {
   searchCondition: {
@@ -15,11 +16,7 @@ interface Store {
   canNotSearch: boolean;
   loading: boolean;
   errorMessage: string;
-  result?: {
-    searchUrl: string;
-    eventCount: number;
-    statistics: [string, number][];
-  };
+  result?: Result;
 }
 
 export const store = createMutable<Store>({

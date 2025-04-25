@@ -2,16 +2,20 @@ import * as cheerio from 'cheerio';
 import { ConvexError, v } from 'convex/values';
 import { action } from './_generated/server';
 
-export interface Event {
+interface Event {
   name: string;
   href: string;
   date: string;
   place: string;
 }
 
+export interface Result {
+  events: Event[];
+}
+
 export const search = action({
   args: { actorNames: v.array(v.string()) },
-  handler: async (_, { actorNames }) => {
+  handler: async (_, { actorNames }): Promise<Result> => {
     const eventLists = await Promise.all(
       actorNames.map(async (actorName) => {
         const id = await searchActorId(actorName);

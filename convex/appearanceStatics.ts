@@ -3,11 +3,17 @@ import { ConvexError, v } from 'convex/values';
 import { range } from 'remeda';
 import { action } from './_generated/server';
 
+export interface Result {
+  searchUrl: string;
+  eventCount: number;
+  statistics: [string, number][];
+}
+
 export const search = action({
   args: {
     searchUrl: v.string(),
   },
-  handler: async (_, { searchUrl }) => {
+  handler: async (_, { searchUrl }): Promise<Result> => {
     const res = await fetch(searchUrl);
     if (!res.ok) {
       throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
