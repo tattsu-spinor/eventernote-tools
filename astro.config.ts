@@ -2,6 +2,7 @@ import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
 export default defineConfig({
@@ -39,5 +40,16 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+  },
+  markdown: {
+    rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        {
+          target: '_blank',
+          rel: ['noopener', 'noreferrer'],
+        },
+      ],
+    ],
   },
 });
