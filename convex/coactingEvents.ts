@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import { ConvexError, v } from 'convex/values';
+import { intersectionWith } from 'remeda';
 import { action } from './_generated/server';
 
 interface Event {
@@ -43,7 +44,7 @@ export const search = action({
     );
     return {
       events: eventLists.reduce((previous, current) =>
-        intersect(previous, current),
+        intersectionWith(previous, current, (a, b) => a.href === b.href),
       ),
     };
   },
@@ -65,9 +66,4 @@ const searchActorId = async (name: string) => {
     throw new ConvexError(`出演者が見つかりません: "${name}"`);
   }
   return Number.parseInt(href.substring(href.lastIndexOf('/') + 1));
-};
-
-const intersect = (aEvents: Event[], bEvents: Event[]) => {
-  const aHrefSet = new Set(aEvents.map((e) => e.href));
-  return bEvents.filter((bEvent) => aHrefSet.has(bEvent.href));
 };
