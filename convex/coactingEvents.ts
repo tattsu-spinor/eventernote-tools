@@ -18,7 +18,7 @@ export const search = action({
   args: { actorNames: v.array(v.string()) },
   handler: async (_, { actorNames }): Promise<Result> => {
     const eventLists = await Promise.all(
-      actorNames.map(async (actorName) => {
+      actorNames.values().map(async (actorName) => {
         const id = await searchActorId(actorName);
         const res = await fetch(
           `https://www.eventernote.com/actors/${id}/events?limit=10000`,
@@ -30,7 +30,7 @@ export const search = action({
         return $(
           'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li',
         )
-          .map((_, element) => {
+          .map((_, element): Event => {
             const eventElement = $(element).find('div.event > h4 > a').first();
             return {
               name: eventElement.text(),
