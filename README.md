@@ -10,8 +10,12 @@
 
 ## フレームワーク & ライブラリ
 
-- [VitePress](https://vitepress.dev/)
-  - [Vite](https://ja.vitejs.dev/) + [Vue](https://ja.vuejs.org/)による静的サイトジェネレータ
+- [Astro](https://docs.astro.build/)
+  - 静的サイトジェネレータ
+- [Starlight](https://starlight.astro.build/)
+  - Astro上で構築されたドキュメント向けテーマ
+- [SolidJS](https://docs.solidjs.com/)
+  - インタラクティブなUIフレームワーク
 - [Tailwind CSS](https://tailwindcss.com/)
   - ユーティリティファーストのCSSフレームワーク
 - [daisyUI](https://daisyui.com/)
