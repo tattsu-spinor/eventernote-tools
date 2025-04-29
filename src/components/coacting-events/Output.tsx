@@ -13,7 +13,7 @@ export const Output = () => {
                 <a
                   href={`https://www.eventernote.com${event.href}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noreferrer"
                 >
                   {event.name}
                 </a>
