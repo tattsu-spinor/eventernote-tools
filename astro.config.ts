@@ -2,11 +2,11 @@ import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    // https://starlight.astro.build/ja/reference/configuration/
     starlight({
       title: 'Eventernote Tools',
       tableOfContents: false,
@@ -34,22 +34,20 @@ export default defineConfig({
         headingLinks: false,
       },
       pagefind: false,
+      head: [
+        {
+          tag: 'script',
+          attrs: {
+            type: 'module',
+            src: '/external-link.js',
+          },
+        },
+      ],
       pagination: false,
     }),
     solidJs(),
   ],
   vite: {
     plugins: [tailwindcss()],
-  },
-  markdown: {
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        {
-          target: '_blank',
-          rel: 'noreferrer',
-        },
-      ],
-    ],
   },
 });
