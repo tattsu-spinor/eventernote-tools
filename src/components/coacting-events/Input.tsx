@@ -1,33 +1,30 @@
 import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
-import { Index, Show } from 'solid-js';
+import {
+  Index,
+  Show,
+  createEffect,
+  createResource,
+  createSignal,
+} from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { api } from '../../../convex/_generated/api';
-import { store } from './store';
+import type { Request } from '../../../convex/coactingEvents';
+import { setResponse } from './store';
 
 export const Input = () => {
   const [actorNames, setActorNames] = createStore(['', '']);
   const canNotSearch = () => actorNames.some((name) => !name);
 
-  const searchCoactingEvents = () => {
-    store.loading = true;
-    store.errorMessage = '';
-    new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL)
-      .action(api.coactingEvents.search, {
-        actorNames: actorNames,
-      })
-      .then((response) => {
-        store.response = response;
-      })
-      .catch((e) => {
-        console.error(e);
-        store.errorMessage =
-          e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
-      })
-      .finally(() => {
-        store.loading = false;
-      });
-  };
+  const client = new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL);
+  const [request, setRequest] = createSignal<Request>();
+  const [responseResource] = createResource(request, (request) =>
+    client.action(api.coactingEvents.search, request),
+  );
+
+  createEffect(() => {
+    setResponse(responseResource.latest);
+  });
 
   return (
     <>
@@ -49,12 +46,14 @@ export const Input = () => {
       <div class="mt-3">
         <button
           type="button"
-          onClick={searchCoactingEvents}
-          disabled={store.loading || canNotSearch()}
+          onClick={() => {
+            setRequest({ actorNames });
+          }}
+          disabled={responseResource.loading || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={store.loading}>
+          <Show when={responseResource.loading}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
@@ -63,7 +62,7 @@ export const Input = () => {
           onClick={() => {
             setActorNames((names) => [...names, '']);
           }}
-          disabled={store.loading}
+          disabled={responseResource.loading}
           class="d-btn d-btn-secondary ml-3"
         >
           追加
@@ -73,16 +72,22 @@ export const Input = () => {
           onClick={() => {
             setActorNames((names) => names.slice(0, -1));
           }}
-          disabled={store.loading || actorNames.length <= 1}
+          disabled={responseResource.loading || actorNames.length <= 1}
           class="d-btn d-btn-warning ml-3"
         >
           削除
         </button>
       </div>
-      <Show when={store.errorMessage}>
-        <div role="alert" class="d-alert d-alert-error mt-3">
-          <span>{store.errorMessage}</span>
-        </div>
+      <Show when={responseResource.error} keyed>
+        {(error) => (
+          <div role="alert" class="d-alert d-alert-error mt-3">
+            <span>
+              {error instanceof ConvexError
+                ? error.data
+                : '予期せぬエラーが発生しました。'}
+            </span>
+          </div>
+        )}
       </Show>
     </>
   );

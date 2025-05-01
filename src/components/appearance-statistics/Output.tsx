@@ -1,9 +1,9 @@
 import { For, Show } from 'solid-js';
-import { store } from './store';
+import { response } from './store';
 
 export const Output = () => {
   return (
-    <Show when={store.response}>
+    <Show when={response()}>
       {(response) => (
         <>
           <div>

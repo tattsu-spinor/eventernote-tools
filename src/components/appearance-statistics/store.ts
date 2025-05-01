@@ -1,13 +1,4 @@
-import { createMutable } from 'solid-js/store';
+import { createSignal } from 'solid-js';
 import type { Response } from '../../../convex/appearanceStatics';
 
-interface Store {
-  response?: Response;
-  loading: boolean;
-  errorMessage: string;
-}
-
-export const store = createMutable<Store>({
-  loading: false,
-  errorMessage: '',
-});
+export const [response, setResponse] = createSignal<Response>();
