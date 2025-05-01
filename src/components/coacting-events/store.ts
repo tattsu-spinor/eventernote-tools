@@ -1,8 +1,8 @@
 import { createMutable } from 'solid-js/store';
-import type { Result } from '../../../convex/coactingEvents';
+import type { Response } from '../../../convex/coactingEvents';
 
 type Store = {
-  result?: Result;
+  response?: Response;
   loading: boolean;
   errorMessage: string;
 };

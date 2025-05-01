@@ -3,13 +3,13 @@ import { store } from './store';
 
 export const Output = () => {
   return (
-    <Show when={store.result}>
-      {(result) => (
+    <Show when={store.response}>
+      {(response) => (
         <>
           <div>
-            <span>{result().eventCount}件のイベントを検索しました。</span>
+            <span>{response().eventCount}件のイベントを検索しました。</span>
             <a
-              href={result().searchUrl}
+              href={response().searchUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -26,7 +26,7 @@ export const Output = () => {
                 </tr>
               </thead>
               <tbody>
-                <For each={result().statistics}>
+                <For each={response().statistics}>
                   {([actorName, count], index) => (
                     <tr>
                       <th class="text-right">{index() + 1}</th>

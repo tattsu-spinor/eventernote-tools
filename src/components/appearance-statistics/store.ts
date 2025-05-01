@@ -1,8 +1,8 @@
 import { createMutable } from 'solid-js/store';
-import type { Result } from '../../../convex/appearanceStatics';
+import type { Response } from '../../../convex/appearanceStatics';
 
 interface Store {
-  result?: Result;
+  response?: Response;
   loading: boolean;
   errorMessage: string;
 }

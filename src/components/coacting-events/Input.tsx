@@ -16,8 +16,8 @@ export const Input = () => {
       .action(api.coactingEvents.search, {
         actorNames: actorNames,
       })
-      .then((result) => {
-        store.result = result;
+      .then((response) => {
+        store.response = response;
       })
       .catch((e) => {
         console.error(e);

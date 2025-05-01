@@ -3,12 +3,12 @@ import { store } from './store';
 
 export const Output = () => {
   return (
-    <Show when={store.result}>
-      {(result) => (
+    <Show when={store.response}>
+      {(response) => (
         <>
-          <p>{result().events.length}件のイベントが見つかりました。</p>
+          <p>{response().events.length}件のイベントが見つかりました。</p>
           <ul class="d-list">
-            <For each={result().events}>
+            <For each={response().events}>
               {(event) => (
                 <li class="d-list-row">
                   <div>

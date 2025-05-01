@@ -1,19 +1,20 @@
 import * as cheerio from 'cheerio';
-import { ConvexError, v } from 'convex/values';
+import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
 import { action } from './_generated/server';
 
-export interface Result {
+export type Request = {
+  searchUrl: string;
+};
+
+export type Response = {
   searchUrl: string;
   eventCount: number;
   statistics: [string, number][];
-}
+};
 
-export const search = action({
-  args: {
-    searchUrl: v.string(),
-  },
-  handler: async (_, { searchUrl }): Promise<Result> => {
+export const search = action(
+  async (_, { searchUrl }: Request): Promise<Response> => {
     const res = await fetch(searchUrl);
     if (!res.ok) {
       throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
@@ -58,4 +59,4 @@ export const search = action({
         .slice(0, 1000),
     };
   },
-});
+);

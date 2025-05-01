@@ -41,8 +41,8 @@ export const Input = () => {
       .action(api.appearanceStatics.search, {
         searchUrl: searchUrl(),
       })
-      .then((result) => {
-        store.result = result;
+      .then((response) => {
+        store.response = response;
       })
       .catch((e) => {
         console.error(e);
