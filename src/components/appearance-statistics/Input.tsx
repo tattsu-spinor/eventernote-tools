@@ -1,18 +1,45 @@
 import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
-import { For, Match, Show, Switch } from 'solid-js';
+import { For, Match, Show, Switch, createEffect } from 'solid-js';
+import { createStore } from 'solid-js/store';
 import { api } from '../../../convex/_generated/api';
 import { AREAS, PREFECTURES } from './const';
 import { store } from './store';
 
 export const Input = () => {
+  const [searchCondition, setSearchCondition] = createStore({
+    keyword: '',
+    year: '',
+    month: '',
+    day: '',
+    areaId: '',
+    prefectureId: '',
+    isPrefectureMode: false,
+  });
+  const searchUrl = () => {
+    const { keyword, year, month, day, areaId, prefectureId } = searchCondition;
+    return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
+  };
+  const canNotSearch = () => {
+    const { keyword, year, month, day, areaId, prefectureId } = searchCondition;
+    return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
+  };
+
+  createEffect(() => {
+    if (searchCondition.isPrefectureMode) {
+      setSearchCondition('areaId', '');
+    } else {
+      setSearchCondition('prefectureId', '');
+    }
+  });
+
   const searchAppearanceStatistics = async () => {
     store.loading = true;
     store.errorMessage = '';
     new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL)
       .action(api.appearanceStatics.search, {
-        searchUrl: store.searchUrl,
+        searchUrl: searchUrl(),
       })
       .then((result) => {
         store.result = result;
@@ -36,9 +63,9 @@ export const Input = () => {
         <input
           id="keyword"
           type="text"
-          value={store.searchCondition.keyword}
+          value={searchCondition.keyword}
           onInput={(e) => {
-            store.searchCondition.keyword = e.target.value;
+            setSearchCondition('keyword', e.target.value);
           }}
           placeholder="声優、アイドル、アーティスト名等"
           class="d-input w-full"
@@ -49,9 +76,9 @@ export const Input = () => {
         </label>
         <div id="date" class="d-join">
           <select
-            value={store.searchCondition.year}
+            value={searchCondition.year}
             onInput={(e) => {
-              store.searchCondition.year = e.target.value;
+              setSearchCondition('year', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -63,9 +90,9 @@ export const Input = () => {
             </For>
           </select>
           <select
-            value={store.searchCondition.month}
+            value={searchCondition.month}
             onInput={(e) => {
-              store.searchCondition.month = e.target.value;
+              setSearchCondition('month', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -77,9 +104,9 @@ export const Input = () => {
             </For>
           </select>
           <select
-            value={store.searchCondition.day}
+            value={searchCondition.day}
             onInput={(e) => {
-              store.searchCondition.day = e.target.value;
+              setSearchCondition('day', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -99,20 +126,20 @@ export const Input = () => {
           <label class="d-join-item d-swap d-input w-36">
             <input
               type="checkbox"
-              checked={store.searchCondition.isPrefectureMode}
+              checked={searchCondition.isPrefectureMode}
               onInput={(e) => {
-                store.searchCondition.isPrefectureMode = e.target.checked;
+                setSearchCondition('isPrefectureMode', e.target.checked);
               }}
             />
             <span class="d-swap-on">都道府県:</span>
             <span class="d-swap-off">地域:</span>
           </label>
           <Switch>
-            <Match when={store.searchCondition.isPrefectureMode}>
+            <Match when={searchCondition.isPrefectureMode}>
               <select
-                value={store.searchCondition.prefectureId}
+                value={searchCondition.prefectureId}
                 onInput={(e) => {
-                  store.searchCondition.prefectureId = e.target.value;
+                  setSearchCondition('prefectureId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -128,9 +155,9 @@ export const Input = () => {
             </Match>
             <Match when={true}>
               <select
-                value={store.searchCondition.areaId}
+                value={searchCondition.areaId}
                 onInput={(e) => {
-                  store.searchCondition.areaId = e.target.value;
+                  setSearchCondition('areaId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -149,7 +176,7 @@ export const Input = () => {
           <button
             type="button"
             onClick={searchAppearanceStatistics}
-            disabled={store.loading || store.canNotSearch}
+            disabled={store.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >
             検索
