@@ -32,6 +32,7 @@ export const Input = () => {
         <Index each={actorNames}>
           {(actorName, index) => (
             <input
+              name={`actorName${index + 1}`}
               type="text"
               value={actorName()}
               onInput={(e) => {
