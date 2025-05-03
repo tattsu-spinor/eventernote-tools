@@ -12,6 +12,9 @@ updates:
       patch:
         update-types:
           - "patch"
+      minor:
+        update-types:
+          - "minor"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
