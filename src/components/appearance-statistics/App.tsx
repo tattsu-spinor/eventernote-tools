@@ -1,7 +1,7 @@
 import { ConvexHttpClient } from 'convex/browser';
-import { Show, createResource, createSignal } from 'solid-js';
+import { Show, createMemo, createResource, createSignal } from 'solid-js';
 import { api } from '../../../convex/_generated/api';
-import type { Request } from '../../../convex/appearanceStatics';
+import type { Request, Response } from '../../../convex/appearanceStatics';
 import { Input } from './Input';
 import { Output } from './Output';
 
@@ -10,6 +10,9 @@ export const App = () => {
   const [request, setRequest] = createSignal<Request>();
   const [response] = createResource(request, (request: Request) =>
     client.action(api.appearanceStatics.search, request),
+  );
+  const latestResponse = createMemo((prev: Response | undefined) =>
+    response.state === 'ready' ? response() : prev,
   );
 
   return (
@@ -24,7 +27,7 @@ export const App = () => {
       </div>
       <h2>統計結果</h2>
       <div class="not-content">
-        <Show when={response.state === 'pending' ? false : response()} keyed>
+        <Show when={latestResponse()} keyed>
           {(response) => <Output {...response} />}
         </Show>
       </div>
