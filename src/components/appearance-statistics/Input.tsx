@@ -1,22 +1,17 @@
-import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
-import {
-  For,
-  Match,
-  Show,
-  Switch,
-  createEffect,
-  createResource,
-  createSignal,
-} from 'solid-js';
+import { For, Match, Show, Switch, createEffect } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { api } from '../../../convex/_generated/api';
 import type { Request } from '../../../convex/appearanceStatics';
 import { AREAS, PREFECTURES } from './const';
-import { setResponse } from './store';
 
-export const Input = () => {
+type InputProps = {
+  search: (request: Request) => void;
+  loading: boolean;
+  error: Error | undefined;
+};
+
+export const Input = (props: InputProps) => {
   const [searchCondition, setSearchCondition] = createStore({
     keyword: '',
     year: '',
@@ -35,19 +30,12 @@ export const Input = () => {
     return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
   };
 
-  const client = new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL);
-  const [request, setRequest] = createSignal<Request>();
-  const [responseResource] = createResource(request, (request) =>
-    client.action(api.appearanceStatics.search, request),
-  );
-
   createEffect(() => {
     if (searchCondition.isPrefectureMode) {
       setSearchCondition('areaId', '');
     } else {
       setSearchCondition('prefectureId', '');
     }
-    setResponse(responseResource.latest);
   });
 
   return (
@@ -171,18 +159,20 @@ export const Input = () => {
         <div class="mt-3">
           <button
             type="button"
-            onClick={() => setRequest({ searchUrl: searchUrl() })}
-            disabled={responseResource.loading || canNotSearch()}
+            onClick={() => {
+              props.search({ searchUrl: searchUrl() });
+            }}
+            disabled={props.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >
             検索
-            <Show when={responseResource.loading}>
+            <Show when={props.loading}>
               <span class="d-loading d-loading-spinner" />
             </Show>
           </button>
         </div>
       </fieldset>
-      <Show when={responseResource.error} keyed>
+      <Show when={props.error} keyed>
         {(error) => (
           <div role="alert" class="d-alert d-alert-error my-3">
             <span>
