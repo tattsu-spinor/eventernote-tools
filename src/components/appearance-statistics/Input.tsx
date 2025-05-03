@@ -1,57 +1,65 @@
-import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import { range } from 'remeda';
-import { For, Match, Show, Switch } from 'solid-js';
-import { api } from '../../../convex/_generated/api';
+import { For, Match, Show, Switch, createEffect } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import type { Request } from '../../../convex/appearanceStatics';
 import { AREAS, PREFECTURES } from './const';
-import { store } from './store';
 
-export const Input = () => {
-  const searchAppearanceStatistics = async () => {
-    store.loading = true;
-    store.errorMessage = '';
-    new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL)
-      .action(api.appearanceStatics.search, {
-        searchUrl: store.searchUrl,
-      })
-      .then((result) => {
-        store.result = result;
-      })
-      .catch((e) => {
-        console.error(e);
-        store.errorMessage =
-          e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
-      })
-      .finally(() => {
-        store.loading = false;
-      });
+type InputProps = {
+  search: (request: Request) => void;
+  loading: boolean;
+  error: Error | undefined;
+};
+
+export const Input = (props: InputProps) => {
+  const [searchCondition, setSearchCondition] = createStore({
+    keyword: '',
+    year: '',
+    month: '',
+    day: '',
+    areaId: '',
+    prefectureId: '',
+    isPrefectureMode: false,
+  });
+  const searchUrl = () => {
+    const { keyword, year, month, day, areaId, prefectureId } = searchCondition;
+    return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
   };
+  const canNotSearch = () => {
+    const { keyword, year, month, day, areaId, prefectureId } = searchCondition;
+    return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
+  };
+
+  createEffect(() => {
+    if (searchCondition.isPrefectureMode) {
+      setSearchCondition('areaId', '');
+    } else {
+      setSearchCondition('prefectureId', '');
+    }
+  });
 
   return (
     <>
       <fieldset class="d-fieldset max-w-md">
-        <label for="keyword" class="d-fieldset-label">
-          キーワード
-        </label>
+        <div class="d-fieldset-label">キーワード</div>
         <input
-          id="keyword"
+          name="keyword"
           type="text"
-          value={store.searchCondition.keyword}
+          value={searchCondition.keyword}
           onInput={(e) => {
-            store.searchCondition.keyword = e.target.value;
+            setSearchCondition('keyword', e.target.value);
           }}
           placeholder="声優、アイドル、アーティスト名等"
           class="d-input w-full"
         />
 
-        <label for="date" class="d-fieldset-label">
-          開催日
-        </label>
-        <div id="date" class="d-join">
+        <div class="d-fieldset-label">開催日</div>
+        <div class="d-join">
           <select
-            value={store.searchCondition.year}
+            name="year"
+            value={searchCondition.year}
             onInput={(e) => {
-              store.searchCondition.year = e.target.value;
+              setSearchCondition('year', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -63,9 +71,10 @@ export const Input = () => {
             </For>
           </select>
           <select
-            value={store.searchCondition.month}
+            name="month"
+            value={searchCondition.month}
             onInput={(e) => {
-              store.searchCondition.month = e.target.value;
+              setSearchCondition('month', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -77,9 +86,10 @@ export const Input = () => {
             </For>
           </select>
           <select
-            value={store.searchCondition.day}
+            name="day"
+            value={searchCondition.day}
             onInput={(e) => {
-              store.searchCondition.day = e.target.value;
+              setSearchCondition('day', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -92,27 +102,27 @@ export const Input = () => {
           </select>
         </div>
 
-        <label for="location" class="d-fieldset-label">
-          開催地
-        </label>
-        <div id="location" class="d-join w-full">
+        <div class="d-fieldset-label">開催地</div>
+        <div class="d-join w-full">
           <label class="d-join-item d-swap d-input w-36">
             <input
+              name="isPrefectureMode"
               type="checkbox"
-              checked={store.searchCondition.isPrefectureMode}
+              checked={searchCondition.isPrefectureMode}
               onInput={(e) => {
-                store.searchCondition.isPrefectureMode = e.target.checked;
+                setSearchCondition('isPrefectureMode', e.target.checked);
               }}
             />
             <span class="d-swap-on">都道府県:</span>
             <span class="d-swap-off">地域:</span>
           </label>
           <Switch>
-            <Match when={store.searchCondition.isPrefectureMode}>
+            <Match when={searchCondition.isPrefectureMode}>
               <select
-                value={store.searchCondition.prefectureId}
+                name="prefectureId"
+                value={searchCondition.prefectureId}
                 onInput={(e) => {
-                  store.searchCondition.prefectureId = e.target.value;
+                  setSearchCondition('prefectureId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -128,9 +138,10 @@ export const Input = () => {
             </Match>
             <Match when={true}>
               <select
-                value={store.searchCondition.areaId}
+                name="areaId"
+                value={searchCondition.areaId}
                 onInput={(e) => {
-                  store.searchCondition.areaId = e.target.value;
+                  setSearchCondition('areaId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -148,21 +159,29 @@ export const Input = () => {
         <div class="mt-3">
           <button
             type="button"
-            onClick={searchAppearanceStatistics}
-            disabled={store.loading || store.canNotSearch}
+            onClick={() => {
+              props.search({ searchUrl: searchUrl() });
+            }}
+            disabled={props.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >
             検索
-            <Show when={store.loading}>
+            <Show when={props.loading}>
               <span class="d-loading d-loading-spinner" />
             </Show>
           </button>
         </div>
       </fieldset>
-      <Show when={store.errorMessage}>
-        <div role="alert" class="d-alert d-alert-error my-3">
-          <span>{store.errorMessage}</span>
-        </div>
+      <Show when={props.error} keyed>
+        {(error) => (
+          <div role="alert" class="d-alert d-alert-error my-3">
+            <span>
+              {error instanceof ConvexError
+                ? error.data
+                : '予期せぬエラーが発生しました。'}
+            </span>
+          </div>
+        )}
       </Show>
     </>
   );

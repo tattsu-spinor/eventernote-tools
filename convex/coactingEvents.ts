@@ -1,22 +1,25 @@
 import * as cheerio from 'cheerio';
-import { ConvexError, v } from 'convex/values';
+import { ConvexError } from 'convex/values';
 import { intersectionWith } from 'remeda';
 import { action } from './_generated/server';
 
-interface Event {
+export type Request = {
+  actorNames: string[];
+};
+
+export type Response = {
+  events: Event[];
+};
+
+type Event = {
   name: string;
   href: string;
   date: string;
   place: string;
-}
+};
 
-export interface Result {
-  events: Event[];
-}
-
-export const search = action({
-  args: { actorNames: v.array(v.string()) },
-  handler: async (_, { actorNames }): Promise<Result> => {
+export const search = action(
+  async (_, { actorNames }: Request): Promise<Response> => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
         const id = await searchActorId(actorName);
@@ -48,7 +51,7 @@ export const search = action({
       ),
     };
   },
-});
+);
 
 const searchActorId = async (name: string) => {
   const res = await fetch(

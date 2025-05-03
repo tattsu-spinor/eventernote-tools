@@ -2,20 +2,11 @@
 title: 共演イベント検索
 ---
 
-import { Input } from '../../components/coacting-events/Input.tsx';
-import { Output } from '../../components/coacting-events/Output.tsx';
+import { App } from '../../components/coacting-events/App.tsx';
 
 - 指定した出演者が共演しているイベントを検索します。
 - 出演者名は、[Eventernote](https://www.eventernote.com)に登録されているものと完全一致するように入力してください。
 
-## 検索条件
-
-<div class="not-content">
-  <Input client:load />
-</div>
-
-## 検索結果
-
-<div class="not-content">
-  <Output client:load />
+<div class="mt-6">
+  <App client:load />
 </div>

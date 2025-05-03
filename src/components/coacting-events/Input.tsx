@@ -1,40 +1,29 @@
-import { ConvexHttpClient } from 'convex/browser';
 import { ConvexError } from 'convex/values';
 import { Index, Show } from 'solid-js';
-import { api } from '../../../convex/_generated/api';
-import { store } from './store';
+import { createStore } from 'solid-js/store';
+import type { Request } from '../../../convex/coactingEvents';
 
-export const Input = () => {
-  const searchCoactingEvents = () => {
-    store.loading = true;
-    store.errorMessage = '';
-    new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL)
-      .action(api.coactingEvents.search, {
-        actorNames: store.actorNames,
-      })
-      .then((result) => {
-        store.result = result;
-      })
-      .catch((e) => {
-        console.error(e);
-        store.errorMessage =
-          e instanceof ConvexError ? e.data : '予期せぬエラーが発生しました。';
-      })
-      .finally(() => {
-        store.loading = false;
-      });
-  };
+type InputProps = {
+  search: (request: Request) => void;
+  loading: boolean;
+  error: Error | undefined;
+};
+
+export const Input = (props: InputProps) => {
+  const [actorNames, setActorNames] = createStore(['', '']);
+  const canNotSearch = () => actorNames.some((name) => !name);
 
   return (
     <>
       <div>
-        <Index each={store.actorNames}>
+        <Index each={actorNames}>
           {(actorName, index) => (
             <input
+              name={`actorName${index + 1}`}
               type="text"
               value={actorName()}
               onInput={(e) => {
-                store.actorNames[index] = e.currentTarget.value;
+                setActorNames(index, e.target.value);
               }}
               placeholder={`出演者${index + 1}`}
               class="d-input mt-3 w-full max-w-md"
@@ -45,36 +34,48 @@ export const Input = () => {
       <div class="mt-3">
         <button
           type="button"
-          onClick={searchCoactingEvents}
-          disabled={store.loading || store.canNotSearch}
+          onClick={() => {
+            props.search({ actorNames });
+          }}
+          disabled={props.loading || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={store.loading}>
+          <Show when={props.loading}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
         <button
           type="button"
-          onClick={() => store.actorNames.push('')}
-          disabled={store.loading}
+          onClick={() => {
+            setActorNames((names) => [...names, '']);
+          }}
+          disabled={props.loading}
           class="d-btn d-btn-secondary ml-3"
         >
           追加
         </button>
         <button
           type="button"
-          onClick={() => store.actorNames.pop()}
-          disabled={store.loading || store.actorNames.length <= 1}
+          onClick={() => {
+            setActorNames((names) => names.slice(0, -1));
+          }}
+          disabled={props.loading || actorNames.length <= 1}
           class="d-btn d-btn-warning ml-3"
         >
           削除
         </button>
       </div>
-      <Show when={store.errorMessage}>
-        <div role="alert" class="d-alert d-alert-error mt-3">
-          <span>{store.errorMessage}</span>
-        </div>
+      <Show when={props.error} keyed>
+        {(error) => (
+          <div role="alert" class="d-alert d-alert-error mt-3">
+            <span>
+              {error instanceof ConvexError
+                ? error.data
+                : '予期せぬエラーが発生しました。'}
+            </span>
+          </div>
+        )}
       </Show>
     </>
   );
