@@ -81,7 +81,7 @@ export const Input = (props: InputProps) => {
             <option selected value="">
               {' - '}月
             </option>
-            <For each={range(1, 12)}>
+            <For each={range(1, 13)}>
               {(n) => <option value={n}>{n}月</option>}
             </For>
           </select>
@@ -96,7 +96,7 @@ export const Input = (props: InputProps) => {
             <option selected value="">
               {' - '}日
             </option>
-            <For each={range(1, 31)}>
+            <For each={range(1, 32)}>
               {(n) => <option value={n}>{n}日</option>}
             </For>
           </select>
