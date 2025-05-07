@@ -20,7 +20,7 @@
   - ユーティリティファーストのCSSフレームワーク
 - [daisyUI](https://daisyui.com/)
   - Tailwind CSSで作られたUIライブラリ
-- [Remeda](https://remedajs.com/)
+- [es-toolkit](https://es-toolkit.slash.page/)
   - TypeScript用のユーティリティライブラリ
 - [Cheerio](https://cheerio.js.org/)
   - Node.js環境でのDOM解析用のライブラリ

@@ -1,3 +1,9 @@
+import { range, rangeRight } from 'es-toolkit';
+
+export const YEARS = rangeRight(1980, new Date().getFullYear() + 2);
+export const MONTHS = range(1, 13);
+export const DAYS = range(1, 32);
+
 export const AREAS = [
   { id: 1, name: '関東' },
   { id: 2, name: '関西' },

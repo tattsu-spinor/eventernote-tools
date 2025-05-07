@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import { ConvexError } from 'convex/values';
-import { range } from 'remeda';
+import { range } from 'es-toolkit';
 import { action } from './_generated/server';
 
 export type Request = {
@@ -32,8 +32,8 @@ export const search = action(
     }
 
     const actorList = await Promise.all(
-      range(1, 1 + eventCount / 100).map(async (page) => {
-        const res = await fetch(`${searchUrl}&limit=100&page=${page}`);
+      range(eventCount / 100).map(async (page) => {
+        const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
         if (!res.ok) {
           throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
         }

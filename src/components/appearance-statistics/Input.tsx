@@ -1,9 +1,8 @@
 import { ConvexError } from 'convex/values';
-import { range } from 'remeda';
 import { For, Match, Show, Switch, createEffect } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { Request } from '../../../convex/appearanceStatics';
-import { AREAS, PREFECTURES } from './const';
+import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
 
 type InputProps = {
   search: (request: Request) => void;
@@ -66,9 +65,7 @@ export const Input = (props: InputProps) => {
             <option selected value="">
               {' - '}年
             </option>
-            <For each={range(1980, new Date().getFullYear() + 2).reverse()}>
-              {(n) => <option value={n}>{n}年</option>}
-            </For>
+            <For each={YEARS}>{(n) => <option value={n}>{n}年</option>}</For>
           </select>
           <select
             name="month"
@@ -81,9 +78,7 @@ export const Input = (props: InputProps) => {
             <option selected value="">
               {' - '}月
             </option>
-            <For each={range(1, 13)}>
-              {(n) => <option value={n}>{n}月</option>}
-            </For>
+            <For each={MONTHS}>{(n) => <option value={n}>{n}月</option>}</For>
           </select>
           <select
             name="day"
@@ -96,9 +91,7 @@ export const Input = (props: InputProps) => {
             <option selected value="">
               {' - '}日
             </option>
-            <For each={range(1, 32)}>
-              {(n) => <option value={n}>{n}日</option>}
-            </For>
+            <For each={DAYS}>{(n) => <option value={n}>{n}日</option>}</For>
           </select>
         </div>
 

@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import { ConvexError } from 'convex/values';
-import { intersectionWith } from 'remeda';
+import { intersectionBy } from 'es-toolkit';
 import { action } from './_generated/server';
 
 export type Request = {
@@ -47,7 +47,7 @@ export const search = action(
     );
     return {
       events: eventLists.reduce((previous, current) =>
-        intersectionWith(previous, current, (a, b) => a.href === b.href),
+        intersectionBy(previous, current, (event) => event.href),
       ),
     };
   },
