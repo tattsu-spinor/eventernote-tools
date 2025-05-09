@@ -27,8 +27,8 @@ export const App = () => {
       </div>
       <h2>検索結果</h2>
       <div class="not-content">
-        <Show when={latestResponse()}>
-          {(response) => <Output {...response()} />}
+        <Show when={latestResponse()} keyed>
+          {(response) => <Output {...response} />}
         </Show>
       </div>
     </>
