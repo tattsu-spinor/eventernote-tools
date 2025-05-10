@@ -7,12 +7,6 @@ export const Output = (response: Response) => {
   const totalPages = createMemo(() =>
     Math.ceil(response.events.length / PAGE_LIMIT),
   );
-  const pagedEvents = createMemo(() =>
-    response.events.slice(
-      PAGE_LIMIT * (currentPage() - 1),
-      PAGE_LIMIT * currentPage(),
-    ),
-  );
 
   return (
     <>
@@ -22,31 +16,49 @@ export const Output = (response: Response) => {
         currentPage={currentPage()}
         updatePage={setCurrentPage}
       />
-      <ul class="d-list">
-        <For each={pagedEvents()}>
-          {(event) => (
-            <li class="d-list-row">
-              <div>
-                <a
-                  href={`https://www.eventernote.com${event.href}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {event.name}
-                </a>
-                <div class="text-xs">{event.date}</div>
-                <div class="text-xs">{event.place}</div>
-              </div>
-            </li>
-          )}
-        </For>
-      </ul>
+      <EventList events={response.events} currentPage={currentPage()} />
       <Pagination
-        currentPage={currentPage()}
         totalPages={totalPages()}
+        currentPage={currentPage()}
         updatePage={setCurrentPage}
       />
     </>
+  );
+};
+
+type EventListProps = {
+  events: Response['events'];
+  currentPage: number;
+};
+
+const EventList = (props: EventListProps) => {
+  const pagedEvents = createMemo(() =>
+    props.events.slice(
+      PAGE_LIMIT * (props.currentPage - 1),
+      PAGE_LIMIT * props.currentPage,
+    ),
+  );
+
+  return (
+    <ul class="d-list">
+      <For each={pagedEvents()}>
+        {(event) => (
+          <li class="d-list-row">
+            <div>
+              <a
+                href={`https://www.eventernote.com${event.href}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {event.name}
+              </a>
+              <div class="text-xs">{event.date}</div>
+              <div class="text-xs">{event.place}</div>
+            </div>
+          </li>
+        )}
+      </For>
+    </ul>
   );
 };
 
