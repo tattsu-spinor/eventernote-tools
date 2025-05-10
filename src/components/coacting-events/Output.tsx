@@ -4,9 +4,14 @@ import { Pagination } from '../Pagination';
 
 export const Output = (response: Response) => {
   const [currentPage, setCurrentPage] = createSignal(1);
-  const totalPages = createMemo(() => Math.ceil(response.events.length / 20));
+  const totalPages = createMemo(() =>
+    Math.ceil(response.events.length / PAGE_LIMIT),
+  );
   const pagedEvents = createMemo(() =>
-    response.events.slice(20 * (currentPage() - 1), 20 * currentPage()),
+    response.events.slice(
+      PAGE_LIMIT * (currentPage() - 1),
+      PAGE_LIMIT * currentPage(),
+    ),
   );
 
   return (
@@ -44,3 +49,5 @@ export const Output = (response: Response) => {
     </>
   );
 };
+
+const PAGE_LIMIT = 20;
