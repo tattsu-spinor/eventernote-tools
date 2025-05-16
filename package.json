@@ -19,19 +19,19 @@
     "@astrojs/solid-js": "^5.0.10",
     "@astrojs/starlight": "^0.34.3",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "@tailwindcss/vite": "^4.1.6",
-    "astro": "^5.7.12",
+    "@tailwindcss/vite": "^4.1.7",
+    "astro": "^5.7.13",
     "cheerio": "^1.0.0",
     "convex": "^1.24.1",
     "daisyui": "^5.0.35",
     "es-toolkit": "^1.37.2",
     "sharp": "^0.34.1",
-    "solid-js": "^1.9.6",
-    "tailwindcss": "^4.1.6"
+    "solid-js": "^1.9.7",
+    "tailwindcss": "^4.1.7"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "concurrently": "^9.1.2",
-    "lefthook": "^1.11.12"
+    "lefthook": "^1.11.13"
   }
 }
