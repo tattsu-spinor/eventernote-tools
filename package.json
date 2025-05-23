@@ -23,9 +23,9 @@
     "astro": "^5.7.13",
     "cheerio": "^1.0.0",
     "convex": "^1.24.1",
-    "daisyui": "^5.0.35",
+    "daisyui": "^5.0.37",
     "es-toolkit": "^1.37.2",
-    "sharp": "^0.34.1",
+    "sharp": "^0.34.2",
     "solid-js": "^1.9.7",
     "tailwindcss": "^4.1.7"
   },
