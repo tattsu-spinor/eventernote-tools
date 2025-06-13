@@ -16,15 +16,15 @@
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
-    "@astrojs/solid-js": "^5.0.10",
+    "@astrojs/solid-js": "^5.1.0",
     "@astrojs/starlight": "^0.34.3",
     "@astrojs/starlight-tailwind": "^4.0.1",
     "@tailwindcss/vite": "^4.1.7",
-    "astro": "^5.7.13",
-    "cheerio": "^1.0.0",
+    "astro": "^5.9.3",
+    "cheerio": "^1.1.0",
     "convex": "^1.24.1",
     "daisyui": "^5.0.37",
-    "es-toolkit": "^1.37.2",
+    "es-toolkit": "^1.39.3",
     "sharp": "^0.34.2",
     "solid-js": "^1.9.7",
     "tailwindcss": "^4.1.7"
