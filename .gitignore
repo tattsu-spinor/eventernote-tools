@@ -1,7 +1,12 @@
 # build output
 dist/
+
 # generated types
 .astro/
+
+# wrangler files
+.wrangler
+.dev.vars
 
 # dependencies
 node_modules/
