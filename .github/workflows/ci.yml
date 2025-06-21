@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 on:
   pull_request:
   push:
@@ -17,8 +17,6 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun run build
-        env:
-          PUBLIC_CONVEX_URL: https://exmaple.covex.cloud
   biome:
     runs-on: ubuntu-latest
     steps:
@@ -26,16 +24,3 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun run biome:ci
-  deploy:
-    if: github.ref_name == 'main'
-    needs:
-      - build
-      - biome
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bunx convex deploy
-        env:
-          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
