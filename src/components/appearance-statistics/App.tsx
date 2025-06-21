@@ -1,5 +1,5 @@
 import { ConvexHttpClient } from 'convex/browser';
-import { Show, createMemo, createResource, createSignal } from 'solid-js';
+import { createMemo, createResource, createSignal, Show } from 'solid-js';
 import { api } from '../../../convex/_generated/api';
 import type { Request, Response } from '../../../convex/appearanceStatics';
 import { Input } from './Input';
