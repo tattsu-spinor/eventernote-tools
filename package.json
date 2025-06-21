@@ -20,7 +20,7 @@
     "@astrojs/starlight": "^0.34.4",
     "@astrojs/starlight-tailwind": "^4.0.1",
     "@tailwindcss/vite": "^4.1.10",
-    "astro": "^5.9.3",
+    "astro": "^5.10.0",
     "cheerio": "^1.1.0",
     "convex": "^1.24.8",
     "daisyui": "^5.0.43",
