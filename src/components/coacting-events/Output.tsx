@@ -1,5 +1,5 @@
 import { For } from 'solid-js';
-import type { Response } from '../../../convex/coactingEvents';
+import type { Response } from '../../actions/coactingEvents';
 
 export const Output = (response: Response) => (
   <>

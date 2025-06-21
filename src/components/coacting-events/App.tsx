@@ -1,15 +1,13 @@
-import { ConvexHttpClient } from 'convex/browser';
+import { actions } from 'astro:actions';
 import { createMemo, createResource, createSignal, Show } from 'solid-js';
-import { api } from '../../../convex/_generated/api';
-import type { Request, Response } from '../../../convex/coactingEvents';
+import type { Request, Response } from '../../actions/coactingEvents';
 import { Input } from './Input';
 import { Output } from './Output';
 
 export const App = () => {
-  const client = new ConvexHttpClient(import.meta.env.PUBLIC_CONVEX_URL);
   const [request, setRequest] = createSignal<Request>();
   const [response] = createResource(request, (request: Request) =>
-    client.action(api.coactingEvents.search, request),
+    actions.searchCoactingEvents.orThrow(request),
   );
   const latestResponse = createMemo((prev: Response | undefined) =>
     response.state === 'ready' ? response() : prev,

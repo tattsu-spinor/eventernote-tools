@@ -1,7 +1,6 @@
+import { ActionError, defineAction } from 'astro:actions';
 import * as cheerio from 'cheerio';
-import { ConvexError } from 'convex/values';
 import { range } from 'es-toolkit';
-import { action } from './_generated/server';
 
 export type Request = {
   searchUrl: string;
@@ -13,11 +12,14 @@ export type Response = {
   statistics: [string, number][];
 };
 
-export const search = action(
-  async (_, { searchUrl }: Request): Promise<Response> => {
+export const takeAppearanceStatistics = defineAction({
+  handler: async ({ searchUrl }: Request): Promise<Response> => {
     const res = await fetch(searchUrl);
     if (!res.ok) {
-      throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
+      throw new ActionError({
+        code: 'BAD_REQUEST',
+        message: `${res.status} ${res.statusText}: ${res.url}`,
+      });
     }
     const $ = cheerio.load(await res.text());
     const eventCountString = $(
@@ -28,14 +30,20 @@ export const search = action(
         eventCountString.substring(0, eventCountString.indexOf('件')),
       ) || 0;
     if (eventCount > 10000) {
-      throw new ConvexError(`イベント数が1万件を超えています: ${eventCount}件`);
+      throw new ActionError({
+        code: 'BAD_REQUEST',
+        message: `イベント数が1万件を超えています: ${eventCount}件`,
+      });
     }
 
     const actorList = await Promise.all(
       range(eventCount / 100).map(async (page) => {
         const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
         if (!res.ok) {
-          throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
+          throw new ActionError({
+            code: 'BAD_REQUEST',
+            message: `${res.status} ${res.statusText}: ${res.url}`,
+          });
         }
         const $ = cheerio.load(await res.text());
         return $(
@@ -59,4 +67,4 @@ export const search = action(
         .slice(0, 1000),
     };
   },
-);
+});

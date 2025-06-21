@@ -1,5 +1,5 @@
 import { For } from 'solid-js';
-import type { Response } from '../../../convex/appearanceStatics';
+import type { Response } from '../../actions/appearanceStatistics';
 
 export const Output = (response: Response) => (
   <>

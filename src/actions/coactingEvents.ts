@@ -1,7 +1,6 @@
+import { ActionError, defineAction } from 'astro:actions';
 import * as cheerio from 'cheerio';
-import { ConvexError } from 'convex/values';
 import { intersectionBy } from 'es-toolkit';
-import { action } from './_generated/server';
 
 export type Request = {
   actorNames: string[];
@@ -18,8 +17,8 @@ type Event = {
   place: string;
 };
 
-export const search = action(
-  async (_, { actorNames }: Request): Promise<Response> => {
+export const searchCoactingEvents = defineAction({
+  handler: async ({ actorNames }: Request): Promise<Response> => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
         const id = await searchActorId(actorName);
@@ -27,7 +26,10 @@ export const search = action(
           `https://www.eventernote.com/actors/${id}/events?limit=10000`,
         );
         if (!res.ok) {
-          throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
+          throw new ActionError({
+            code: 'BAD_REQUEST',
+            message: `{res.status} ${res.statusText}: ${res.url}`,
+          });
         }
         const $ = cheerio.load(await res.text());
         return $(
@@ -51,14 +53,17 @@ export const search = action(
       ),
     };
   },
-);
+});
 
 const searchActorId = async (name: string) => {
   const res = await fetch(
     `https://www.eventernote.com/actors/search?keyword=${name}`,
   );
   if (!res.ok) {
-    throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
+    throw new ActionError({
+      code: 'BAD_REQUEST',
+      message: `${res.status} ${res.statusText}: ${res.url}`,
+    });
   }
   const $ = cheerio.load(await res.text());
   const href = $('body > div.container > div > div.span8.page > ul > li > a')
@@ -66,7 +71,10 @@ const searchActorId = async (name: string) => {
     .first()
     .attr('href');
   if (!href) {
-    throw new ConvexError(`出演者が見つかりません: "${name}"`);
+    throw new ActionError({
+      code: 'BAD_REQUEST',
+      message: `出演者が見つかりません: "${name}"`,
+    });
   }
   return Number.parseInt(href.substring(href.lastIndexOf('/') + 1));
 };

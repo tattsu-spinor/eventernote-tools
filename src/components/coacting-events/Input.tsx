@@ -1,7 +1,7 @@
-import { ConvexError } from 'convex/values';
+import { ActionError } from 'astro:actions';
 import { Index, Show } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { Request } from '../../../convex/coactingEvents';
+import type { Request } from '../../actions/coactingEvents';
 
 type InputProps = {
   search: (request: Request) => void;
@@ -70,8 +70,8 @@ export const Input = (props: InputProps) => {
         {(error) => (
           <div role="alert" class="d-alert d-alert-error mt-3">
             <span>
-              {error instanceof ConvexError
-                ? error.data
+              {error instanceof ActionError
+                ? error.message
                 : '予期せぬエラーが発生しました。'}
             </span>
           </div>

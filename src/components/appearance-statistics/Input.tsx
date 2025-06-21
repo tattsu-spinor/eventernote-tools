@@ -1,7 +1,7 @@
-import { ConvexError } from 'convex/values';
+import { ActionError } from 'astro:actions';
 import { createEffect, For, Match, Show, Switch } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { Request } from '../../../convex/appearanceStatics';
+import type { Request } from '../../actions/appearanceStatistics';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
 
 type InputProps = {
@@ -169,8 +169,8 @@ export const Input = (props: InputProps) => {
         {(error) => (
           <div role="alert" class="d-alert d-alert-error my-3">
             <span>
-              {error instanceof ConvexError
-                ? error.data
+              {error instanceof ActionError
+                ? error.message
                 : '予期せぬエラーが発生しました。'}
             </span>
           </div>
