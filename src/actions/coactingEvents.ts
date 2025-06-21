@@ -1,6 +1,6 @@
 import { ActionError, defineAction } from 'astro:actions';
-import * as cheerio from 'cheerio';
 import { intersectionBy } from 'es-toolkit';
+import { parseHTML } from 'linkedom';
 
 export type Request = {
   actorNames: string[];
@@ -45,11 +45,13 @@ const searchActorId = async (name: string) => {
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
-  const $ = cheerio.load(await res.text());
-  const href = $('body > div.container > div > div.span8.page > ul > li > a')
-    .filter((_, el) => $(el).text() === name)
-    .first()
-    .attr('href');
+  const href = parseHTML(await res.text())
+    .document.querySelectorAll(
+      'body > div.container > div > div.span8.page > ul > li > a',
+    )
+    .values()
+    .find((el) => el.textContent === name)
+    ?.getAttribute('href');
   if (!href) {
     throw new ActionError({
       code: 'BAD_REQUEST',
@@ -69,17 +71,18 @@ const searchEventList = async (actorId: number) => {
       message: `{res.status} ${res.statusText}: ${res.url}`,
     });
   }
-  const $ = cheerio.load(await res.text());
-  return $(
-    'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li',
-  )
-    .map((_, element): Event => {
-      const eventElement = $(element).find('div.event > h4 > a').first();
+  return parseHTML(await res.text())
+    .document.querySelectorAll(
+      'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li',
+    )
+    .values()
+    .map((element): Event => {
+      const eventElement = element.querySelector('div.event > h4 > a');
       return {
-        name: eventElement.text(),
-        href: eventElement.attr('href') ?? '',
-        date: $(element).find('div.date > p').first().text(),
-        place: $(element).find('div.place > a').first().text(),
+        name: eventElement?.textContent ?? '',
+        href: eventElement?.getAttribute('href') ?? '',
+        date: element.querySelector('div.date > p')?.textContent ?? '',
+        place: element.querySelector('div.place > a')?.textContent ?? '',
       };
     })
     .toArray();

@@ -1,6 +1,6 @@
 import { ActionError, defineAction } from 'astro:actions';
-import * as cheerio from 'cheerio';
 import { range } from 'es-toolkit';
+import { parseHTML } from 'linkedom';
 
 export type Request = {
   searchUrl: string;
@@ -46,10 +46,10 @@ const searchEventCount = async (searchUrl: string) => {
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
-  const $ = cheerio.load(await res.text());
-  const eventCountString = $(
-    'body > div.container > div > div.span8.page > p:nth-child(4)',
-  ).text();
+  const eventCountString =
+    parseHTML(await res.text()).document.querySelector(
+      'body > div.container > div > div.span8.page > p:nth-child(4)',
+    )?.textContent ?? '';
   return (
     Number.parseInt(
       eventCountString.substring(0, eventCountString.indexOf('件')),
@@ -67,11 +67,12 @@ const searchActorList = async (searchUrl: string, eventCount: number) => {
           message: `${res.status} ${res.statusText}: ${res.url}`,
         });
       }
-      const $ = cheerio.load(await res.text());
-      return $(
-        'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
-      )
-        .map((_, el) => $(el).text())
+      return parseHTML(await res.text())
+        .document.querySelectorAll(
+          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
+        )
+        .values()
+        .map((element) => element.textContent ?? '')
         .toArray();
     }),
   );

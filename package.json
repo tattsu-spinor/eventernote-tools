@@ -18,9 +18,9 @@
     "@astrojs/starlight-tailwind": "^4.0.1",
     "@tailwindcss/vite": "^4.1.10",
     "astro": "^5.10.0",
-    "cheerio": "^1.1.0",
     "daisyui": "^5.0.43",
     "es-toolkit": "^1.39.3",
+    "linkedom": "^0.18.11",
     "sharp": "^0.34.2",
     "solid-js": "^1.9.7",
     "tailwindcss": "^4.1.10"
