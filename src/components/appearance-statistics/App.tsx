@@ -7,7 +7,7 @@ import { Output } from './Output';
 export const App = () => {
   const [request, setRequest] = createSignal<Request>();
   const [response] = createResource(request, (request: Request) =>
-    actions.takeAppearanceStatistics.orThrow(request),
+    actions.appearanceStatistics.search.orThrow(request),
   );
   const latestResponse = createMemo((prev: Response | undefined) =>
     response.state === 'ready' ? response() : prev,

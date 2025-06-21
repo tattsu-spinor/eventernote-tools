@@ -1,7 +1,7 @@
-import { takeAppearanceStatistics } from './appearanceStatistics';
-import { searchCoactingEvents } from './coactingEvents';
+import { appearanceStatistics } from './appearanceStatistics';
+import { coactingEvents } from './coactingEvents';
 
 export const server = {
-  searchCoactingEvents,
-  takeAppearanceStatistics,
+  appearanceStatistics,
+  coactingEvents,
 };
