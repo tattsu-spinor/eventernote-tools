@@ -41,7 +41,7 @@ const searchActorId = async (name: string) => {
   );
   if (!res.ok) {
     throw new ActionError({
-      code: 'BAD_REQUEST',
+      code: 'INTERNAL_SERVER_ERROR',
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
@@ -67,7 +67,7 @@ const searchEventList = async (actorId: number) => {
   );
   if (!res.ok) {
     throw new ActionError({
-      code: 'BAD_REQUEST',
+      code: 'INTERNAL_SERVER_ERROR',
       message: `{res.status} ${res.statusText}: ${res.url}`,
     });
   }

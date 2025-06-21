@@ -42,7 +42,7 @@ const searchEventCount = async (searchUrl: string) => {
   const res = await fetch(searchUrl);
   if (!res.ok) {
     throw new ActionError({
-      code: 'BAD_REQUEST',
+      code: 'INTERNAL_SERVER_ERROR',
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
@@ -63,7 +63,7 @@ const searchActorList = async (searchUrl: string, eventCount: number) => {
       const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
       if (!res.ok) {
         throw new ActionError({
-          code: 'BAD_REQUEST',
+          code: 'INTERNAL_SERVER_ERROR',
           message: `${res.status} ${res.statusText}: ${res.url}`,
         });
       }
