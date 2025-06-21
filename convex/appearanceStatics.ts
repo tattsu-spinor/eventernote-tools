@@ -1,6 +1,6 @@
-import * as cheerio from 'cheerio';
 import { ConvexError } from 'convex/values';
 import { range } from 'es-toolkit';
+import { parseHTML } from 'linkedom';
 import { action } from './_generated/server';
 
 export type Request = {
@@ -19,10 +19,10 @@ export const search = action(
     if (!res.ok) {
       throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
     }
-    const $ = cheerio.load(await res.text());
-    const eventCountString = $(
-      'body > div.container > div > div.span8.page > p:nth-child(4)',
-    ).text();
+    const eventCountString =
+      parseHTML(await res.text()).document.querySelector(
+        'body > div.container > div > div.span8.page > p:nth-child(4)',
+      )?.textContent ?? '';
     const eventCount =
       Number.parseInt(
         eventCountString.substring(0, eventCountString.indexOf('件')),
@@ -37,11 +37,12 @@ export const search = action(
         if (!res.ok) {
           throw new ConvexError(`${res.status} ${res.statusText}: ${res.url}`);
         }
-        const $ = cheerio.load(await res.text());
-        return $(
-          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
-        )
-          .map((_, el) => $(el).text())
+        return parseHTML(await res.text())
+          .document.querySelectorAll(
+            'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
+          )
+          .values()
+          .map((element) => element.textContent ?? '')
           .toArray();
       }),
     );
