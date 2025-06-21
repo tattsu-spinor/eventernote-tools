@@ -18,6 +18,7 @@
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.0",
     "@astrojs/solid-js": "^5.1.0",
     "@astrojs/starlight": "^0.34.4",
     "@astrojs/starlight-tailwind": "^4.0.1",
