@@ -46,6 +46,9 @@ export default defineConfig({
         },
       ],
       pagination: false,
+      components: {
+        Head: './src/components/overrides/Head.astro',
+      },
     }),
     solidJs(),
   ],
