@@ -1,34 +1,35 @@
 import { actions } from 'astro:actions';
-import { createMemo, createResource, createSignal, Show } from 'solid-js';
+import { Show } from 'solid-js';
+import { createStore } from 'solid-js/store';
 import type { Request, Response } from '../../actions/coactingEvents';
 import { Input } from './Input';
 import { Output } from './Output';
 
-export const App = () => {
-  const [request, setRequest] = createSignal<Request>();
-  const [response] = createResource(request, (request: Request) =>
-    actions.coactingEvents.search.orThrow(request),
-  );
-  const latestResponse = createMemo((prev: Response | undefined) =>
-    response.state === 'ready' ? response() : prev,
-  );
+export const App = () => (
+  <>
+    <h2>検索条件</h2>
+    <div class="not-content">
+      <Input search={search} loading={store.loading} error={store.error} />
+    </div>
+    <h2>検索結果</h2>
+    <div class="not-content">
+      <Show when={store.response}>
+        {(response) => <Output {...response()} />}
+      </Show>
+    </div>
+  </>
+);
 
-  return (
-    <>
-      <h2>検索条件</h2>
-      <div class="not-content">
-        <Input
-          search={setRequest}
-          loading={response.loading}
-          error={response.error}
-        />
-      </div>
-      <h2>検索結果</h2>
-      <div class="not-content">
-        <Show when={latestResponse()}>
-          {(response) => <Output {...response()} />}
-        </Show>
-      </div>
-    </>
-  );
+const [store, setStore] = createStore({
+  response: undefined as Response | undefined,
+  loading: false,
+  error: undefined as Error | undefined,
+});
+
+const search = async (request: Request) => {
+  setStore('loading', true);
+  setStore('error', undefined);
+  const { data, error } = await actions.coactingEvents.search(request);
+  setStore('loading', false);
+  error ? setStore('error', error) : setStore('response', data);
 };
