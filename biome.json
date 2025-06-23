@@ -1,9 +1,5 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.4/schema.json",
-  "files": {
-    "includes": ["**", "!**/convex/_generated"],
-    "ignoreUnknown": true
-  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -32,5 +28,22 @@
     "formatter": {
       "quoteStyle": "single"
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
