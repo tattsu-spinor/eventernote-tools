@@ -36,15 +36,6 @@ export default defineConfig({
         headingLinks: false,
       },
       pagefind: false,
-      head: [
-        {
-          tag: 'script',
-          attrs: {
-            type: 'module',
-            src: '/external-link.js',
-          },
-        },
-      ],
       pagination: false,
       components: {
         Head: './src/components/overrides/Head.astro',
