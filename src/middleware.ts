@@ -1,10 +1,7 @@
-import type { APIContext } from 'astro';
+import { defineMiddleware } from 'astro:middleware';
 import { parseHTML } from 'linkedom';
 
-export const onRequest = async (
-  _: APIContext,
-  next: () => Promise<Response>,
-) => {
+export const onRequest = defineMiddleware(async (_, next) => {
   const response = await next();
   const { document } = parseHTML(await response.text());
   document.querySelectorAll('a[href^="https://"]').forEach((element) => {
@@ -20,4 +17,4 @@ export const onRequest = async (
     status: response.status,
     statusText: response.statusText,
   });
-};
+});
