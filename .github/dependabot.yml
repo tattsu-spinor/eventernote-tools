@@ -16,6 +16,7 @@ updates:
         update-types:
           - "minor"
     ignore:
+      - dependency-name: "@biomejs/biome"
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 10
