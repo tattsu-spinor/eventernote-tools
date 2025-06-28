@@ -16,17 +16,17 @@
     "@astrojs/solid-js": "^5.1.0",
     "@astrojs/starlight": "^0.34.4",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "@tailwindcss/vite": "^4.1.11",
-    "astro": "^5.10.1",
+    "@tailwindcss/vite": "^4.1.10",
+    "astro": "^5.10.0",
     "daisyui": "^5.0.43",
-    "es-toolkit": "^1.39.5",
+    "es-toolkit": "^1.39.3",
     "linkedom": "^0.18.11",
     "sharp": "^0.34.2",
     "solid-js": "^1.9.7",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
+    "@biomejs/biome": "2.0.4",
     "lefthook": "^1.11.14",
     "wrangler": "^4.20.0"
   }
