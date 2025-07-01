@@ -1,4 +1,5 @@
 import { ActionError, defineAction } from 'astro:actions';
+import { z } from 'astro:schema';
 import { range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
@@ -13,6 +14,7 @@ export type Response = {
 };
 
 export const appearanceStatistics = defineAction({
+  input: z.object({ searchUrl: z.string().url() }),
   handler: async ({ searchUrl }: Request): Promise<Response> => {
     const eventCount = await searchEventCount(searchUrl);
     if (eventCount > 10000) {

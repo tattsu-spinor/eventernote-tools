@@ -1,4 +1,5 @@
 import { ActionError, defineAction } from 'astro:actions';
+import { z } from 'astro:schema';
 import { intersectionBy } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
@@ -18,6 +19,7 @@ type Event = {
 };
 
 export const coactingEvents = defineAction({
+  input: z.object({ actorNames: z.array(z.string()) }),
   handler: async ({ actorNames }: Request): Promise<Response> => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
