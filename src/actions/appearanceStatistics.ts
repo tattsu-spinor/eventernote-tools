@@ -12,31 +12,29 @@ export type Response = {
   statistics: [string, number][];
 };
 
-export const appearanceStatistics = {
-  search: defineAction({
-    handler: async ({ searchUrl }: Request): Promise<Response> => {
-      const eventCount = await searchEventCount(searchUrl);
-      if (eventCount > 10000) {
-        throw new ActionError({
-          code: 'BAD_REQUEST',
-          message: `イベント数が1万件を超えています: ${eventCount}件`,
-        });
-      }
-      const map = new Map<string, number>();
-      for (const actorName of await searchActorList(searchUrl, eventCount)) {
-        const count = map.get(actorName) ?? 0;
-        map.set(actorName, count + 1);
-      }
-      return {
-        searchUrl,
-        eventCount,
-        statistics: Array.from(map)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 1000),
-      };
-    },
-  }),
-};
+export const appearanceStatistics = defineAction({
+  handler: async ({ searchUrl }: Request): Promise<Response> => {
+    const eventCount = await searchEventCount(searchUrl);
+    if (eventCount > 10000) {
+      throw new ActionError({
+        code: 'BAD_REQUEST',
+        message: `イベント数が1万件を超えています: ${eventCount}件`,
+      });
+    }
+    const map = new Map<string, number>();
+    for (const actorName of await searchActorList(searchUrl, eventCount)) {
+      const count = map.get(actorName) ?? 0;
+      map.set(actorName, count + 1);
+    }
+    return {
+      searchUrl,
+      eventCount,
+      statistics: Array.from(map)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 1000),
+    };
+  },
+});
 
 const searchEventCount = async (searchUrl: string) => {
   const res = await fetch(searchUrl);

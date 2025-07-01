@@ -17,23 +17,21 @@ type Event = {
   place: string;
 };
 
-export const coactingEvents = {
-  search: defineAction({
-    handler: async ({ actorNames }: Request): Promise<Response> => {
-      const eventLists = await Promise.all(
-        actorNames.values().map(async (actorName) => {
-          const id = await searchActorId(actorName);
-          return searchEventList(id);
-        }),
-      );
-      return {
-        events: eventLists.reduce((previous, current) =>
-          intersectionBy(previous, current, (event) => event.href),
-        ),
-      };
-    },
-  }),
-};
+export const coactingEvents = defineAction({
+  handler: async ({ actorNames }: Request): Promise<Response> => {
+    const eventLists = await Promise.all(
+      actorNames.values().map(async (actorName) => {
+        const id = await searchActorId(actorName);
+        return searchEventList(id);
+      }),
+    );
+    return {
+      events: eventLists.reduce((previous, current) =>
+        intersectionBy(previous, current, (event) => event.href),
+      ),
+    };
+  },
+});
 
 const searchActorId = async (name: string) => {
   const res = await fetch(

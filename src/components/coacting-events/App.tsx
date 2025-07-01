@@ -29,7 +29,7 @@ const [store, setStore] = createStore({
 const search = async (request: Request) => {
   setStore('loading', true);
   setStore('error', undefined);
-  const { data, error } = await actions.coactingEvents.search(request);
+  const { data, error } = await actions.coactingEvents(request);
   setStore('loading', false);
   error ? setStore('error', error) : setStore('response', data);
 };
