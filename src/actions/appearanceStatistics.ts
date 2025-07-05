@@ -15,7 +15,7 @@ export type Response = {
 
 export const appearanceStatistics = defineAction({
   input: z.object({ searchUrl: z.string().url() }),
-  handler: async ({ searchUrl }: Request): Promise<Response> => {
+  handler: async ({ searchUrl }: Request) => {
     const eventCount = await searchEventCount(searchUrl);
     if (eventCount > 10000) {
       throw new ActionError({
@@ -34,7 +34,7 @@ export const appearanceStatistics = defineAction({
       statistics: Array.from(map)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
-    };
+    } as Response;
   },
 });
 

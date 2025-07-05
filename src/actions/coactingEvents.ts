@@ -20,7 +20,7 @@ type Event = {
 
 export const coactingEvents = defineAction({
   input: z.object({ actorNames: z.array(z.string()) }),
-  handler: async ({ actorNames }: Request): Promise<Response> => {
+  handler: async ({ actorNames }: Request) => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
         const id = await searchActorId(actorName);
@@ -31,7 +31,7 @@ export const coactingEvents = defineAction({
       events: eventLists.reduce((previous, current) =>
         intersectionBy(previous, current, (event) => event.href),
       ),
-    };
+    } as Response;
   },
 });
 
@@ -76,14 +76,14 @@ const searchEventList = async (actorId: number) => {
       'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li',
     )
     .values()
-    .map((element): Event => {
+    .map((element) => {
       const eventElement = element.querySelector('div.event > h4 > a');
       return {
         name: eventElement?.textContent ?? '',
         href: eventElement?.getAttribute('href') ?? '',
         date: element.querySelector('div.date > p')?.textContent ?? '',
         place: element.querySelector('div.place > a')?.textContent ?? '',
-      };
+      } as Event;
     })
     .toArray();
 };
