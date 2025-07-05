@@ -1,7 +1,14 @@
-import { For } from 'solid-js';
+import { For, Show } from 'solid-js';
 import type { Response } from '../../actions/appearanceStatistics';
+import { store } from './store';
 
-export const Output = (response: Response) => (
+export const Output = () => (
+  <Show when={store.response}>
+    {(response) => <OutputContent {...response()} />}
+  </Show>
+);
+
+const OutputContent = (response: Response) => (
   <>
     <div>
       <span>{response.eventCount}件のイベントを検索しました。</span>

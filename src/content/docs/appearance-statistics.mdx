@@ -2,7 +2,8 @@
 title: 出演数統計
 ---
 
-import { App } from '../../components/appearance-statistics/App.tsx';
+import { Input } from '../../components/appearance-statistics/Input.tsx';
+import { Output } from '../../components/appearance-statistics/Output.tsx';
 
 ## 概要
 
@@ -10,6 +11,14 @@ import { App } from '../../components/appearance-statistics/App.tsx';
 - 検索条件は、[Eventernote](https://www.eventernote.com)のものと同等です。
 - 検索するイベント数が多すぎると負荷がかかるため、できるだけ緩い条件での検索はお控えください。
 
-<div class="mt-6">
-  <App client:load />
+## 統計条件
+
+<div class="not-content">
+  <Input client:load />
+</div>
+
+## 統計結果
+
+<div class="not-content">
+  <Output client:load />
 </div>

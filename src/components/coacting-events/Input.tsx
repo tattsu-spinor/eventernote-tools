@@ -1,15 +1,9 @@
 import { ActionError } from 'astro:actions';
 import { Index, Show } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { Request } from '../../actions/coactingEvents';
+import { search, store } from './store';
 
-type InputProps = {
-  search: (request: Request) => void;
-  loading: boolean;
-  error: Error | undefined;
-};
-
-export const Input = (props: InputProps) => (
+export const Input = () => (
   <>
     <div>
       <Index each={actorNames}>
@@ -30,14 +24,12 @@ export const Input = (props: InputProps) => (
     <div class="mt-3">
       <button
         type="button"
-        onClick={() => {
-          props.search({ actorNames });
-        }}
-        disabled={props.loading || canNotSearch()}
+        onClick={() => search({ actorNames })}
+        disabled={store.loading || canNotSearch()}
         class="d-btn d-btn-primary"
       >
         検索
-        <Show when={props.loading}>
+        <Show when={store.loading}>
           <span class="d-loading d-loading-spinner" />
         </Show>
       </button>
@@ -46,7 +38,7 @@ export const Input = (props: InputProps) => (
         onClick={() => {
           setActorNames((names) => [...names, '']);
         }}
-        disabled={props.loading}
+        disabled={store.loading}
         class="d-btn d-btn-secondary ml-3"
       >
         追加
@@ -56,14 +48,14 @@ export const Input = (props: InputProps) => (
         onClick={() => {
           setActorNames((names) => names.slice(0, -1));
         }}
-        disabled={props.loading || actorNames.length <= 1}
+        disabled={store.loading || actorNames.length <= 1}
         class="d-btn d-btn-warning ml-3"
       >
         削除
       </button>
     </div>
 
-    <Show when={props.error} keyed>
+    <Show when={store.error} keyed>
       {(error) => (
         <div role="alert" class="d-alert d-alert-error mt-3">
           <span>

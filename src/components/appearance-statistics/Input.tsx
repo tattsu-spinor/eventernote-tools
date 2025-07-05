@@ -1,16 +1,10 @@
 import { ActionError } from 'astro:actions';
 import { For, Match, Show, Switch } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { Request } from '../../actions/appearanceStatistics';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
+import { search, store } from './store';
 
-type InputProps = {
-  search: (request: Request) => void;
-  loading: boolean;
-  error: Error | undefined;
-};
-
-export const Input = (props: InputProps) => (
+export const Input = () => (
   <>
     <fieldset class="d-fieldset max-w-md">
       <div class="d-fieldset-label">キーワード</div>
@@ -129,21 +123,19 @@ export const Input = (props: InputProps) => (
       <div class="mt-3">
         <button
           type="button"
-          onClick={() => {
-            props.search({ searchUrl: searchUrl() });
-          }}
-          disabled={props.loading || canNotSearch()}
+          onClick={() => search({ searchUrl: searchUrl() })}
+          disabled={store.loading || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={props.loading}>
+          <Show when={store.loading}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
       </div>
     </fieldset>
 
-    <Show when={props.error} keyed>
+    <Show when={store.error} keyed>
       {(error) => (
         <div role="alert" class="d-alert d-alert-error my-3">
           <span>

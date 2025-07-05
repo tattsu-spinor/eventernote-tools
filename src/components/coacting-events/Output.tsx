@@ -1,7 +1,14 @@
-import { For } from 'solid-js';
+import { For, Show } from 'solid-js';
 import type { Response } from '../../actions/coactingEvents';
+import { store } from './store';
 
-export const Output = (response: Response) => (
+export const Output = () => (
+  <Show when={store.response}>
+    {(response) => <OutputContent {...response()} />}
+  </Show>
+);
+
+const OutputContent = (response: Response) => (
   <>
     <p>{response.events.length}件のイベントが見つかりました。</p>
     <ul class="d-list">
