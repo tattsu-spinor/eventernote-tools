@@ -1,6 +1,6 @@
 import { ActionError } from 'astro:actions';
 import { Index, Show } from 'solid-js';
-import { createStore } from 'solid-js/store';
+import { createStore, produce } from 'solid-js/store';
 import { search, store } from './store';
 
 export const Input = () => (
@@ -35,9 +35,7 @@ export const Input = () => (
       </button>
       <button
         type="button"
-        onClick={() => {
-          setActorNames((names) => [...names, '']);
-        }}
+        onClick={() => setActorNames(produce((names) => names.push('')))}
         disabled={store.loading}
         class="d-btn d-btn-secondary ml-3"
       >
@@ -45,9 +43,7 @@ export const Input = () => (
       </button>
       <button
         type="button"
-        onClick={() => {
-          setActorNames((names) => names.slice(0, -1));
-        }}
+        onClick={() => setActorNames(produce((names) => names.pop()))}
         disabled={store.loading || actorNames.length <= 1}
         class="d-btn d-btn-warning ml-3"
       >
