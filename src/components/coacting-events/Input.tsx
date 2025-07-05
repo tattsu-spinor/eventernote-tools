@@ -1,7 +1,6 @@
-import { ActionError } from 'astro:actions';
 import { Index, Show } from 'solid-js';
 import { createStore, produce } from 'solid-js/store';
-import { search, store } from './store';
+import { search, searchStore } from './searchStore';
 
 export const Input = () => (
   <>
@@ -25,18 +24,18 @@ export const Input = () => (
       <button
         type="button"
         onClick={() => search({ actorNames })}
-        disabled={store.loading || canNotSearch()}
+        disabled={searchStore.loading || canNotSearch()}
         class="d-btn d-btn-primary"
       >
         検索
-        <Show when={store.loading}>
+        <Show when={searchStore.loading}>
           <span class="d-loading d-loading-spinner" />
         </Show>
       </button>
       <button
         type="button"
         onClick={() => setActorNames(produce((names) => names.push('')))}
-        disabled={store.loading}
+        disabled={searchStore.loading}
         class="d-btn d-btn-secondary ml-3"
       >
         追加
@@ -44,21 +43,17 @@ export const Input = () => (
       <button
         type="button"
         onClick={() => setActorNames(produce((names) => names.pop()))}
-        disabled={store.loading || actorNames.length <= 1}
+        disabled={searchStore.loading || actorNames.length <= 1}
         class="d-btn d-btn-warning ml-3"
       >
         削除
       </button>
     </div>
 
-    <Show when={store.error} keyed>
+    <Show when={searchStore.error} keyed>
       {(error) => (
         <div role="alert" class="d-alert d-alert-error mt-3">
-          <span>
-            {error instanceof ActionError
-              ? error.message
-              : '予期せぬエラーが発生しました。'}
-          </span>
+          <span>{error.message || '予期せぬエラーが発生しました。'}</span>
         </div>
       )}
     </Show>

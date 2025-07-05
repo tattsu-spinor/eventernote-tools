@@ -1,8 +1,7 @@
-import { ActionError } from 'astro:actions';
 import { For, Match, Show, Switch } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
-import { search, store } from './store';
+import { search, searchStore } from './searchStore';
 
 export const Input = () => (
   <>
@@ -124,25 +123,21 @@ export const Input = () => (
         <button
           type="button"
           onClick={() => search({ searchUrl: searchUrl() })}
-          disabled={store.loading || canNotSearch()}
+          disabled={searchStore.loading || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={store.loading}>
+          <Show when={searchStore.loading}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
       </div>
     </fieldset>
 
-    <Show when={store.error} keyed>
+    <Show when={searchStore.error} keyed>
       {(error) => (
         <div role="alert" class="d-alert d-alert-error my-3">
-          <span>
-            {error instanceof ActionError
-              ? error.message
-              : '予期せぬエラーが発生しました。'}
-          </span>
+          <span>{error.message || '予期せぬエラーが発生しました。'}</span>
         </div>
       )}
     </Show>
