@@ -20,6 +20,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: ${{ github.ref_name != 'main' && format('versions upload --preview-alias={0}', github.ref_name)}}
+          postCommands: |
+            echo "### Deployment completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "URL: ${{ github.ref_name != 'main' && format('https://{0}-eventernote-tools.tattsu.workers.dev', github.ref_name) || 'https://eventernote-tools.tattsu.workers.dev' }}" >> $GITHUB_STEP_SUMMARY
   biome:
     runs-on: ubuntu-latest
     steps:
