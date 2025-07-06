@@ -16,13 +16,18 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run build
       - uses: cloudflare/wrangler-action@v3
+        id: deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: ${{ github.ref_name != 'main' && format('versions upload --preview-alias={0}', github.ref_name)}}
-          postCommands: |
-            echo "### Deployment completed successfully" >> $GITHUB_STEP_SUMMARY
-            echo "URL: ${{ github.ref_name != 'main' && format('https://{0}-eventernote-tools.tattsu.workers.dev', github.ref_name) || 'https://eventernote-tools.tattsu.workers.dev' }}" >> $GITHUB_STEP_SUMMARY
+          command: ${{ github.ref_name != 'main' && format('versions upload --preview-alias={0} --message="CI/CD \#{1}"', github.ref_name, github.run_number) || 'deploy' }}
+      - name: Summary Output
+        run: |
+          echo "### Deployment completed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "URL: ${{ steps.deploy.outputs.deployment-url }}" >> $GITHUB_STEP_SUMMARY
+          if ${{ github.ref_name != 'main' }}; then
+            echo "Preview URL: https://${{ github.ref_name }}-eventernote-tools.tattsu.workers.dev" >> $GITHUB_STEP_SUMMARY
+          fi
   biome:
     runs-on: ubuntu-latest
     steps:
