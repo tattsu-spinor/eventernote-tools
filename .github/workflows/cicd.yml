@@ -1,22 +1,25 @@
-name: CI
+name: CI/CD
 on:
   pull_request:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun run build
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: ${{ github.ref_name != 'main' && format('versions upload --preview-alias={0}', github.ref_name)}}
   biome:
     runs-on: ubuntu-latest
     steps:
