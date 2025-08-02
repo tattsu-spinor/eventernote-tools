@@ -28,6 +28,6 @@
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
     "lefthook": "^1.12.2",
-    "wrangler": "^4.25.0"
+    "wrangler": "^4.27.0"
   }
 }
