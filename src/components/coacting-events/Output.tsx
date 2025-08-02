@@ -1,8 +1,15 @@
-import { For, createMemo, createSignal } from 'solid-js';
-import type { Response } from '../../../convex/coactingEvents';
+import { createMemo, createSignal, For, Show } from 'solid-js';
+import type { Response } from '../../actions/coactingEvents';
 import { Pagination } from '../Pagination';
+import { searchStore } from './searchStore';
 
-export const Output = (response: Response) => {
+export const Output = () => (
+  <Show when={searchStore.response}>
+    {(response) => <OutputContent {...response()} />}
+  </Show>
+);
+
+const OutputContent = (response: Response) => {
   const [currentPage, setCurrentPage] = createSignal(1);
   const totalPages = createMemo(() =>
     Math.ceil(response.events.length / PAGE_LIMIT),

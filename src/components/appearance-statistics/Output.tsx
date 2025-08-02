@@ -1,7 +1,14 @@
-import { For } from 'solid-js';
-import type { Response } from '../../../convex/appearanceStatics';
+import { For, Show } from 'solid-js';
+import type { Response } from '../../actions/appearanceStatistics';
+import { searchStore } from './searchStore';
 
-export const Output = (response: Response) => (
+export const Output = () => (
+  <Show when={searchStore.response}>
+    {(response) => <OutputContent {...response()} />}
+  </Show>
+);
+
+const OutputContent = (response: Response) => (
   <>
     <div>
       <span>{response.eventCount}件のイベントを検索しました。</span>

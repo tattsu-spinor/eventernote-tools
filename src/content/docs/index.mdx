@@ -1,16 +1,26 @@
 ---
-title: 概要
+title: Eventernote Tools
 head:
   - tag: title
     content: Eventernote Tools
 ---
 
-import { LinkButton } from "@astrojs/starlight/components";
+import { LinkCard } from "@astrojs/starlight/components";
+
+## 概要
 
 - 本サイトは、[Eventernote](https://www.eventernote.com)に登録されている情報を解析することにより、より高度な検索を提供することを目的としています。
 - 本サイトは個人開発されたものであり、株式会社イベンターノートならびにその関係者とは一切関係ありません。このことを理解した上で、ご利用お願いします。
-- 本サイトのサービス改善のため、Googleフォームにてフィードバックを受け付けています。お気軽にご意見をお寄せください。
 
-  <LinkButton href="https://forms.gle/hN7n1UMUxq2vBbP29" target="_blank" rel="noreferrer" variant="secondary" icon="external" iconPlacement="end">
-    フィードバックを送信
-  </LinkButton>
+## ツール一覧
+
+<LinkCard title="共演イベント検索" href="/coacting-events/" />
+<LinkCard title="出演数統計" href="/appearance-statistics/" />
+
+## その他
+
+<LinkCard
+  title="フィードバック"
+  href="https://forms.gle/hN7n1UMUxq2vBbP29"
+  description="本サイトのサービス改善のため、Googleフォームにてフィードバックを受け付けています。お気軽にご意見をお寄せください。"
+/>

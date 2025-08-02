@@ -1,3 +1,4 @@
+import cloudflare from '@astrojs/cloudflare';
 import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
@@ -5,6 +6,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://eventernote-tools.tattsu.workers.dev',
+  adapter: cloudflare(),
   integrations: [
     // https://starlight.astro.build/ja/reference/configuration/
     starlight({
@@ -34,20 +37,17 @@ export default defineConfig({
         headingLinks: false,
       },
       pagefind: false,
-      head: [
-        {
-          tag: 'script',
-          attrs: {
-            type: 'module',
-            src: '/external-link.js',
-          },
-        },
-      ],
       pagination: false,
+      components: {
+        Head: './src/components/overrides/Head.astro',
+      },
     }),
     solidJs(),
   ],
   vite: {
     plugins: [tailwindcss()],
+  },
+  prefetch: {
+    defaultStrategy: 'load',
   },
 });

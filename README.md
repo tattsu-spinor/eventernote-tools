@@ -22,10 +22,9 @@
   - Tailwind CSSで作られたUIライブラリ
 - [es-toolkit](https://es-toolkit.slash.page/)
   - TypeScript用のユーティリティライブラリ
-- [Cheerio](https://cheerio.js.org/)
+- [LinkeDOM](https://github.com/WebReflection/linkedom)
   - Node.js環境でのDOM解析用のライブラリ
 
 ## デプロイ環境
 
-- [Cloudflare Pages](https://developers.cloudflare.com/pages/)
-- [Convex](https://docs.convex.dev/home)
+- [Cloudflare Workers](https://developers.cloudflare.com/workers/)
