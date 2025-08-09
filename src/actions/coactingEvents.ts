@@ -3,11 +3,11 @@ import { z } from 'astro:schema';
 import { intersectionBy } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
-export type Request = {
+export type InputData = {
   actorNames: string[];
 };
 
-export type Response = {
+export type OutputData = {
   events: Event[];
 };
 
@@ -20,7 +20,7 @@ type Event = {
 
 export const coactingEvents = defineAction({
   input: z.object({ actorNames: z.array(z.string()) }),
-  handler: async ({ actorNames }: Request) => {
+  handler: async ({ actorNames }: InputData) => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
         const id = await searchActorId(actorName);
@@ -31,7 +31,7 @@ export const coactingEvents = defineAction({
       events: eventLists.reduce((previous, current) =>
         intersectionBy(previous, current, (event) => event.href),
       ),
-    } as Response;
+    } as OutputData;
   },
 });
 

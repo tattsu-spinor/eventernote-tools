@@ -1,21 +1,21 @@
 import { For, Show } from 'solid-js';
-import type { Response } from '../../actions/coactingEvents';
+import type { OutputData } from '../../actions/coactingEvents';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
 import { searchStore } from './searchStore';
 
 export const Output = () => (
-  <Show when={searchStore.response}>
-    {(response) => <OutputContent {...response()} />}
+  <Show when={searchStore.output}>
+    {(output) => <OutputContent {...output()} />}
   </Show>
 );
 
-const OutputContent = (response: Response) => {
-  const { paginationProps, pagedItems } = usePagination(() => response.events);
+const OutputContent = (output: OutputData) => {
+  const { paginationProps, pagedItems } = usePagination(() => output.events);
 
   return (
     <>
-      <p>{response.events.length}件のイベントが見つかりました。</p>
+      <p>{output.events.length}件のイベントが見つかりました。</p>
       <Pagination {...paginationProps()} />
       <ul class="d-list">
         <For each={pagedItems()}>

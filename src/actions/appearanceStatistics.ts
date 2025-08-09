@@ -3,11 +3,11 @@ import { z } from 'astro:schema';
 import { range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
-export type Request = {
+export type InputData = {
   searchUrl: string;
 };
 
-export type Response = {
+export type OutputData = {
   searchUrl: string;
   eventCount: number;
   statistics: [string, number][];
@@ -15,7 +15,7 @@ export type Response = {
 
 export const appearanceStatistics = defineAction({
   input: z.object({ searchUrl: z.string().url() }),
-  handler: async ({ searchUrl }: Request) => {
+  handler: async ({ searchUrl }: InputData) => {
     const eventCount = await searchEventCount(searchUrl);
     if (eventCount > 10000) {
       throw new ActionError({
@@ -34,7 +34,7 @@ export const appearanceStatistics = defineAction({
       statistics: Array.from(map)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
-    } as Response;
+    } as OutputData;
   },
 });
 

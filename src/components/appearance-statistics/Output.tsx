@@ -1,25 +1,25 @@
 import { For, Show } from 'solid-js';
-import type { Response } from '../../actions/appearanceStatistics';
+import type { OutputData } from '../../actions/appearanceStatistics';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
 import { searchStore } from './searchStore';
 
 export const Output = () => (
-  <Show when={searchStore.response}>
-    {(response) => <OutputContent {...response()} />}
+  <Show when={searchStore.output}>
+    {(output) => <OutputContent {...output()} />}
   </Show>
 );
 
-const OutputContent = (response: Response) => {
+const OutputContent = (output: OutputData) => {
   const { paginationProps, pagedItems } = usePagination(
-    () => response.statistics,
+    () => output.statistics,
   );
 
   return (
     <>
       <div>
-        <span>{response.eventCount}件のイベントを検索しました。</span>
-        <a href={response.searchUrl} target="_blank" rel="noopener noreferrer">
+        <span>{output.eventCount}件のイベントを検索しました。</span>
+        <a href={output.searchUrl} target="_blank" rel="noopener noreferrer">
           検索結果
         </a>
       </div>
