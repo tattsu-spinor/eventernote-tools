@@ -48,6 +48,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   prefetch: {
-    defaultStrategy: 'load',
+    defaultStrategy: 'viewport',
   },
 });
