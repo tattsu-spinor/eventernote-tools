@@ -1,7 +1,7 @@
 import { range } from 'es-toolkit';
 import { For, Show } from 'solid-js';
 
-type PaginationProps = {
+export type PaginationProps = {
   totalPages: number;
   currentPage: number;
   updatePage: (page: number) => void;
