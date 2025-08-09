@@ -17,10 +17,9 @@ export const usePagination = <T>(items: () => T[]) => {
       updatePage: setCurrentPage,
     })),
     pagedItems: createMemo(() =>
-      items().slice(
-        PAGE_LIMIT * (currentPage() - 1),
-        PAGE_LIMIT * currentPage(),
-      ),
+      items()
+        .map((item, index) => ({ item, index }))
+        .slice(PAGE_LIMIT * (currentPage() - 1), PAGE_LIMIT * currentPage()),
     ),
   };
 };

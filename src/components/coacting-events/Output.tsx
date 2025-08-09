@@ -19,7 +19,7 @@ const OutputContent = (response: Response) => {
       <Pagination {...paginationProps()} />
       <ul class="d-list">
         <For each={pagedItems()}>
-          {(event) => (
+          {({ item: event }) => (
             <li class="d-list-row">
               <div>
                 <a
