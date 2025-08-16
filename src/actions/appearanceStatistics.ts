@@ -53,6 +53,7 @@ const searchEventCount = async (searchUrl: string) => {
   return (
     Number.parseInt(
       eventCountString.substring(0, eventCountString.indexOf('件')),
+      10,
     ) || 0
   );
 };
