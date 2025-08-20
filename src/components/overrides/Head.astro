@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Default from '@astrojs/starlight/components/Head.astro';
+import Analytics from '@vercel/analytics/astro';
 ---
 
 <Default />
 <ClientRouter />
-<!-- Cloudflare Web Analytics --><script is:inline defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "843898a1106341fbbb6dbe36ca620de6"}'></script><!-- End Cloudflare Web Analytics -->
+<Analytics />
