@@ -2,7 +2,7 @@ import cloudflare from '@astrojs/cloudflare';
 import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -49,5 +49,11 @@ export default defineConfig({
   },
   prefetch: {
     defaultStrategy: 'viewport',
+  },
+  env: {
+    schema: {
+      CONVEX_URL: envField.string({ context: 'server', access: 'secret' }),
+    },
+    validateSecrets: true,
   },
 });
