@@ -4,7 +4,6 @@
     "prepare": "lefthook install",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "wrangler dev",
     "biome:check": "biome check",
     "biome:write": "biome check --write",
     "biome:write:unsafe": "biome check --write --unsafe",
@@ -12,10 +11,10 @@
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.4",
     "@astrojs/solid-js": "^5.1.0",
     "@astrojs/starlight": "^0.35.2",
     "@astrojs/starlight-tailwind": "^4.0.1",
+    "@astrojs/vercel": "^8.2.6",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.2",
     "daisyui": "^5.0.50",
@@ -28,6 +27,6 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "lefthook": "^1.12.3",
-    "wrangler": "^4.30.0"
+    "vercel": "^46.0.2"
   }
 }
