@@ -46,16 +46,11 @@ const searchEventCount = async (searchUrl: string) => {
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
-  const eventCountString =
+  const eventCountText =
     parseHTML(await res.text()).document.querySelector(
       'body > div.container > div > div.span8.page > p:nth-child(4)',
     )?.textContent ?? '';
-  return (
-    Number.parseInt(
-      eventCountString.substring(0, eventCountString.indexOf('件')),
-      10,
-    ) || 0
-  );
+  return parseInt(eventCountText, 10) || 0;
 };
 
 const searchActorList = async (searchUrl: string, eventCount: number) => {

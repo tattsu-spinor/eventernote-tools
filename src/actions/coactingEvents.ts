@@ -58,7 +58,7 @@ const searchActorId = async (name: string) => {
       message: `出演者が見つかりません: "${name}"`,
     });
   }
-  return Number.parseInt(href.substring(href.lastIndexOf('/') + 1), 10);
+  return parseInt(href.substring(href.lastIndexOf('/') + 1), 10);
 };
 
 const searchEventList = async (actorId: number) => {
