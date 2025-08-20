@@ -1,5 +1,5 @@
 import { Index, Show } from 'solid-js';
-import { createStore, produce } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 import { search, searchStore } from './searchStore';
 
 export const Input = () => (
@@ -34,7 +34,7 @@ export const Input = () => (
       </button>
       <button
         type="button"
-        onClick={() => setActorNames(produce((names) => names.push('')))}
+        onClick={() => setActorNames((names) => [...names, ''])}
         disabled={searchStore.loading}
         class="d-btn d-btn-secondary ml-3"
       >
@@ -42,7 +42,7 @@ export const Input = () => (
       </button>
       <button
         type="button"
-        onClick={() => setActorNames(produce((names) => names.pop()))}
+        onClick={() => setActorNames((names) => names.slice(0, -1))}
         disabled={searchStore.loading || actorNames.length <= 1}
         class="d-btn d-btn-warning ml-3"
       >
