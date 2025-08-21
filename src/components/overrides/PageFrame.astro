@@ -1,0 +1,13 @@
+---
+import Default from '@astrojs/starlight/components/PageFrame.astro';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+---
+
+<Default >
+  <slot name="header" slot="header" />
+  <slot name="sidebar" slot="sidebar" />
+  <slot />
+</Default>
+<Analytics />
+<SpeedInsights />

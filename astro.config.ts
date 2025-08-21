@@ -40,6 +40,7 @@ export default defineConfig({
       pagination: false,
       components: {
         Head: './src/components/overrides/Head.astro',
+        PageFrame: './src/components/overrides/PageFrame.astro',
       },
     }),
     solidJs(),
