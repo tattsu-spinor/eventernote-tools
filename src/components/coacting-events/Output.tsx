@@ -2,10 +2,10 @@ import { For, Show } from 'solid-js';
 import type { OutputData } from '../../actions/coactingEvents';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { searchStore } from './searchStore';
+import { outputStore } from './outputStore';
 
 export const Output = () => (
-  <Show when={searchStore.output}>
+  <Show when={outputStore.data}>
     {(output) => <OutputContent {...output()} />}
   </Show>
 );

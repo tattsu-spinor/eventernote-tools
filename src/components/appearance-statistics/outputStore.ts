@@ -3,22 +3,21 @@ import { batch } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { InputData, OutputData } from '../../actions/appearanceStatistics';
 
-const [searchStore, setSearchStore] = createStore({
-  output: undefined as OutputData | undefined,
+const [outputStore, setOutputStore] = createStore({
+  data: undefined as OutputData | undefined,
   loading: false,
   error: undefined as ActionError | undefined,
 });
+export { outputStore };
 
-const search = async (input: InputData) => {
+export const search = async (input: InputData) => {
   batch(() => {
-    setSearchStore('loading', true);
-    setSearchStore('error', undefined);
+    setOutputStore('loading', true);
+    setOutputStore('error', undefined);
   });
   const { data, error } = await actions.appearanceStatistics(input);
   batch(() => {
-    setSearchStore('loading', false);
-    error ? setSearchStore('error', error) : setSearchStore('output', data);
+    setOutputStore('loading', false);
+    error ? setOutputStore('error', error) : setOutputStore('data', data);
   });
 };
-
-export { searchStore, search };
