@@ -23,15 +23,11 @@ export const appearanceStatistics = defineAction({
         message: `イベント数が1万件を超えています: ${eventCount}件`,
       });
     }
-    const map = new Map<string, number>();
-    for (const actorName of await searchActorList(searchUrl, eventCount)) {
-      const count = map.get(actorName) ?? 0;
-      map.set(actorName, count + 1);
-    }
+    const actorCounts = await searchActorCounts(searchUrl, eventCount);
     return {
       searchUrl,
       eventCount,
-      statistics: Array.from(map)
+      statistics: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
     } as OutputData;
@@ -53,7 +49,7 @@ const searchEventCount = async (searchUrl: string) => {
   return parseInt(eventCountText, 10) || 0;
 };
 
-const searchActorList = async (searchUrl: string, eventCount: number) => {
+const searchActorCounts = async (searchUrl: string, eventCount: number) => {
   const actorList = await Promise.all(
     range(eventCount / 100).map(async (page) => {
       const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
@@ -72,5 +68,9 @@ const searchActorList = async (searchUrl: string, eventCount: number) => {
         .toArray();
     }),
   );
-  return actorList.flat();
+  return actorList.flat().reduce((counts, actorName) => {
+    const count = counts.get(actorName) ?? 0;
+    counts.set(actorName, count + 1);
+    return counts;
+  }, new Map<string, number>());
 };
