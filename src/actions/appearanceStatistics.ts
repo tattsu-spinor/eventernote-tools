@@ -4,13 +4,13 @@ import { range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
 export type InputData = {
-  searchUrl: string;
+  readonly searchUrl: string;
 };
 
 export type OutputData = {
-  searchUrl: string;
-  eventCount: number;
-  statistics: [string, number][];
+  readonly searchUrl: string;
+  readonly eventCount: number;
+  readonly statistics: ReadonlyArray<readonly [string, number]>;
 };
 
 export const appearanceStatistics = defineAction({

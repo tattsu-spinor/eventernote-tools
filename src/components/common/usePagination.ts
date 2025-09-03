@@ -3,7 +3,7 @@ import type { PaginationProps } from './Pagination';
 
 const PAGE_LIMIT = 20;
 
-export const usePagination = <T>(items: () => T[]) => {
+export const usePagination = <T>(items: () => ReadonlyArray<T>) => {
   const [currentPage, setCurrentPage] = createSignal(1);
 
   createEffect(() => {
