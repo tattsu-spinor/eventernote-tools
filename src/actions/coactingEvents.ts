@@ -4,18 +4,18 @@ import { intersectionBy } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
 export type InputData = {
-  actorNames: readonly string[];
+  readonly actorNames: ReadonlyArray<string>;
 };
 
 export type OutputData = {
-  events: Event[];
+  readonly events: ReadonlyArray<Event>;
 };
 
 type Event = {
-  name: string;
-  href: string;
-  date: string;
-  place: string;
+  readonly name: string;
+  readonly href: string;
+  readonly date: string;
+  readonly place: string;
 };
 
 export const coactingEvents = defineAction({
