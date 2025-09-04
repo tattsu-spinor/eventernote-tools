@@ -2,6 +2,7 @@ import { ActionError, defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { intersectionBy } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
+import type { Event } from '../types/event';
 
 export type InputData = {
   readonly actorNames: ReadonlyArray<string>;
@@ -9,13 +10,6 @@ export type InputData = {
 
 export type OutputData = {
   readonly events: ReadonlyArray<Event>;
-};
-
-type Event = {
-  readonly name: string;
-  readonly href: string;
-  readonly date: string;
-  readonly place: string;
 };
 
 export const coactingEvents = defineAction({
