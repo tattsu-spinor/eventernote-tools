@@ -10,6 +10,7 @@ export type InputData = {
   readonly day: string;
   readonly areaId: string;
   readonly prefectureId: string;
+  readonly isPrefectureMode: boolean;
 };
 
 export type OutputData = {
@@ -26,6 +27,7 @@ export const appearanceStatistics = defineAction({
     day: z.string().trim(),
     areaId: z.string().trim(),
     prefectureId: z.string().trim(),
+    isPrefectureMode: z.boolean(),
   }),
   handler: async (input: InputData) => {
     const searchUrl = `https://www.eventernote.com/events/search?keyword=${input.keyword}&year=${input.year}&month=${input.month}&day=${input.day}&area_id=${input.areaId}&prefecture_id=${input.prefectureId}`;

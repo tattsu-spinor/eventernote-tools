@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Match, Show, Switch } from 'solid-js';
+import { For, Match, Show, Switch } from 'solid-js';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
 import { setInputStore, useInputStore } from './inputStore';
 import { outputStore, search } from './outputStore';
@@ -6,20 +6,6 @@ import { outputStore, search } from './outputStore';
 export const Input = () => {
   const inputStore = useInputStore();
   const canNotSearch = () => Object.values(inputStore()).every((v) => !v);
-  const [isPrefectureMode, setIsPrefectureMode] = createSignal(false);
-
-  createEffect(() => {
-    if (inputStore().areaId) {
-      setInputStore('prefectureId', '');
-      setIsPrefectureMode(false);
-    }
-  });
-  createEffect(() => {
-    if (inputStore().prefectureId) {
-      setInputStore('areaId', '');
-      setIsPrefectureMode(true);
-    }
-  });
 
   return (
     <>
@@ -85,16 +71,20 @@ export const Input = () => {
             <input
               name="isPrefectureMode"
               type="checkbox"
-              checked={isPrefectureMode()}
+              checked={inputStore().isPrefectureMode}
               onInput={(e) => {
-                setIsPrefectureMode(e.target.checked);
+                const isPrefectureMode = e.target.checked;
+                setInputStore('isPrefectureMode', isPrefectureMode);
+                isPrefectureMode
+                  ? setInputStore('areaId', '')
+                  : setInputStore('prefectureId', '');
               }}
             />
             <span class="d-swap-on">都道府県:</span>
             <span class="d-swap-off">地域:</span>
           </label>
           <Switch>
-            <Match when={isPrefectureMode()}>
+            <Match when={inputStore().isPrefectureMode}>
               <select
                 name="prefectureId"
                 value={inputStore().prefectureId}

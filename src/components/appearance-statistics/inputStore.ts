@@ -11,6 +11,7 @@ const initialInput: InputData = {
   day: '',
   areaId: '',
   prefectureId: '',
+  isPrefectureMode: false,
 };
 const $inputStore = persistentMap(
   'appearanceStatistics.searchCondition',
