@@ -4,7 +4,12 @@ import { range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
 export type InputData = {
-  readonly searchUrl: string;
+  readonly keyword: string;
+  readonly year: string;
+  readonly month: string;
+  readonly day: string;
+  readonly areaId: string;
+  readonly prefectureId: string;
 };
 
 export type OutputData = {
@@ -14,8 +19,16 @@ export type OutputData = {
 };
 
 export const appearanceStatistics = defineAction({
-  input: z.object({ searchUrl: z.string().url() }),
-  handler: async ({ searchUrl }: InputData) => {
+  input: z.object({
+    keyword: z.string(),
+    year: z.string(),
+    month: z.string(),
+    day: z.string(),
+    areaId: z.string(),
+    prefectureId: z.string(),
+  }),
+  handler: async (input: InputData) => {
+    const searchUrl = `https://www.eventernote.com/events/search?keyword=${input.keyword}&year=${input.year}&month=${input.month}&day=${input.day}&area_id=${input.areaId}&prefecture_id=${input.prefectureId}`;
     const eventCount = await searchEventCount(searchUrl);
     if (eventCount > 10000) {
       throw new ActionError({

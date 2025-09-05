@@ -2,29 +2,19 @@ import { persistentMap } from '@nanostores/persistent';
 import { useStore } from '@nanostores/solid';
 import { readonlyType } from 'nanostores';
 import { createMemo, createSignal, onMount } from 'solid-js';
+import type { InputData } from '../../actions/appearanceStatistics';
 
-type SearchCondition = {
-  keyword: string;
-  year: string;
-  month: string;
-  day: string;
-  areaId: string;
-  prefectureId: string;
-  isPrefectureMode: boolean;
-};
-
-const initialSearchCondition: SearchCondition = {
+const initialInput: InputData = {
   keyword: '',
   year: '',
   month: '',
   day: '',
   areaId: '',
   prefectureId: '',
-  isPrefectureMode: false,
 };
-const $searchCondition = persistentMap(
+const $inputStore = persistentMap(
   'appearanceStatistics.searchCondition',
-  initialSearchCondition,
+  initialInput,
   {
     encode: JSON.stringify,
     decode: JSON.parse,
@@ -32,18 +22,16 @@ const $searchCondition = persistentMap(
   },
 );
 
-export const useSearchCondition = () => {
-  const searchCondition = useStore(readonlyType($searchCondition));
+export const useInputStore = () => {
+  const searchCondition = useStore(readonlyType($inputStore));
   const [isMounted, setIsMounted] = createSignal(false);
   onMount(() => {
     setIsMounted(true);
   });
-  return createMemo(() =>
-    isMounted() ? searchCondition() : initialSearchCondition,
-  );
+  return createMemo(() => (isMounted() ? searchCondition() : initialInput));
 };
 
-export const setSearchCondition = <K extends keyof SearchCondition>(
+export const setInputStore = <K extends keyof InputData>(
   key: K,
-  value: SearchCondition[K],
-) => $searchCondition.setKey(key, value);
+  value: InputData[K],
+) => $inputStore.setKey(key, value);

@@ -1,20 +1,20 @@
-import { For, Match, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, Match, Show, Switch } from 'solid-js';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
-import { setSearchCondition, useSearchCondition } from './inputStore';
+import { setInputStore, useInputStore } from './inputStore';
 import { outputStore, search } from './outputStore';
 
 export const Input = () => {
-  const searchCondition = useSearchCondition();
-  const searchUrl = () => {
-    const { keyword, year, month, day, areaId, prefectureId } =
-      searchCondition();
-    return `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
-  };
-  const canNotSearch = () => {
-    const { keyword, year, month, day, areaId, prefectureId } =
-      searchCondition();
-    return [keyword, year, month, day, areaId, prefectureId].every((v) => !v);
-  };
+  const inputStore = useInputStore();
+  const canNotSearch = () => Object.values(inputStore()).every((v) => !v);
+  const [isPrefectureMode, setIsPrefectureMode] = createSignal(false);
+
+  createEffect(() => {
+    if (isPrefectureMode()) {
+      setInputStore('areaId', '');
+    } else {
+      setInputStore('prefectureId', '');
+    }
+  });
 
   return (
     <>
@@ -23,9 +23,9 @@ export const Input = () => {
         <input
           name="keyword"
           type="text"
-          value={searchCondition().keyword}
+          value={inputStore().keyword}
           onInput={(e) => {
-            setSearchCondition('keyword', e.target.value);
+            setInputStore('keyword', e.target.value);
           }}
           placeholder="声優、アイドル、アーティスト名等"
           class="d-input w-full"
@@ -35,9 +35,9 @@ export const Input = () => {
         <div class="d-join">
           <select
             name="year"
-            value={searchCondition().year}
+            value={inputStore().year}
             onInput={(e) => {
-              setSearchCondition('year', e.target.value);
+              setInputStore('year', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -48,9 +48,9 @@ export const Input = () => {
           </select>
           <select
             name="month"
-            value={searchCondition().month}
+            value={inputStore().month}
             onInput={(e) => {
-              setSearchCondition('month', e.target.value);
+              setInputStore('month', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -61,9 +61,9 @@ export const Input = () => {
           </select>
           <select
             name="day"
-            value={searchCondition().day}
+            value={inputStore().day}
             onInput={(e) => {
-              setSearchCondition('day', e.target.value);
+              setInputStore('day', e.target.value);
             }}
             class="d-join-item d-select w-full"
           >
@@ -80,25 +80,21 @@ export const Input = () => {
             <input
               name="isPrefectureMode"
               type="checkbox"
-              checked={searchCondition().isPrefectureMode}
+              checked={isPrefectureMode()}
               onInput={(e) => {
-                const isPrefectureMode = e.target.checked;
-                setSearchCondition('isPrefectureMode', isPrefectureMode);
-                isPrefectureMode
-                  ? setSearchCondition('areaId', '')
-                  : setSearchCondition('prefectureId', '');
+                setIsPrefectureMode(e.target.checked);
               }}
             />
             <span class="d-swap-on">都道府県:</span>
             <span class="d-swap-off">地域:</span>
           </label>
           <Switch>
-            <Match when={searchCondition().isPrefectureMode}>
+            <Match when={isPrefectureMode()}>
               <select
                 name="prefectureId"
-                value={searchCondition().prefectureId}
+                value={inputStore().prefectureId}
                 onInput={(e) => {
-                  setSearchCondition('prefectureId', e.target.value);
+                  setInputStore('prefectureId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -115,9 +111,9 @@ export const Input = () => {
             <Match when={true}>
               <select
                 name="areaId"
-                value={searchCondition().areaId}
+                value={inputStore().areaId}
                 onInput={(e) => {
-                  setSearchCondition('areaId', e.target.value);
+                  setInputStore('areaId', e.target.value);
                 }}
                 class="d-join-item d-select w-full"
               >
@@ -135,7 +131,7 @@ export const Input = () => {
         <div class="mt-3">
           <button
             type="button"
-            onClick={() => search({ searchUrl: searchUrl() })}
+            onClick={() => search({ ...inputStore() })}
             disabled={outputStore.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >
