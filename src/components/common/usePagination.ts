@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal } from 'solid-js';
+import { createEffect, createMemo, createSignal, on } from 'solid-js';
 import type { PaginationProps } from './Pagination';
 
 const PAGE_LIMIT = 20;
@@ -6,9 +6,11 @@ const PAGE_LIMIT = 20;
 export const usePagination = <T>(items: () => ReadonlyArray<T>) => {
   const [currentPage, setCurrentPage] = createSignal(1);
 
-  createEffect(() => {
-    if (items()) setCurrentPage(1);
-  });
+  createEffect(
+    on(items, () => {
+      setCurrentPage(1);
+    }),
+  );
 
   return {
     paginationProps: createMemo<PaginationProps>(() => ({
