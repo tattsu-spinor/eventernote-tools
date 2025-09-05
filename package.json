@@ -17,7 +17,7 @@
     "@astrojs/vercel": "^8.2.7",
     "@nanostores/persistent": "^1.1.0",
     "@nanostores/solid": "^1.1.1",
-    "@tailwindcss/vite": "^4.1.12",
+    "@tailwindcss/vite": "^4.1.13",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.13.5",
@@ -27,11 +27,11 @@
     "nanostores": "^1.0.1",
     "sharp": "^0.34.3",
     "solid-js": "^1.9.9",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
     "lefthook": "^1.12.3",
-    "vercel": "^47.0.4"
+    "vercel": "^47.0.5"
   }
 }
