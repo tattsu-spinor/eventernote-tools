@@ -9,10 +9,15 @@ export const Input = () => {
   const [isPrefectureMode, setIsPrefectureMode] = createSignal(false);
 
   createEffect(() => {
-    if (isPrefectureMode()) {
-      setInputStore('areaId', '');
-    } else {
+    if (inputStore().areaId) {
       setInputStore('prefectureId', '');
+      setIsPrefectureMode(false);
+    }
+  });
+  createEffect(() => {
+    if (inputStore().prefectureId) {
+      setInputStore('areaId', '');
+      setIsPrefectureMode(true);
     }
   });
 
