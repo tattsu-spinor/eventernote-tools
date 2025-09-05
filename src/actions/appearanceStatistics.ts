@@ -20,12 +20,12 @@ export type OutputData = {
 
 export const appearanceStatistics = defineAction({
   input: z.object({
-    keyword: z.string(),
-    year: z.string(),
-    month: z.string(),
-    day: z.string(),
-    areaId: z.string(),
-    prefectureId: z.string(),
+    keyword: z.string().trim(),
+    year: z.string().trim(),
+    month: z.string().trim(),
+    day: z.string().trim(),
+    areaId: z.string().trim(),
+    prefectureId: z.string().trim(),
   }),
   handler: async (input: InputData) => {
     const searchUrl = `https://www.eventernote.com/events/search?keyword=${input.keyword}&year=${input.year}&month=${input.month}&day=${input.day}&area_id=${input.areaId}&prefecture_id=${input.prefectureId}`;

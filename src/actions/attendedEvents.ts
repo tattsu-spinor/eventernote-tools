@@ -13,7 +13,7 @@ export type OutputData = {
 };
 
 export const attendedEvents = defineAction({
-  input: z.object({ userId: z.string(), actorName: z.string() }),
+  input: z.object({ userId: z.string().trim(), actorName: z.string().trim() }),
   handler: async ({ userId, actorName }: InputData) => {
     const res = await fetch(
       `https://www.eventernote.com/users/${userId}/events?limit=10000`,
