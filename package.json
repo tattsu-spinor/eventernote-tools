@@ -11,7 +11,7 @@
     "biome:ci": "biome ci --reporter=github --error-on-warnings"
   },
   "dependencies": {
-    "@astrojs/solid-js": "^5.1.0",
+    "@astrojs/solid-js": "^5.1.1",
     "@astrojs/starlight": "^0.35.2",
     "@astrojs/starlight-tailwind": "^4.0.1",
     "@astrojs/vercel": "^8.2.7",
@@ -20,7 +20,7 @@
     "@tailwindcss/vite": "^4.1.13",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^5.13.5",
+    "astro": "^5.13.7",
     "daisyui": "^5.0.54",
     "es-toolkit": "^1.39.10",
     "linkedom": "^0.18.12",
