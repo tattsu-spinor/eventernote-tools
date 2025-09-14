@@ -1,10 +1,10 @@
 import { Show } from 'solid-js';
-import { setSearchCondition, useInputStore } from './inputStore';
-import { outputStore, search } from './outputStore';
+import { search, setInputStore, useInputStore, useOutputStore } from './store';
 
 export const Input = () => {
   const inputStore = useInputStore();
-  const canNotSearch = () => Object.values(inputStore()).some((v) => !v);
+  const outputStore = useOutputStore();
+  const canNotSearch = () => Object.values(inputStore).some((v) => !v);
 
   return (
     <>
@@ -13,9 +13,9 @@ export const Input = () => {
         <input
           name="userId"
           type="text"
-          value={inputStore().userId}
+          value={inputStore.userId}
           onInput={(e) => {
-            setSearchCondition('userId', e.target.value);
+            setInputStore('userId', e.target.value);
           }}
           class="d-input w-full"
         />
@@ -24,9 +24,9 @@ export const Input = () => {
         <input
           name="actorName"
           type="text"
-          value={inputStore().actorName}
+          value={inputStore.actorName}
           onInput={(e) => {
-            setSearchCondition('actorName', e.target.value);
+            setInputStore('actorName', e.target.value);
           }}
           class="d-input w-full"
         />
@@ -34,7 +34,7 @@ export const Input = () => {
         <div class="mt-3">
           <button
             type="button"
-            onClick={() => search(inputStore())}
+            onClick={search}
             disabled={outputStore.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >

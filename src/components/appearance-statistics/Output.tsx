@@ -2,13 +2,17 @@ import { For, Show } from 'solid-js';
 import type { OutputData } from '../../actions/appearanceStatistics';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { outputStore } from './outputStore';
+import { useOutputStore } from './store';
 
-export const Output = () => (
-  <Show when={outputStore.data}>
-    {(output) => <OutputContent {...output()} />}
-  </Show>
-);
+export const Output = () => {
+  const outputStore = useOutputStore();
+
+  return (
+    <Show when={outputStore.data}>
+      {(output) => <OutputContent {...output()} />}
+    </Show>
+  );
+};
 
 const OutputContent = (output: OutputData) => {
   const { paginationProps, pagedItems } = usePagination(

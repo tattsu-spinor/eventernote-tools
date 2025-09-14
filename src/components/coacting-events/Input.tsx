@@ -2,19 +2,21 @@ import { Index, Show } from 'solid-js';
 import {
   addActorName,
   removeActorName,
+  search,
   setActorName,
-  useActorNames,
-} from './inputStore';
-import { outputStore, search } from './outputStore';
+  useInputStore,
+  useOutputStore,
+} from './store';
 
 export const Input = () => {
-  const actorNames = useActorNames();
-  const canNotSearch = () => actorNames().some((v) => !v);
+  const inputStore = useInputStore();
+  const outputStore = useOutputStore();
+  const canNotSearch = () => inputStore.actorNames.some((v) => !v);
 
   return (
     <>
       <div>
-        <Index each={actorNames()}>
+        <Index each={inputStore.actorNames}>
           {(actorName, index) => (
             <input
               name={`actorName${index + 1}`}
@@ -32,7 +34,7 @@ export const Input = () => {
       <div class="mt-3">
         <button
           type="button"
-          onClick={() => search({ actorNames: actorNames() })}
+          onClick={search}
           disabled={outputStore.loading || canNotSearch()}
           class="d-btn d-btn-primary"
         >
@@ -52,7 +54,7 @@ export const Input = () => {
         <button
           type="button"
           onClick={removeActorName}
-          disabled={outputStore.loading || actorNames().length <= 1}
+          disabled={outputStore.loading || inputStore.actorNames.length <= 1}
           class="d-btn d-btn-warning ml-3"
         >
           削除

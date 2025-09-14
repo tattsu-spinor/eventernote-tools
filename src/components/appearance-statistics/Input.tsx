@@ -1,11 +1,11 @@
 import { For, Match, Show, Switch } from 'solid-js';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
-import { setInputStore, useInputStore } from './inputStore';
-import { outputStore, search } from './outputStore';
+import { search, setInputStore, useInputStore, useOutputStore } from './store';
 
 export const Input = () => {
   const inputStore = useInputStore();
-  const canNotSearch = () => Object.values(inputStore()).every((v) => !v);
+  const outputStore = useOutputStore();
+  const canNotSearch = () => Object.values(inputStore).every((v) => !v);
 
   return (
     <>
@@ -14,7 +14,7 @@ export const Input = () => {
         <input
           name="keyword"
           type="text"
-          value={inputStore().keyword}
+          value={inputStore.keyword}
           onInput={(e) => {
             setInputStore('keyword', e.target.value);
           }}
@@ -26,7 +26,7 @@ export const Input = () => {
         <div class="d-join">
           <select
             name="year"
-            value={inputStore().year}
+            value={inputStore.year}
             onInput={(e) => {
               setInputStore('year', e.target.value);
             }}
@@ -39,7 +39,7 @@ export const Input = () => {
           </select>
           <select
             name="month"
-            value={inputStore().month}
+            value={inputStore.month}
             onInput={(e) => {
               setInputStore('month', e.target.value);
             }}
@@ -52,7 +52,7 @@ export const Input = () => {
           </select>
           <select
             name="day"
-            value={inputStore().day}
+            value={inputStore.day}
             onInput={(e) => {
               setInputStore('day', e.target.value);
             }}
@@ -71,7 +71,7 @@ export const Input = () => {
             <input
               name="isPrefectureMode"
               type="checkbox"
-              checked={inputStore().isPrefectureMode}
+              checked={inputStore.isPrefectureMode}
               onInput={(e) => {
                 const isPrefectureMode = e.target.checked;
                 setInputStore('isPrefectureMode', isPrefectureMode);
@@ -84,10 +84,10 @@ export const Input = () => {
             <span class="d-swap-off">地域:</span>
           </label>
           <Switch>
-            <Match when={inputStore().isPrefectureMode}>
+            <Match when={inputStore.isPrefectureMode}>
               <select
                 name="prefectureId"
-                value={inputStore().prefectureId}
+                value={inputStore.prefectureId}
                 onInput={(e) => {
                   setInputStore('prefectureId', e.target.value);
                 }}
@@ -106,7 +106,7 @@ export const Input = () => {
             <Match when={true}>
               <select
                 name="areaId"
-                value={inputStore().areaId}
+                value={inputStore.areaId}
                 onInput={(e) => {
                   setInputStore('areaId', e.target.value);
                 }}
@@ -126,7 +126,7 @@ export const Input = () => {
         <div class="mt-3">
           <button
             type="button"
-            onClick={() => search({ ...inputStore() })}
+            onClick={search}
             disabled={outputStore.loading || canNotSearch()}
             class="d-btn d-btn-primary"
           >

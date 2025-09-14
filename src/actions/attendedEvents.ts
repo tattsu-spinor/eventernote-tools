@@ -4,8 +4,8 @@ import { parseHTML } from 'linkedom';
 import type { Event } from '../types/event';
 
 export type InputData = {
-  readonly userId: string;
-  readonly actorName: string;
+  userId: string;
+  actorName: string;
 };
 
 export type OutputData = {

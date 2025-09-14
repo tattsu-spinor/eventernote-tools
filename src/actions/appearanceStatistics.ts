@@ -4,13 +4,13 @@ import { range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 
 export type InputData = {
-  readonly keyword: string;
-  readonly year: string;
-  readonly month: string;
-  readonly day: string;
-  readonly areaId: string;
-  readonly prefectureId: string;
-  readonly isPrefectureMode: boolean;
+  keyword: string;
+  year: string;
+  month: string;
+  day: string;
+  areaId: string;
+  prefectureId: string;
+  isPrefectureMode: boolean;
 };
 
 export type OutputData = {
