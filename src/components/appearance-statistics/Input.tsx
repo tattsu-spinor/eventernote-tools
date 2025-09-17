@@ -5,7 +5,10 @@ import { search, setInputStore, useInputStore, useOutputStore } from './store';
 export const Input = () => {
   const inputStore = useInputStore();
   const outputStore = useOutputStore();
-  const canNotSearch = () => Object.values(inputStore).every((v) => !v);
+  const canNotSearch = () =>
+    Object.values(inputStore)
+      .filter((v) => typeof v === 'string')
+      .every((v) => !v);
 
   return (
     <>
