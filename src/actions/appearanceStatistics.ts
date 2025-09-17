@@ -38,8 +38,15 @@ export const appearanceStatistics = defineAction({
       }
       return input;
     }),
-  handler: async (input: InputData) => {
-    const searchUrl = `https://www.eventernote.com/events/search?keyword=${input.keyword}&year=${input.year}&month=${input.month}&day=${input.day}&area_id=${input.areaId}&prefecture_id=${input.prefectureId}`;
+  handler: async ({
+    keyword,
+    year,
+    month,
+    day,
+    areaId,
+    prefectureId,
+  }: InputData) => {
+    const searchUrl = `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
     const eventCount = await searchEventCount(searchUrl);
     if (eventCount > 10000) {
       throw new ActionError({
