@@ -12,23 +12,23 @@
   },
   "dependencies": {
     "@astrojs/solid-js": "^5.1.1",
-    "@astrojs/starlight": "^0.35.2",
+    "@astrojs/starlight": "^0.35.3",
     "@astrojs/starlight-tailwind": "^4.0.1",
     "@astrojs/vercel": "^8.2.7",
     "@tailwindcss/vite": "^4.1.13",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^5.13.7",
+    "astro": "^5.13.8",
     "daisyui": "^5.0.54",
     "es-toolkit": "^1.39.10",
     "linkedom": "^0.18.12",
-    "sharp": "^0.34.3",
+    "sharp": "^0.34.4",
     "solid-js": "^1.9.9",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
     "lefthook": "^1.12.3",
-    "vercel": "^48.0.0"
+    "vercel": "^48.0.3"
   }
 }
