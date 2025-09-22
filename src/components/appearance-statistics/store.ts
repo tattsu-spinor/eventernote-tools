@@ -14,7 +14,7 @@ const [_inputStore, _setInputStore] = createStore<InputData>({
   isPrefectureMode: false,
 });
 const [_outputStore, _setOutputStore] = createStore({
-  data: undefined as OutputData | undefined,
+  data: [] as OutputData[],
   loading: false,
   error: undefined as ActionError | undefined,
 });
@@ -47,6 +47,8 @@ export const search = async () => {
   const { data, error } = await actions.appearanceStatistics(_inputStore);
   batch(() => {
     _setOutputStore('loading', false);
-    error ? _setOutputStore('error', error) : _setOutputStore('data', data);
+    error
+      ? _setOutputStore('error', error)
+      : _setOutputStore('data', (outputs) => outputs.concat(data));
   });
 };
