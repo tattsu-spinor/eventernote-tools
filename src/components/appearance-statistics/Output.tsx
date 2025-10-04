@@ -30,37 +30,28 @@ const OutputContent = (props: OutputContentProps) => {
     <>
       <Pagination {...paginationProps()} />
       <div class="overflow-x-auto">
-        <table class="d-table d-table-zebra">
-          <thead class="bg-base-200">
+        <table class="d-table">
+          <thead>
             <tr>
-              <th rowspan="2" />
-              <th rowspan="2" class="text-center">
-                出演者名
-              </th>
-              <th colSpan={props.outputs.length} class="text-center">
-                出演数
-              </th>
-              <th rowspan="2" class="text-center">
-                総出演数
-              </th>
-            </tr>
-            <tr>
+              <th />
+              <th class="text-center">出演者名</th>
               <For each={props.outputs}>
                 {(output, index) => (
-                  <th class="text-center">
+                  <th class="text-right">
                     <a href={output.searchUrl} target="_blank" rel="noreferrer">
-                      検索条件{index() + 1}
+                      出演数{index() + 1}
                     </a>
                   </th>
                 )}
               </For>
+              <th class="text-right">総出演数</th>
             </tr>
           </thead>
           <tbody>
             <For each={pagedItems()}>
               {({ item: { actorName, counts, totalCount }, index }) => (
                 <tr>
-                  <th class="text-right">{index + 1}</th>
+                  <th>{index + 1}</th>
                   <td class="text-center">{actorName}</td>
                   <For each={counts}>
                     {(count) => <td class="text-right">{count}</td>}

@@ -4,7 +4,6 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-/* biome-ignore lint/suspicious/noUnknownAtRules: TailwindCSS固有のアットルール */
 @plugin "daisyui" {
   prefix: "d-";
 }
@@ -19,4 +18,17 @@
   --sl-text-h3: var(--sl-text-xl);
   --sl-text-h4: var(--sl-text-lg);
   --sl-text-h5: var(--sl-text-base);
+}
+
+@utility d-table {
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+
+  th {
+    @apply text-base-content/60;
+  }
+  tr {
+    @apply hover:bg-base-200;
+  }
 }
