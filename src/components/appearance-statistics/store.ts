@@ -52,3 +52,7 @@ export const search = async () => {
       : _setOutputStore('data', (outputs) => outputs.concat(data));
   });
 };
+
+export const removeOutputData = (index: number) => {
+  _setOutputStore('data', (outputs) => outputs.filter((_, i) => i !== index));
+};

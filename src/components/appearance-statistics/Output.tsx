@@ -3,7 +3,7 @@ import { For, Show } from 'solid-js';
 import type { OutputData } from '../../actions/appearanceStatistics';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { useOutputStore } from './store';
+import { removeOutputData, useOutputStore } from './store';
 
 export const Output = () => {
   const outputStore = useOutputStore();
@@ -38,9 +38,28 @@ const OutputContent = (props: OutputContentProps) => {
               <For each={props.outputs}>
                 {(output, index) => (
                   <th class="text-right">
-                    <a href={output.searchUrl} target="_blank" rel="noreferrer">
+                    <div class="d-dropdown d-dropdown-hover w-full">
                       出演数{index() + 1}
-                    </a>
+                      <ul class="d-dropdown-content d-menu text-base-content font-medium bg-base-200 rounded-box w-36 z-1 p-2 shadow-sm">
+                        <li>
+                          <a
+                            href={output.searchUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            検索結果を開く
+                          </a>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            onClick={() => removeOutputData(index())}
+                          >
+                            削除
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </th>
                 )}
               </For>
