@@ -29,7 +29,7 @@ const OutputContent = (output: OutputData) => {
       </div>
       <Pagination {...paginationProps()} />
       <div class="overflow-x-auto">
-        <table class="d-table d-table-zebra">
+        <table class="d-table">
           <thead>
             <tr>
               <th />
@@ -41,7 +41,7 @@ const OutputContent = (output: OutputData) => {
             <For each={pagedItems()}>
               {({ item: [actorName, count], index }) => (
                 <tr>
-                  <th class="text-right">{index + 1}</th>
+                  <th>{index + 1}</th>
                   <td class="text-center">{actorName}</td>
                   <td class="text-right">{count}</td>
                 </tr>
