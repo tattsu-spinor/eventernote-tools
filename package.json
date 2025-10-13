@@ -14,21 +14,21 @@
     "@astrojs/solid-js": "^5.1.1",
     "@astrojs/starlight": "^0.36.0",
     "@astrojs/starlight-tailwind": "^4.0.1",
-    "@astrojs/vercel": "^8.2.8",
+    "@astrojs/vercel": "^8.2.9",
     "@tailwindcss/vite": "^4.1.14",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^5.14.1",
-    "daisyui": "^5.1.27",
-    "es-toolkit": "^1.39.10",
+    "astro": "^5.14.4",
+    "daisyui": "^5.1.31",
+    "es-toolkit": "^1.40.0",
     "linkedom": "^0.18.12",
     "sharp": "^0.34.4",
     "solid-js": "^1.9.9",
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.5",
     "lefthook": "^1.13.6",
-    "vercel": "^48.2.0"
+    "vercel": "^48.2.9"
   }
 }
