@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
-    "lefthook": "^1.13.6",
-    "vercel": "^48.2.9"
+    "lefthook": "^1.13.6"
   }
 }
