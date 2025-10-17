@@ -29,23 +29,33 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_name == 'main'
     needs: [biome, build]
-    environment: Production
+    environment:
+      name: Production
+      url: ${{ steps.deploy.outputs.url }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v5
         with:
           path: .vercel/output
       - run: npm install -g vercel
-      - run: vercel deploy --prebuilt --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
+      - id: deploy
+        run: |
+          vercel deploy --prebuilt --prod --yes --token ${{ secrets.VERCEL_TOKEN }} > deploy.txt
+          echo "url=$(cat deploy.txt)" >> $GITHUB_OUTPUT
   deploy-preview:
     runs-on: ubuntu-latest
     if: github.ref_name != 'main'
     needs: [biome, build]
-    environment: Preview
+    environment:
+      name: Preview
+      url: ${{ steps.deploy.outputs.url }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v5
         with:
           path: .vercel/output
       - run: npm install -g vercel
-      - run: vercel deploy --prebuilt --yes --token ${{ secrets.VERCEL_TOKEN }}
+      - id: deploy
+        run: |
+          vercel deploy --prebuilt --yes --token ${{ secrets.VERCEL_TOKEN }} > deploy.txt
+          echo "url=$(cat deploy.txt)" >> $GITHUB_OUTPUT
