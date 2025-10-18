@@ -20,11 +20,32 @@
   --sl-text-h5: var(--sl-text-base);
 }
 
-@utility d-table {
-  text-indent: 0;
-  border-color: inherit;
-  border-collapse: collapse;
+@layer base {
+  .not-content {
+    table {
+      text-indent: 0;
+      border-color: inherit;
+      border-collapse: collapse;
+    }
+    button,
+    input,
+    select,
+    optgroup,
+    textarea,
+    ::file-selector-button {
+      font: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      border-radius: 0;
+      background-color: transparent;
+      opacity: 1;
+    }
+  }
+}
 
+@utility d-table {
   th {
     @apply text-base-content/60;
   }
