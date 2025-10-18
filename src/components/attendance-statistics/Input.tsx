@@ -4,7 +4,7 @@ import { search, setUserId, useInputStore, useOutputStore } from './store';
 export const Input = () => {
   const inputStore = useInputStore();
   const outputStore = useOutputStore();
-  const canNotSearch = () => Object.values(inputStore).some((v) => !v);
+  const canNotSearch = () => !inputStore.userId;
 
   return (
     <>

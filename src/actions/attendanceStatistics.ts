@@ -48,9 +48,9 @@ export const attendanceStatistics = defineAction({
       )
       .values()
       .map((element) => element.textContent ?? '')
-      .reduce((counts, actorName) => {
-        const count = counts.get(actorName) ?? 0;
-        counts.set(actorName, count + 1);
+      .reduce((counts, placeName) => {
+        const count = counts.get(placeName) ?? 0;
+        counts.set(placeName, count + 1);
         return counts;
       }, new Map<string, number>());
     return {
