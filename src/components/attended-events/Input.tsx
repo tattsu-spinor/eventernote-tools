@@ -8,30 +8,36 @@ export const Input = () => {
 
   return (
     <>
-      <fieldset class="d-fieldset max-w-md">
-        <div class="d-fieldset-label">ユーザーID</div>
-        <input
-          name="userId"
-          type="text"
-          value={inputStore.userId}
-          onInput={(e) => {
-            setInputStore('userId', e.target.value);
-          }}
-          class="d-input w-full"
-        />
+      <fieldset class="grid gap-4 max-w-xs sm:max-w-sm  md:max-w-md">
+        <label class="d-floating-label">
+          <span>ユーザーID</span>
+          <input
+            name="userId"
+            type="text"
+            placeholder="ユーザーID"
+            value={inputStore.userId}
+            onInput={(e) => {
+              setInputStore('userId', e.target.value);
+            }}
+            class="d-input"
+          />
+        </label>
 
-        <div class="d-fieldset-label">出演者名</div>
-        <input
-          name="actorName"
-          type="text"
-          value={inputStore.actorName}
-          onInput={(e) => {
-            setInputStore('actorName', e.target.value);
-          }}
-          class="d-input w-full"
-        />
+        <label class="d-floating-label">
+          <span>出演者名</span>
+          <input
+            name="actorName"
+            type="text"
+            placeholder="出演者名"
+            value={inputStore.actorName}
+            onInput={(e) => {
+              setInputStore('actorName', e.target.value);
+            }}
+            class="d-input"
+          />
+        </label>
 
-        <div class="mt-3">
+        <div>
           <button
             type="button"
             onClick={search}

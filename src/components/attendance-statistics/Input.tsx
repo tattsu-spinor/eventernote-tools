@@ -8,19 +8,22 @@ export const Input = () => {
 
   return (
     <>
-      <fieldset class="max-w-md">
-        <input
-          name="userId"
-          type="text"
-          placeholder="ユーザーID"
-          value={inputStore.userId}
-          onInput={(e) => {
-            setUserId(e.target.value);
-          }}
-          class="d-input w-full"
-        />
+      <fieldset class="grid gap-4 max-w-xs sm:max-w-sm md:max-w-md">
+        <label class="d-floating-label">
+          <span>ユーザーID</span>
+          <input
+            name="userId"
+            type="text"
+            placeholder="ユーザーID"
+            value={inputStore.userId}
+            onInput={(e) => {
+              setUserId(e.target.value);
+            }}
+            class="d-input"
+          />
+        </label>
 
-        <div class="mt-3">
+        <div>
           <button
             type="button"
             onClick={search}

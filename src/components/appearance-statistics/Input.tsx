@@ -12,8 +12,8 @@ export const Input = () => {
 
   return (
     <>
-      <fieldset class="d-fieldset max-w-md">
-        <div class="d-fieldset-label">キーワード</div>
+      <fieldset class="d-fieldset max-w-xs sm:max-w-sm md:max-w-md">
+        <span class="d-fieldset-label">キーワード</span>
         <input
           name="keyword"
           type="text"
@@ -25,15 +25,15 @@ export const Input = () => {
           class="d-input w-full"
         />
 
-        <div class="d-fieldset-label">開催日</div>
-        <div class="d-join">
+        <span class="d-fieldset-label">開催日</span>
+        <div class="d-join w-full">
           <select
             name="year"
             value={inputStore.year}
             onInput={(e) => {
               setInputStore('year', e.target.value);
             }}
-            class="d-join-item d-select w-full"
+            class="d-join-item d-select"
           >
             <option selected value="">
               {' - '}年
@@ -46,7 +46,7 @@ export const Input = () => {
             onInput={(e) => {
               setInputStore('month', e.target.value);
             }}
-            class="d-join-item d-select w-full"
+            class="d-join-item d-select"
           >
             <option selected value="">
               {' - '}月
@@ -59,7 +59,7 @@ export const Input = () => {
             onInput={(e) => {
               setInputStore('day', e.target.value);
             }}
-            class="d-join-item d-select w-full"
+            class="d-join-item d-select"
           >
             <option selected value="">
               {' - '}日
@@ -68,8 +68,8 @@ export const Input = () => {
           </select>
         </div>
 
-        <div class="d-fieldset-label">開催地</div>
-        <div class="d-join w-full">
+        <span class="d-fieldset-label">開催地</span>
+        <div class="d-join">
           <label class="d-join-item d-swap d-input w-36">
             <input
               name="isPrefectureMode"
