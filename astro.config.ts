@@ -13,7 +13,12 @@ export default defineConfig({
     starlight({
       title: 'Eventernote Tools',
       tableOfContents: false,
-      sidebar: ['coacting-events', 'attended-events', 'appearance-statistics'],
+      sidebar: [
+        'coacting-events',
+        'attended-events',
+        'attendance-statistics',
+        'appearance-statistics',
+      ],
       locales: {
         root: {
           label: '日本語',
