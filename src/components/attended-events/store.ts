@@ -7,6 +7,7 @@ const INPUT_STORE_KEY = 'attendedEvents.inputStore';
 const [_inputStore, _setInputStore] = createStore<InputData>({
   userId: '',
   actorName: '',
+  placeName: '',
 });
 const [_outputStore, _setOutputStore] = createStore({
   data: undefined as OutputData | undefined,

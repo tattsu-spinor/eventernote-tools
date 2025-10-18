@@ -6,6 +6,7 @@ import type { Event } from '../types/event';
 export type InputData = {
   userId: string;
   actorName: string;
+  placeName: string;
 };
 
 export type OutputData = {
@@ -13,8 +14,12 @@ export type OutputData = {
 };
 
 export const attendedEvents = defineAction({
-  input: z.object({ userId: z.string().trim(), actorName: z.string().trim() }),
-  handler: async ({ userId, actorName }: InputData) => {
+  input: z.object({
+    userId: z.string().trim(),
+    actorName: z.string().trim(),
+    placeName: z.string().trim(),
+  }),
+  handler: async ({ userId, actorName, placeName }: InputData) => {
     const res = await fetch(
       `https://www.eventernote.com/users/${userId}/events?limit=10000`,
     );
@@ -34,11 +39,19 @@ export const attendedEvents = defineAction({
         'body > div.container > div.row > div.span8.page > div.gb_event_list.clearfix > ul > li',
       )
       .values()
-      .filter((element) =>
-        element
-          .querySelectorAll('div.actor > ul > li > a')
-          .values()
-          .some((actorElement) => actorElement.textContent === actorName),
+      .filter(
+        (element) =>
+          !actorName ||
+          element
+            .querySelectorAll('div.event > div.actor > ul > li > a')
+            .values()
+            .some((actorElement) => actorElement.textContent === actorName),
+      )
+      .filter(
+        (element) =>
+          !placeName ||
+          element.querySelector('div.event > div.place > a')?.textContent ===
+            placeName,
       )
       .map((element) => {
         const eventElement = element.querySelector('div.event > h4 > a');

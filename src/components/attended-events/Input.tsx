@@ -4,7 +4,7 @@ import { search, setInputStore, useInputStore, useOutputStore } from './store';
 export const Input = () => {
   const inputStore = useInputStore();
   const outputStore = useOutputStore();
-  const canNotSearch = () => Object.values(inputStore).some((v) => !v);
+  const canNotSearch = () => !inputStore.userId;
 
   return (
     <>
@@ -28,10 +28,24 @@ export const Input = () => {
           <input
             name="actorName"
             type="text"
-            placeholder="出演者名"
+            placeholder="出演者名（オプション）"
             value={inputStore.actorName}
             onInput={(e) => {
               setInputStore('actorName', e.target.value);
+            }}
+            class="d-input"
+          />
+        </label>
+
+        <label class="d-floating-label">
+          <span>会場名</span>
+          <input
+            name="placeName"
+            type="text"
+            placeholder="会場名（オプション）"
+            value={inputStore.placeName}
+            onInput={(e) => {
+              setInputStore('placeName', e.target.value);
             }}
             class="d-input"
           />
