@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://eventernote-tools.tattsu.workers.dev',
+  site: 'https://eventernote-tools.vercel.app',
   adapter: vercel(),
   integrations: [
     // https://starlight.astro.build/ja/reference/configuration/
