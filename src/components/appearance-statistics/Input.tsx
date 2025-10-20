@@ -144,7 +144,11 @@ export const Input = () => {
       <Show when={outputStore.error} keyed>
         {(error) => (
           <div role="alert" class="d-alert d-alert-error my-3">
-            <span>{error.message || '予期せぬエラーが発生しました。'}</span>
+            <span>
+              {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
+                ? error.message
+                : '予期せぬエラーが発生しました。'}
+            </span>
           </div>
         )}
       </Show>

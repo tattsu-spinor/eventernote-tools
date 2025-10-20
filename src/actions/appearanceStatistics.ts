@@ -69,7 +69,7 @@ const searchEventCount = async (searchUrl: string) => {
   const res = await fetch(searchUrl);
   if (!res.ok) {
     throw new ActionError({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'BAD_GATEWAY',
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
@@ -77,7 +77,14 @@ const searchEventCount = async (searchUrl: string) => {
     parseHTML(await res.text()).document.querySelector(
       'body > div.container > div > div.span8.page > p:nth-child(4)',
     )?.textContent ?? '';
-  return parseInt(eventCountText, 10) || 0;
+  const count = parseInt(eventCountText, 10);
+  if (!count) {
+    throw new ActionError({
+      code: 'BAD_REQUEST',
+      message: '指定された条件での検索結果が見つかりませんでした。',
+    });
+  }
+  return count;
 };
 
 const searchActorCounts = async (searchUrl: string, eventCount: number) => {
@@ -86,7 +93,7 @@ const searchActorCounts = async (searchUrl: string, eventCount: number) => {
       const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
       if (!res.ok) {
         throw new ActionError({
-          code: 'INTERNAL_SERVER_ERROR',
+          code: 'BAD_GATEWAY',
           message: `${res.status} ${res.statusText}: ${res.url}`,
         });
       }

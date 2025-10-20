@@ -1,4 +1,4 @@
-import { actions } from 'astro:actions';
+import { type ActionError, actions } from 'astro:actions';
 import { batch, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { InputData, OutputData } from '../../actions/coactingEvents';
@@ -10,7 +10,7 @@ const [_inputStore, _setInputStore] = createStore<InputData>({
 const [_outputStore, _setOutputStore] = createStore({
   data: undefined as OutputData | undefined,
   loading: false,
-  error: undefined as Error | undefined,
+  error: undefined as ActionError | undefined,
 });
 
 export const useInputStore = () => {

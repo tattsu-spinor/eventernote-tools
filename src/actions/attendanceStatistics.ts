@@ -26,7 +26,7 @@ export const attendanceStatistics = defineAction({
             message: `ユーザーが見つかりません: "${userId}"`,
           })
         : new ActionError({
-            code: 'INTERNAL_SERVER_ERROR',
+            code: 'BAD_GATEWAY',
             message: `{res.status} ${res.statusText}: ${res.url}`,
           });
     }

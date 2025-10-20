@@ -35,7 +35,7 @@ const searchActorId = async (name: string) => {
   );
   if (!res.ok) {
     throw new ActionError({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'BAD_GATEWAY',
       message: `${res.status} ${res.statusText}: ${res.url}`,
     });
   }
@@ -61,7 +61,7 @@ const searchEventList = async (actorId: number) => {
   );
   if (!res.ok) {
     throw new ActionError({
-      code: 'INTERNAL_SERVER_ERROR',
+      code: 'BAD_GATEWAY',
       message: `{res.status} ${res.statusText}: ${res.url}`,
     });
   }
