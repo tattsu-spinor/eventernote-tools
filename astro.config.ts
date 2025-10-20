@@ -44,8 +44,8 @@ export default defineConfig({
       pagefind: false,
       pagination: false,
       components: {
-        Head: './src/components/overrides/Head.astro',
-        PageFrame: './src/components/overrides/PageFrame.astro',
+        Head: './src/overrides/Head.astro',
+        PageFrame: './src/overrides/PageFrame.astro',
       },
     }),
     solidJs(),
