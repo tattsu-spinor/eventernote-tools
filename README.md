@@ -24,7 +24,3 @@
   - TypeScript用のユーティリティライブラリ
 - [LinkeDOM](https://github.com/WebReflection/linkedom)
   - Node.js環境でのDOM解析用のライブラリ
-
-## デプロイ環境
-
-- [Cloudflare Workers](https://developers.cloudflare.com/workers/)
