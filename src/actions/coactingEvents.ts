@@ -13,7 +13,9 @@ export type OutputData = {
 };
 
 export const coactingEvents = defineAction({
-  input: z.object({ actorNames: z.array(z.string().trim()).readonly() }),
+  input: z.object({
+    actorNames: z.array(z.string().trim()).readonly(),
+  }),
   handler: async ({ actorNames }: InputData) => {
     const eventLists = await Promise.all(
       actorNames.values().map(async (actorName) => {
