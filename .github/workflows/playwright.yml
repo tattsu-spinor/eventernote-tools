@@ -3,6 +3,9 @@ on:
   repository_dispatch:
     types:
       - vercel.deployment.ready
+permissions:
+  contents: read
+  statuses: write
 jobs:
   e2e:
     timeout-minutes: 5
