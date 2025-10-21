@@ -14,9 +14,9 @@ test('参加イベント統計アクション_正常系', async ({ request }) =>
   });
   await expect(response).toBeOK();
   const data = await response.json();
-  expect(data[1]).toBeTruthy();
-  expect(data[2]).toBeTruthy();
-  expect(data[3]).toBeTruthy();
+  expect(data[1]).toBeTruthy(); // searchUrl
+  expect(data[2]).toBeTruthy(); // eventCount
+  expect(data[3]?.length).toBeTruthy(); // statistics
 });
 
 test('参加イベント統計アクション_異常系_イベント数過多', async ({

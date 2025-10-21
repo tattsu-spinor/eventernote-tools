@@ -8,8 +8,8 @@ test('参加イベント統計アクション_正常系', async ({ request }) =>
   });
   await expect(response).toBeOK();
   const data = await response.json();
-  expect(data[1]).toBeTruthy();
-  expect(data[2]).toBeTruthy();
+  expect(data[1]?.length).toBeTruthy(); // actorCounts
+  expect(data[2]?.length).toBeTruthy(); // placeCounts
 });
 
 test('参加イベント統計アクション_異常系', async ({ request }) => {

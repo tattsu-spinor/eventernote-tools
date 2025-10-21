@@ -8,7 +8,7 @@ test('共演イベント検索アクション_正常系', async ({ request }) =>
   });
   await expect(response).toBeOK();
   const data = await response.json();
-  expect(data[1]).toBeTruthy();
+  expect(data[1]?.length).toBeTruthy(); // events
 });
 
 test('共演イベント検索アクション_異常系', async ({ request }) => {
