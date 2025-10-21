@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "deploy": "vercel deploy",
+    "test": "vitest",
     "biome:check": "biome check",
     "biome:write": "biome check --write",
     "biome:write:unsafe": "biome check --write --unsafe",
@@ -28,6 +28,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
-    "lefthook": "^1.13.6"
+    "@solidjs/testing-library": "^0.8.10",
+    "@testing-library/user-event": "^14.6.1",
+    "jsdom": "^27.0.1",
+    "lefthook": "^1.13.6",
+    "vitest": "^3.2.4"
   }
 }
