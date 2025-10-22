@@ -2,7 +2,7 @@ name: Playwright Tests
 on:
   repository_dispatch:
     types:
-      - vercel.deployment.ready
+      - vercel.deployment.promoted
 
 permissions:
   contents: read
@@ -13,7 +13,6 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: vercel/repository-dispatch/actions/status@v1
       - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.client_payload.git.sha }}
