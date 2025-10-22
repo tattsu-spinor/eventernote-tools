@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 // https://playwright.dev/docs/test-configuration
 export default defineConfig({
   testDir: './tests',
+  testMatch: /.*\.e2e\.ts/,
   fullyParallel: true,
   retries: 1,
   reporter: 'html',
