@@ -23,7 +23,7 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.git.sha || github.sha }}
       - uses: oven-sh/setup-bun@v2
-      - run: bun ci && bunx playwright install --with-deps
+      - run: bun ci
       - run: bunx playwright test --reporter=github
         env:
           BASE_URL: ${{ github.event.client_payload.url || inputs.url }}
