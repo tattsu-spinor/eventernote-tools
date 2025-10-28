@@ -11,12 +11,13 @@ export const Input = () => {
       .every((v) => !v);
 
   return (
-    <>
-      <fieldset class="d-fieldset max-w-xs sm:max-w-sm md:max-w-md">
-        <span class="d-fieldset-label">キーワード</span>
+    <form class="max-w-xs sm:max-w-sm md:max-w-md">
+      <fieldset class="d-fieldset">
+        <legend class="d-fieldset-label">キーワード</legend>
         <input
           name="keyword"
           type="text"
+          aria-label="キーワード"
           value={inputStore.keyword}
           onInput={(e) => {
             setInputStore('keyword', e.target.value);
@@ -24,11 +25,14 @@ export const Input = () => {
           placeholder="声優、アイドル、アーティスト名等"
           class="d-input w-full"
         />
+      </fieldset>
 
-        <span class="d-fieldset-label">開催日</span>
+      <fieldset class="d-fieldset">
+        <legend class="d-fieldset-label">開催日</legend>
         <div class="d-join w-full">
           <select
             name="year"
+            aria-label="年"
             value={inputStore.year}
             onInput={(e) => {
               setInputStore('year', e.target.value);
@@ -42,6 +46,7 @@ export const Input = () => {
           </select>
           <select
             name="month"
+            aria-label="月"
             value={inputStore.month}
             onInput={(e) => {
               setInputStore('month', e.target.value);
@@ -55,6 +60,7 @@ export const Input = () => {
           </select>
           <select
             name="day"
+            aria-label="日"
             value={inputStore.day}
             onInput={(e) => {
               setInputStore('day', e.target.value);
@@ -67,13 +73,16 @@ export const Input = () => {
             <For each={DAYS}>{(n) => <option value={n}>{n}日</option>}</For>
           </select>
         </div>
+      </fieldset>
 
-        <span class="d-fieldset-label">開催地</span>
+      <fieldset class="d-fieldset">
+        <legend class="d-fieldset-label">開催地</legend>
         <div class="d-join">
           <label class="d-join-item d-swap d-input w-36">
             <input
-              name="isPrefectureMode"
               type="checkbox"
+              name="isPrefectureMode"
+              aria-label="都道府県モード"
               checked={inputStore.isPrefectureMode}
               onInput={(e) => {
                 const isPrefectureMode = e.target.checked;
@@ -90,6 +99,7 @@ export const Input = () => {
             <Match when={inputStore.isPrefectureMode}>
               <select
                 name="prefectureId"
+                aria-label="都道府県"
                 value={inputStore.prefectureId}
                 onInput={(e) => {
                   setInputStore('prefectureId', e.target.value);
@@ -109,6 +119,7 @@ export const Input = () => {
             <Match when={true}>
               <select
                 name="areaId"
+                aria-label="地域"
                 value={inputStore.areaId}
                 onInput={(e) => {
                   setInputStore('areaId', e.target.value);
@@ -125,25 +136,25 @@ export const Input = () => {
             </Match>
           </Switch>
         </div>
-
-        <div class="mt-3">
-          <button
-            type="button"
-            onClick={search}
-            disabled={outputStore.loading || canNotSearch()}
-            class="d-btn d-btn-primary"
-          >
-            検索
-            <Show when={outputStore.loading}>
-              <span class="d-loading d-loading-spinner" />
-            </Show>
-          </button>
-        </div>
       </fieldset>
+
+      <div class="p-2">
+        <button
+          type="button"
+          onClick={search}
+          disabled={outputStore.loading || canNotSearch()}
+          class="d-btn d-btn-primary"
+        >
+          検索
+          <Show when={outputStore.loading}>
+            <span class="d-loading d-loading-spinner" />
+          </Show>
+        </button>
+      </div>
 
       <Show when={outputStore.error} keyed>
         {(error) => (
-          <div role="alert" class="d-alert d-alert-error my-3">
+          <div role="alert" class="d-alert d-alert-error m-2">
             <span>
               {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
                 ? error.message
@@ -152,6 +163,6 @@ export const Input = () => {
           </div>
         )}
       </Show>
-    </>
+    </form>
   );
 };

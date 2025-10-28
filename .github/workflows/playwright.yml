@@ -3,6 +3,12 @@ on:
   repository_dispatch:
     types:
       - vercel.deployment.promoted
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Playwright Base URL
+        required: false
+        default: https://eventernote-tools.vercel.app
 
 permissions:
   contents: read
@@ -15,12 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ github.event.client_payload.git.sha }}
+          ref: ${{ github.event.client_payload.git.sha || github.sha }}
       - uses: oven-sh/setup-bun@v2
-      - run: bun ci && bunx playwright install --with-deps
+      - run: bun ci
       - run: bunx playwright test --reporter=github
         env:
-          BASE_URL: ${{ github.event.client_payload.url }}
+          BASE_URL: ${{ github.event.client_payload.url || inputs.url }}
           VERCEL_PROTECTION_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
