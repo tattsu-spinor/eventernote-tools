@@ -1,23 +1,20 @@
 import { render } from '@solidjs/testing-library';
-import { userEvent } from '@testing-library/user-event';
-import { expect, test, vi } from 'vitest';
+import { expect, test } from 'vitest';
+import { page } from 'vitest/browser';
 import { Input } from '../../../src/components/coacting-events/Input';
 
-vi.mock('astro:actions', () => {
-  return {};
-});
-
 test('出演数統計_入力検証', async () => {
-  const { searchElement } = setup();
+  const { searchButton } = setup();
 
   // 初期状態
-  expect(searchElement.disabled).toBe(true);
+  await expect.element(searchButton).toBeDisabled();
 });
 
 const setup = () => {
-  const { getByRole } = render(() => <Input />);
+  window.localStorage.clear();
+  const { baseElement } = render(() => <Input />);
+  const screen = page.elementLocator(baseElement);
   return {
-    user: userEvent.setup(),
-    searchElement: getByRole<HTMLButtonElement>('button', { name: '検索' }),
+    searchButton: screen.getByRole('button', { name: '検索' }),
   } as const;
 };

@@ -1,6 +1,7 @@
-import { actions } from 'astro:actions';
+import { type ActionError, actions } from 'astro:actions';
 import { render } from '@solidjs/testing-library';
 import { expect, test, vi } from 'vitest';
+import { page } from 'vitest/browser';
 import { Output } from '../../../src/components/attended-events/Output';
 import { search } from '../../../src/components/attended-events/store';
 
@@ -11,7 +12,9 @@ vi.mock('astro:actions', () => {
     },
   };
 });
-const attendedEventsMock = vi.spyOn(actions, 'attendedEvents');
+const attendedEventsMock = vi.mocked(actions.attendedEvents, {
+  partial: true,
+});
 
 test('参加イベント検索_出力検証', async () => {
   const { queryListItemElements } = setup();
@@ -20,50 +23,36 @@ test('参加イベント検索_出力検証', async () => {
   expect(queryListItemElements().length).toBe(0);
 
   // 検索実行
-  attendedEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: {
-        events: createEvents(2),
-      },
-      error: undefined,
-    }),
-  );
+  attendedEventsMock.mockResolvedValueOnce({
+    data: {
+      events: createEvents(2),
+    },
+  });
   await search();
   expect(queryListItemElements().length).toBe(2);
 
   // 検索再実行
-  attendedEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: {
-        events: createEvents(1),
-      },
-      error: undefined,
-    }),
-  );
+  attendedEventsMock.mockResolvedValueOnce({
+    data: {
+      events: createEvents(1),
+    },
+  });
   await search();
   expect(queryListItemElements().length).toBe(1);
 
   // 検索失敗
-  attendedEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: undefined,
-      error: {
-        name: '',
-        message: '',
-        type: 'AstroActionError',
-        code: 'INTERNAL_SERVER_ERROR',
-        status: 500,
-      },
-    }),
-  );
+  attendedEventsMock.mockResolvedValueOnce({
+    error: {} as ActionError,
+  });
   await search();
   expect(queryListItemElements().length).toBe(1);
 });
 
 const setup = () => {
-  const { queryAllByRole } = render(() => <Output />);
+  const { baseElement } = render(() => <Output />);
+  const screen = page.elementLocator(baseElement);
   return {
-    queryListItemElements: () => queryAllByRole('listitem'),
+    queryListItemElements: () => screen.getByRole('listitem'),
   } as const;
 };
 

@@ -1,53 +1,48 @@
 import { render } from '@solidjs/testing-library';
-import { userEvent } from '@testing-library/user-event';
-import { expect, test, vi } from 'vitest';
+import { expect, test } from 'vitest';
+import { page } from 'vitest/browser';
 import { Input } from '../../../src/components/coacting-events/Input';
 
-vi.mock('astro:actions', () => {
-  return {};
-});
-
 test('共演イベント検索_入力検証', async () => {
-  const { user, getInputElements, searchElement, addElement, removeElement } =
-    setup();
+  const { getTextBoxes, searchButton, addButton, removeButton } = setup();
 
   // 初期状態
-  expect(getInputElements().length).toBe(2);
-  expect(searchElement.disabled).toBe(true);
-  expect(addElement.disabled).toBe(false);
-  expect(removeElement.disabled).toBe(false);
+  expect(getTextBoxes().length).toBe(2);
+  await expect.element(searchButton).toBeDisabled();
+  await expect.element(addButton).toBeEnabled();
+  await expect.element(removeButton).toBeEnabled();
 
   // 出演者名入力
-  for (const [index, element] of getInputElements().entries()) {
-    await user.type(element, `出演者名${index + 1}`);
+  for (const [index, textBox] of getTextBoxes().entries()) {
+    await textBox.fill(`出演者名${index + 1}`);
   }
-  expect(getInputElements().length).toBe(2);
-  expect(searchElement.disabled).toBe(false);
-  expect(addElement.disabled).toBe(false);
-  expect(removeElement.disabled).toBe(false);
+  expect(getTextBoxes().length).toBe(2);
+  await expect.element(searchButton).toBeEnabled();
+  await expect.element(addButton).toBeEnabled();
+  await expect.element(removeButton).toBeEnabled();
 
   // 削除ボタン押下
-  await user.click(removeElement);
-  expect(getInputElements().length).toBe(1);
-  expect(searchElement.disabled).toBe(false);
-  expect(addElement.disabled).toBe(false);
-  expect(removeElement.disabled).toBe(true);
+  await removeButton.click();
+  expect(getTextBoxes().length).toBe(1);
+  await expect.element(searchButton).toBeEnabled();
+  await expect.element(addButton).toBeEnabled();
+  await expect.element(removeButton).toBeDisabled();
 
   // 追加ボタン押下
-  await user.click(addElement);
-  expect(getInputElements().length).toBe(2);
-  expect(searchElement.disabled).toBe(true);
-  expect(addElement.disabled).toBe(false);
-  expect(removeElement.disabled).toBe(false);
+  await addButton.click();
+  expect(getTextBoxes().length).toBe(2);
+  await expect.element(searchButton).toBeDisabled();
+  await expect.element(addButton).toBeEnabled();
+  await expect.element(removeButton).toBeEnabled();
 });
 
 const setup = () => {
-  const { getAllByRole, getByRole } = render(() => <Input />);
+  const { baseElement } = render(() => <Input />);
+  const screen = page.elementLocator(baseElement);
   return {
-    user: userEvent.setup(),
-    getInputElements: () => getAllByRole<HTMLInputElement>('textbox'),
-    searchElement: getByRole<HTMLButtonElement>('button', { name: '検索' }),
-    addElement: getByRole<HTMLButtonElement>('button', { name: '追加' }),
-    removeElement: getByRole<HTMLButtonElement>('button', { name: '削除' }),
+    getTextBoxes: () => screen.getByRole('textbox').all(),
+    searchButton: screen.getByRole('button', { name: '検索' }),
+    addButton: screen.getByRole('button', { name: '追加' }),
+    removeButton: screen.getByRole('button', { name: '削除' }),
   } as const;
 };

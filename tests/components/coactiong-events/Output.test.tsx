@@ -1,6 +1,7 @@
-import { actions } from 'astro:actions';
+import { type ActionError, actions } from 'astro:actions';
 import { render } from '@solidjs/testing-library';
 import { expect, test, vi } from 'vitest';
+import { page } from 'vitest/browser';
 import { Output } from '../../../src/components/coacting-events/Output';
 import { search } from '../../../src/components/coacting-events/store';
 
@@ -11,59 +12,47 @@ vi.mock('astro:actions', () => {
     },
   };
 });
-const coactingEventsMock = vi.spyOn(actions, 'coactingEvents');
+const coactingEventsMock = vi.mocked(actions.coactingEvents, {
+  partial: true,
+});
 
 test('共演イベント検索_出力検証', async () => {
-  const { queryListItemElements } = setup();
+  const { getListItems } = setup();
 
   // 初期状態
-  expect(queryListItemElements().length).toBe(0);
+  expect(getListItems().length).toBe(0);
 
   // 検索実行
-  coactingEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: {
-        events: createEvents(2),
-      },
-      error: undefined,
-    }),
-  );
+  coactingEventsMock.mockResolvedValueOnce({
+    data: {
+      events: createEvents(2),
+    },
+  });
   await search();
-  expect(queryListItemElements().length).toBe(2);
+  expect(getListItems().length).toBe(2);
 
   // 検索再実行
-  coactingEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: {
-        events: createEvents(1),
-      },
-      error: undefined,
-    }),
-  );
+  coactingEventsMock.mockResolvedValueOnce({
+    data: {
+      events: createEvents(1),
+    },
+  });
   await search();
-  expect(queryListItemElements().length).toBe(1);
+  expect(getListItems().length).toBe(1);
 
   // 検索失敗
-  coactingEventsMock.mockImplementationOnce(() =>
-    Promise.resolve({
-      data: undefined,
-      error: {
-        name: '',
-        message: '',
-        type: 'AstroActionError',
-        code: 'INTERNAL_SERVER_ERROR',
-        status: 500,
-      },
-    }),
-  );
+  coactingEventsMock.mockResolvedValueOnce({
+    error: {} as ActionError,
+  });
   await search();
-  expect(queryListItemElements().length).toBe(1);
+  expect(getListItems().length).toBe(1);
 });
 
 const setup = () => {
-  const { queryAllByRole } = render(() => <Output />);
+  const { baseElement } = render(() => <Output />);
+  const screen = page.elementLocator(baseElement);
   return {
-    queryListItemElements: () => queryAllByRole('listitem'),
+    getListItems: () => screen.getByRole('listitem').all(),
   } as const;
 };
 

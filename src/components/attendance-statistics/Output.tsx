@@ -91,7 +91,7 @@ const OutputContent = (output: OutputData) => {
                 <For each={pagedPlaceCounts()}>
                   {({ item: [placeName, count], index }) => (
                     <tr>
-                      <th>{index + 1}</th>
+                      <th scope="row">{index + 1}</th>
                       <td class="text-center">{placeName}</td>
                       <td class="text-right">{count}</td>
                     </tr>
