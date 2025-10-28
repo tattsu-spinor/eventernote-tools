@@ -33,11 +33,13 @@ const OutputContent = (props: OutputContentProps) => {
         <table class="d-table">
           <thead>
             <tr>
-              <th />
-              <th class="text-center">出演者名</th>
+              <th scope="col" />
+              <th scope="col" class="text-center">
+                出演者名
+              </th>
               <For each={props.outputs}>
                 {(output, index) => (
-                  <th class="text-right">
+                  <th scope="col" class="text-right">
                     <div class="d-dropdown d-dropdown-hover w-full">
                       出演数{index() + 1}
                       <ul class="d-dropdown-content d-menu text-base-content font-medium bg-base-200 rounded-box w-36 z-1 p-2 shadow-sm">
@@ -63,14 +65,16 @@ const OutputContent = (props: OutputContentProps) => {
                   </th>
                 )}
               </For>
-              <th class="text-right">総出演数</th>
+              <th scope="col" class="text-right">
+                総出演数
+              </th>
             </tr>
           </thead>
           <tbody>
             <For each={pagedItems()}>
               {({ item: { actorName, counts, totalCount }, index }) => (
                 <tr>
-                  <th>{index + 1}</th>
+                  <th scope="row">{index + 1}</th>
                   <td class="text-center">{actorName}</td>
                   <For each={counts}>
                     {(count) => <td class="text-right">{count}</td>}
