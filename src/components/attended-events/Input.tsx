@@ -11,8 +11,8 @@ export const Input = () => {
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input
-          name="userId"
           type="text"
+          name="userId"
           placeholder="ユーザーID"
           value={inputStore.userId}
           onInput={(e) => {
@@ -25,8 +25,8 @@ export const Input = () => {
       <label class="d-floating-label">
         <span>出演者名</span>
         <input
-          name="actorName"
           type="text"
+          name="actorName"
           placeholder="出演者名（オプション）"
           value={inputStore.actorName}
           onInput={(e) => {
@@ -39,8 +39,8 @@ export const Input = () => {
       <label class="d-floating-label">
         <span>会場名</span>
         <input
-          name="placeName"
           type="text"
+          name="placeName"
           placeholder="会場名（オプション）"
           value={inputStore.placeName}
           onInput={(e) => {

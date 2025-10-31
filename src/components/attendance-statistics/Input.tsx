@@ -11,8 +11,8 @@ export const Input = () => {
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input
-          name="userId"
           type="text"
+          name="userId"
           placeholder="ユーザーID"
           value={inputStore.userId}
           onInput={(e) => {

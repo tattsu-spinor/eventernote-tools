@@ -15,8 +15,8 @@ export const Input = () => {
       <fieldset class="d-fieldset">
         <legend class="d-fieldset-label">キーワード</legend>
         <input
-          name="keyword"
           type="text"
+          name="keyword"
           aria-label="キーワード"
           value={inputStore.keyword}
           onInput={(e) => {

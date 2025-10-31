@@ -20,10 +20,10 @@ export const Input = () => {
           <label class="d-floating-label">
             <span>{`出演者名${index + 1}`}</span>
             <input
-              name={`actorName${index + 1}`}
               type="text"
-              value={actorName()}
+              name={`actorName${index + 1}`}
               placeholder={`出演者名${index + 1}`}
+              value={actorName()}
               onInput={(e) => {
                 setActorName(index, e.target.value);
               }}
