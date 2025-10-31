@@ -21,7 +21,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.15.2",
     "daisyui": "^5.3.10",
-    "es-toolkit": "^1.40.0",
+    "es-toolkit": "^1.41.0",
     "linkedom": "^0.18.12",
     "sharp": "^0.34.4",
     "solid-js": "^1.9.10",
