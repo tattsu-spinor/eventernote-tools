@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check": "astro check",
     "test": "vitest",
     "test:e2e": "playwright test",
     "biome:check": "biome check",
@@ -29,6 +30,7 @@
     "tailwindcss": "^4.1.16"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.5",
     "@biomejs/biome": "2.2.5",
     "@playwright/test": "^1.56.1",
     "@solidjs/testing-library": "^0.8.10",
