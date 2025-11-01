@@ -1,6 +1,7 @@
 import { sum } from 'es-toolkit';
-import { For, Show } from 'solid-js';
+import { createMemo, For, Show } from 'solid-js';
 import type { OutputData } from '../../actions/appearanceStatistics';
+import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
 import { removeOutputData, useOutputStore } from './store';
@@ -20,14 +21,25 @@ type OutputContentProps = {
 };
 
 const OutputContent = (props: OutputContentProps) => {
-  const { paginationProps, pagedItems } = usePagination(() =>
+  const mergedActorCounts = createMemo(() =>
     merge(
-      props.outputs.map(({ statistics }) => Object.fromEntries(statistics)),
+      props.outputs.map(({ actorCounts }) => Object.fromEntries(actorCounts)),
     ),
   );
-
+  const { paginationProps, pagedItems } = usePagination(mergedActorCounts);
   return (
     <>
+      <div class="flex justify-end">
+        <ClipboardCopy
+          getText={() =>
+            mergedActorCounts()
+              .map(({ actorName, counts, totalCount }) =>
+                [actorName, ...counts, totalCount].join(','),
+              )
+              .join('\n')
+          }
+        />
+      </div>
       <Pagination {...paginationProps()} />
       <div class="overflow-x-auto">
         <table class="d-table">
@@ -91,6 +103,12 @@ const OutputContent = (props: OutputContentProps) => {
   );
 };
 
+type MergedActorCount = {
+  actorName: string;
+  counts: number[];
+  totalCount: number;
+};
+
 const merge = (actorCounts: Record<string, number>[]) => {
   const actorNames = actorCounts.reduce((actorNames, target) => {
     for (const actorName of Object.keys(target)) {
@@ -106,7 +124,7 @@ const merge = (actorCounts: Record<string, number>[]) => {
         actorName,
         counts,
         totalCount: sum(counts),
-      };
+      } as MergedActorCount;
     })
     .sort((a, b) => b.totalCount - a.totalCount);
 };

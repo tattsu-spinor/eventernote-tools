@@ -14,6 +14,7 @@
         "daisyui": "^5.3.10",
         "es-toolkit": "^1.41.0",
         "linkedom": "^0.18.12",
+        "lucide-solid": "^0.548.0",
         "sharp": "^0.34.4",
         "solid-js": "^1.9.10",
         "tailwindcss": "^4.1.16",
@@ -876,6 +877,8 @@
     "longest-streak": ["longest-streak@3.1.0", "", {}, "sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g=="],
 
     "lru-cache": ["lru-cache@11.2.2", "", {}, "sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg=="],
+
+    "lucide-solid": ["lucide-solid@0.548.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-EvrLuGBz7FJ3bXNVqWLCg1neF19kv2brbhSA1RqeJGOzj3UrLn0anvBj5WJCpQ6cBUlLp0LQVZeW8cZfTWaJzA=="],
 
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 

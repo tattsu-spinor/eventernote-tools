@@ -16,7 +16,7 @@ export type InputData = {
 export type OutputData = {
   readonly searchUrl: string;
   readonly eventCount: number;
-  readonly statistics: ReadonlyArray<readonly [string, number]>;
+  readonly actorCounts: ReadonlyArray<readonly [string, number]>;
 };
 
 export const appearanceStatistics = defineAction({
@@ -58,7 +58,7 @@ export const appearanceStatistics = defineAction({
     return {
       searchUrl,
       eventCount,
-      statistics: Array.from(actorCounts)
+      actorCounts: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
     } as OutputData;
