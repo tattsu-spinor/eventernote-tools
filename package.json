@@ -9,8 +9,7 @@
     "biome:check": "biome check",
     "biome:write": "biome check --write",
     "biome:write:unsafe": "biome check --write --unsafe",
-    "biome:write:staged": "biome check --write --staged --no-errors-on-unmatched",
-    "biome:ci": "biome ci --reporter=github --error-on-warnings"
+    "biome:write:staged": "biome check --write --staged --no-errors-on-unmatched"
   },
   "dependencies": {
     "@astrojs/solid-js": "^5.1.2",
