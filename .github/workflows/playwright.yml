@@ -28,7 +28,7 @@ jobs:
         env:
           BASE_URL: ${{ github.event.client_payload.url || inputs.url }}
           VERCEL_PROTECTION_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ !cancelled() }}
         with:
           name: test-results
