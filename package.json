@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@astrojs/solid-js": "^5.1.2",
-    "@astrojs/starlight": "^0.36.1",
-    "@astrojs/starlight-tailwind": "^4.0.1",
+    "@astrojs/starlight": "^0.36.2",
+    "@astrojs/starlight-tailwind": "^4.0.2",
     "@astrojs/vercel": "^9.0.0",
     "@tailwindcss/vite": "^4.1.16",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^5.15.2",
+    "astro": "^5.15.3",
     "daisyui": "^5.3.10",
     "es-toolkit": "^1.41.0",
     "linkedom": "^0.18.12",
@@ -34,9 +34,9 @@
     "@playwright/test": "^1.56.1",
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/user-event": "^14.6.1",
-    "@vitest/browser-playwright": "^4.0.4",
+    "@vitest/browser-playwright": "^4.0.7",
     "jsdom": "^27.0.1",
-    "lefthook": "^2.0.1",
-    "vitest": "^4.0.4"
+    "lefthook": "^2.0.2",
+    "vitest": "^4.0.7"
   }
 }
