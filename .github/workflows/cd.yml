@@ -1,0 +1,26 @@
+name: CD
+on: deployment_status
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment_status.environment == 'Production' && github.event.deployment_status.state == 'success' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - run: bun ci
+      - run: bunx playwright test --reporter=github
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}
+          VERCEL_PROTECTION_BYPASS: ${{ secrets.VERCEL_PROTECTION_BYPASS }}
+      - uses: actions/upload-artifact@v5
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 30
