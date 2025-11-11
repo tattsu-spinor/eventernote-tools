@@ -1,4 +1,4 @@
-name: Dependabot Actions
+name: Auto PR Actions
 on: pull_request
 
 permissions:
@@ -6,17 +6,15 @@ permissions:
   contents: write
 
 jobs:
-  auto-merge:
+  auto-merge-dependabot:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - id: metadata
-        uses: dependabot/fetch-metadata@v2
       - name: Enable auto-merge for Dependabot PRs
         run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
         env:
           GH_TOKEN: ${{ secrets.MY_PAT }}
-  auto-approve:
+  auto-approve-dependabot:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
@@ -24,6 +22,14 @@ jobs:
         uses: dependabot/fetch-metadata@v2
       - name: Approve Dependabot PRs
         if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  auto-approve-owner:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == github.repository_owner
+    steps:
+      - name: Approve Owner PRs
         run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
