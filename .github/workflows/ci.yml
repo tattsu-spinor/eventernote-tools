@@ -20,7 +20,7 @@ jobs:
       - run: bun ci
       - run: bunx astro check
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
