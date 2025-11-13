@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "check": "astro check",
+    "dev": "bun --bun astro dev",
+    "build": "bun --bun astro build",
+    "check": "bun --bun astro check",
     "test": "vitest",
     "test:e2e": "playwright test",
     "biome:check": "biome check",
