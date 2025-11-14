@@ -1,5 +1,9 @@
+import { navigate } from 'astro:transitions/client';
+import { ScanSearchIcon } from 'lucide-solid';
 import { createSignal, For, Match, Show, Switch } from 'solid-js';
 import type { OutputData } from '../../actions/attendanceStatistics';
+import { loading, searchFromStatistics } from '../attended-events/store';
+import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
 import { output } from './store';
@@ -43,6 +47,15 @@ const OutputContent = (output: OutputData) => {
           会場
         </button>
       </div>
+      <div class="flex justify-end">
+        <ClipboardCopy
+          getText={() =>
+            (tab() === 'actor' ? output.actorCounts : output.placeCounts)
+              .map((data) => data.join(','))
+              .join('\n')
+          }
+        />
+      </div>
       <Switch>
         <Match when={tab() === 'actor'}>
           <Pagination {...actorPaginationProps()} />
@@ -53,6 +66,7 @@ const OutputContent = (output: OutputData) => {
                   <th />
                   <th class="text-center">出演者名</th>
                   <th class="text-right">参加数</th>
+                  <th class="text-center">検索</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,6 +76,23 @@ const OutputContent = (output: OutputData) => {
                       <th>{index + 1}</th>
                       <td class="text-center">{actorName}</td>
                       <td class="text-right">{count}</td>
+                      <td class="text-center w-16">
+                        <button
+                          type="button"
+                          class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          disabled={loading()}
+                          onClick={async () => {
+                            await navigate('/attended-events/');
+                            await searchFromStatistics({
+                              userId: output.userId,
+                              actorName,
+                              placeName: '',
+                            });
+                          }}
+                        >
+                          <ScanSearchIcon size={20} />
+                        </button>
+                      </td>
                     </tr>
                   )}
                 </For>
@@ -79,6 +110,7 @@ const OutputContent = (output: OutputData) => {
                   <th />
                   <th class="text-center">会場名</th>
                   <th class="text-right">参加数</th>
+                  <td class="text-center">検索</td>
                 </tr>
               </thead>
               <tbody>
@@ -88,6 +120,23 @@ const OutputContent = (output: OutputData) => {
                       <th scope="row">{index + 1}</th>
                       <td class="text-center">{placeName}</td>
                       <td class="text-right">{count}</td>
+                      <td class="text-center w-16">
+                        <button
+                          type="button"
+                          class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          disabled={loading()}
+                          onClick={async () => {
+                            await navigate('/attended-events/');
+                            await searchFromStatistics({
+                              userId: output.userId,
+                              actorName: '',
+                              placeName,
+                            });
+                          }}
+                        >
+                          <ScanSearchIcon size={20} />
+                        </button>
+                      </td>
                     </tr>
                   )}
                 </For>

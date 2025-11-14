@@ -7,6 +7,7 @@ export type InputData = {
 };
 
 export type OutputData = {
+  readonly userId: string;
   readonly actorCounts: ReadonlyArray<readonly [string, number]>;
   readonly placeCounts: ReadonlyArray<readonly [string, number]>;
 };
@@ -54,6 +55,7 @@ export const attendanceStatistics = defineAction({
         return counts;
       }, new Map<string, number>());
     return {
+      userId,
       actorCounts: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),

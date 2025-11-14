@@ -25,11 +25,11 @@ export const ClipboardCopy: Component<ClipboardCopyProps> = (props) => {
       <Switch>
         <Match when={copied()}>
           <ClipboardCheckIcon size={16} />
-          <span class="">Copied!</span>
+          <span>Copied!</span>
         </Match>
         <Match when={true}>
           <ClipboardCopyIcon size={16} />
-          <span class="">Copy</span>
+          <span>Copy</span>
         </Match>
       </Switch>
     </button>
