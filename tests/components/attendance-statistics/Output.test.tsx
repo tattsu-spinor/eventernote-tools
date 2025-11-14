@@ -25,6 +25,7 @@ test('参加イベント統計_出力検証', async () => {
   // 検索実行
   attendanceStatisticsMock.mockResolvedValueOnce({
     data: {
+      userId: 'userId',
       actorCounts: [
         ['出演者名1', 3],
         ['出演者名2', 2],
@@ -44,6 +45,7 @@ test('参加イベント統計_出力検証', async () => {
   // 検索再実行
   attendanceStatisticsMock.mockResolvedValueOnce({
     data: {
+      userId: 'userId',
       actorCounts: [
         ['出演者名1', 2],
         ['出演者名2', 2],
