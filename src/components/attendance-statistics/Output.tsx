@@ -2,21 +2,15 @@ import { navigate } from 'astro:transitions/client';
 import { ScanSearchIcon } from 'lucide-solid';
 import { createSignal, For, Match, Show, Switch } from 'solid-js';
 import type { OutputData } from '../../actions/attendanceStatistics';
-import { searchFromStatistics } from '../attended-events/store';
+import { loading, searchFromStatistics } from '../attended-events/store';
 import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { useOutputStore } from './store';
+import { output } from './store';
 
-export const Output = () => {
-  const outputStore = useOutputStore();
-
-  return (
-    <Show when={outputStore.data}>
-      {(output) => <OutputContent {...output()} />}
-    </Show>
-  );
-};
+export const Output = () => (
+  <Show when={output()}>{(output) => <OutputContent {...output()} />}</Show>
+);
 
 const OutputContent = (output: OutputData) => {
   const [tab, setTab] = createSignal<'actor' | 'place'>('actor');
@@ -86,18 +80,17 @@ const OutputContent = (output: OutputData) => {
                         <button
                           type="button"
                           class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          disabled={loading()}
+                          onClick={async () => {
+                            await navigate('/attended-events/#検索結果');
+                            await searchFromStatistics({
+                              userId: output.userId,
+                              actorName,
+                              placeName: '',
+                            });
+                          }}
                         >
-                          <ScanSearchIcon
-                            size={20}
-                            onClick={async () => {
-                              await navigate('/attended-events/');
-                              await searchFromStatistics({
-                                userId: output.userId,
-                                actorName,
-                                placeName: '',
-                              });
-                            }}
-                          />
+                          <ScanSearchIcon size={20} />
                         </button>
                       </td>
                     </tr>
@@ -131,18 +124,17 @@ const OutputContent = (output: OutputData) => {
                         <button
                           type="button"
                           class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          disabled={loading()}
+                          onClick={async () => {
+                            await navigate('/attended-events/#検索結果');
+                            await searchFromStatistics({
+                              userId: output.userId,
+                              actorName: '',
+                              placeName,
+                            });
+                          }}
                         >
-                          <ScanSearchIcon
-                            size={20}
-                            onClick={async () => {
-                              await navigate('/attended-events/');
-                              await searchFromStatistics({
-                                userId: output.userId,
-                                actorName: '',
-                                placeName,
-                              });
-                            }}
-                          />
+                          <ScanSearchIcon size={20} />
                         </button>
                       </td>
                     </tr>

@@ -4,14 +4,12 @@ import type { OutputData } from '../../actions/appearanceStatistics';
 import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { removeOutputData, useOutputStore } from './store';
+import { outputs, removeOutputs } from './store';
 
 export const Output = () => {
-  const outputStore = useOutputStore();
-
   return (
-    <Show when={outputStore.data.length > 0}>
-      <OutputContent outputs={outputStore.data} />
+    <Show when={outputs().length > 0}>
+      <OutputContent outputs={outputs()} />
     </Show>
   );
 };
@@ -67,7 +65,7 @@ const OutputContent = (props: OutputContentProps) => {
                         <li>
                           <button
                             type="button"
-                            onClick={() => removeOutputData(index())}
+                            onClick={() => removeOutputs(index())}
                           >
                             削除
                           </button>

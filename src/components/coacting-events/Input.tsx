@@ -1,16 +1,16 @@
 import { Index, Show } from 'solid-js';
 import {
   addActorName,
+  error,
+  loading,
   removeActorName,
   search,
   setActorName,
   useInputStore,
-  useOutputStore,
 } from './store';
 
 export const Input = () => {
   const inputStore = useInputStore();
-  const outputStore = useOutputStore();
   const canNotSearch = () => inputStore.actorNames.some((v) => !v);
 
   return (
@@ -37,18 +37,18 @@ export const Input = () => {
         <button
           type="button"
           onClick={search}
-          disabled={outputStore.loading || canNotSearch()}
+          disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={outputStore.loading}>
+          <Show when={loading()}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
         <button
           type="button"
           onClick={addActorName}
-          disabled={outputStore.loading}
+          disabled={loading()}
           class="d-btn d-btn-secondary ml-3"
         >
           追加
@@ -56,14 +56,14 @@ export const Input = () => {
         <button
           type="button"
           onClick={removeActorName}
-          disabled={outputStore.loading || inputStore.actorNames.length <= 1}
+          disabled={loading() || inputStore.actorNames.length <= 1}
           class="d-btn d-btn-warning ml-3"
         >
           削除
         </button>
       </div>
 
-      <Show when={outputStore.error} keyed>
+      <Show when={error()} keyed>
         {(error) => (
           <div role="alert" class="d-alert d-alert-error">
             <span>
