@@ -82,7 +82,7 @@ const OutputContent = (output: OutputData) => {
                           class="d-btn d-btn-ghost d-btn-sm d-btn-square"
                           disabled={loading()}
                           onClick={async () => {
-                            await navigate('/attended-events/#検索結果');
+                            await navigate('/attended-events/');
                             await searchFromStatistics({
                               userId: output.userId,
                               actorName,
@@ -126,7 +126,7 @@ const OutputContent = (output: OutputData) => {
                           class="d-btn d-btn-ghost d-btn-sm d-btn-square"
                           disabled={loading()}
                           onClick={async () => {
-                            await navigate('/attended-events/#検索結果');
+                            await navigate('/attended-events/');
                             await searchFromStatistics({
                               userId: output.userId,
                               actorName: '',
