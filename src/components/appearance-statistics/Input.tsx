@@ -1,10 +1,9 @@
 import { For, Match, Show, Switch } from 'solid-js';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
-import { search, setInputStore, useInputStore, useOutputStore } from './store';
+import { error, loading, search, setInputStore, useInputStore } from './store';
 
 export const Input = () => {
   const inputStore = useInputStore();
-  const outputStore = useOutputStore();
   const canNotSearch = () =>
     Object.values(inputStore)
       .filter((v) => typeof v === 'string')
@@ -142,17 +141,17 @@ export const Input = () => {
         <button
           type="button"
           onClick={search}
-          disabled={outputStore.loading || canNotSearch()}
+          disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
         >
           検索
-          <Show when={outputStore.loading}>
+          <Show when={loading()}>
             <span class="d-loading d-loading-spinner" />
           </Show>
         </button>
       </div>
 
-      <Show when={outputStore.error} keyed>
+      <Show when={error()} keyed>
         {(error) => (
           <div role="alert" class="d-alert d-alert-error m-2">
             <span>

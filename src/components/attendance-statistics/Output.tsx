@@ -2,17 +2,11 @@ import { createSignal, For, Match, Show, Switch } from 'solid-js';
 import type { OutputData } from '../../actions/attendanceStatistics';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { useOutputStore } from './store';
+import { output } from './store';
 
-export const Output = () => {
-  const outputStore = useOutputStore();
-
-  return (
-    <Show when={outputStore.data}>
-      {(output) => <OutputContent {...output()} />}
-    </Show>
-  );
-};
+export const Output = () => (
+  <Show when={output()}>{(output) => <OutputContent {...output()} />}</Show>
+);
 
 const OutputContent = (output: OutputData) => {
   const [tab, setTab] = createSignal<'actor' | 'place'>('actor');
