@@ -46,3 +46,9 @@ export const search = async () => {
     error ? _setOutputStore('error', error) : _setOutputStore('data', data);
   });
 };
+
+export const searchFromStatistics = async (input: InputData) => {
+  _setInputStore(input);
+  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(_inputStore));
+  await search();
+};
