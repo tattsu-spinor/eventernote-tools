@@ -1,5 +1,6 @@
 import { createSignal, For, Match, Show, Switch } from 'solid-js';
 import type { OutputData } from '../../actions/attendanceStatistics';
+import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
 import { useOutputStore } from './store';
@@ -48,6 +49,15 @@ const OutputContent = (output: OutputData) => {
         >
           会場
         </button>
+      </div>
+      <div class="flex justify-end">
+        <ClipboardCopy
+          getText={() =>
+            (tab() === 'actor' ? output.actorCounts : output.placeCounts)
+              .map((data) => data.join(','))
+              .join('\n')
+          }
+        />
       </div>
       <Switch>
         <Match when={tab() === 'actor'}>
