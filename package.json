@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",
-    "@biomejs/biome": "2.2.5",
+    "@biomejs/biome": "2.3.5",
     "@playwright/test": "^1.56.1",
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/user-event": "^14.6.1",
