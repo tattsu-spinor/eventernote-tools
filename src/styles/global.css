@@ -22,6 +22,16 @@
 
 @layer base {
   .not-content {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0 solid;
+    }
     table {
       text-indent: 0;
       border-color: inherit;
