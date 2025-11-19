@@ -15,7 +15,7 @@ export const Pagination = (props: PaginationProps) => (
           type="button"
           onClick={() => props.updatePage(props.currentPage - 1)}
           disabled={props.currentPage === 1}
-          class="d-join-item d-btn d-btn-square"
+          class="d-join-item d-btn d-btn-square d-btn-ghost"
         >
           &lt
         </button>
@@ -40,7 +40,7 @@ export const Pagination = (props: PaginationProps) => (
           type="button"
           onClick={() => props.updatePage(props.currentPage + 1)}
           disabled={props.currentPage === props.totalPages}
-          class="d-join-item d-btn d-btn-square"
+          class="d-join-item d-btn d-btn-square d-btn-ghost"
         >
           &gt
         </button>
