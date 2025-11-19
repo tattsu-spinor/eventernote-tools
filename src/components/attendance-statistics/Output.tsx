@@ -1,6 +1,6 @@
 import { navigate } from 'astro:transitions/client';
 import { ScanSearchIcon } from 'lucide-solid';
-import { createSignal, For, Match, Show, Switch } from 'solid-js';
+import { For, Show } from 'solid-js';
 import type { OutputData } from '../../actions/attendanceStatistics';
 import { loading, searchFromStatistics } from '../attended-events/store';
 import { ClipboardCopy } from '../common/ClipboardCopy';
@@ -13,7 +13,6 @@ export const Output = () => (
 );
 
 const OutputContent = (output: OutputData) => {
-  const [tab, setTab] = createSignal<'actor' | 'place'>('actor');
   const {
     paginationProps: actorPaginationProps,
     pagedItems: pagedActorCounts,
@@ -24,40 +23,21 @@ const OutputContent = (output: OutputData) => {
   } = usePagination(() => output.placeCounts);
 
   return (
-    <>
-      <div role="tablist" class="d-tabs d-tabs-border">
-        <button
-          type="button"
-          role="tab"
-          classList={{ 'd-tab': true, 'd-tab-active': tab() === 'actor' }}
-          onClick={() => {
-            setTab('actor');
-          }}
-        >
-          出演者
-        </button>
-        <button
-          type="button"
-          role="tab"
-          classList={{ 'd-tab': true, 'd-tab-active': tab() === 'place' }}
-          onClick={() => {
-            setTab('place');
-          }}
-        >
-          会場
-        </button>
-      </div>
-      <div class="flex justify-end">
-        <ClipboardCopy
-          getText={() =>
-            (tab() === 'actor' ? output.actorCounts : output.placeCounts)
-              .map((data) => data.join(','))
-              .join('\n')
-          }
-        />
-      </div>
-      <Switch>
-        <Match when={tab() === 'actor'}>
+    <div role="tablist" class="d-tabs d-tabs-border">
+      <input
+        type="radio"
+        name="tabs"
+        aria-label="出演者"
+        checked
+        class="d-tab"
+      />
+      <div class="d-tab-content">
+        <div class="d-card p-2 gap-4">
+          <ClipboardCopy
+            getText={() =>
+              output.actorCounts.map((data) => data.join(',')).join('\n')
+            }
+          />
           <Pagination {...actorPaginationProps()} />
           <div class="overflow-x-auto">
             <table class="d-table">
@@ -79,7 +59,7 @@ const OutputContent = (output: OutputData) => {
                       <td class="text-center w-16">
                         <button
                           type="button"
-                          class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          class="d-btn d-btn-ghost d-btn-xs d-btn-square"
                           disabled={loading()}
                           onClick={async () => {
                             await navigate('/attended-events/');
@@ -100,8 +80,17 @@ const OutputContent = (output: OutputData) => {
             </table>
           </div>
           <Pagination {...actorPaginationProps()} />
-        </Match>
-        <Match when={tab() === 'place'}>
+        </div>
+      </div>
+
+      <input type="radio" name="tabs" aria-label="会場" class="d-tab" />
+      <div class="d-tab-content">
+        <div class="d-card p-2 gap-4">
+          <ClipboardCopy
+            getText={() =>
+              output.placeCounts.map((data) => data.join(',')).join('\n')
+            }
+          />
           <Pagination {...placePaginationProps()} />
           <div class="overflow-x-auto">
             <table class="d-table">
@@ -123,7 +112,7 @@ const OutputContent = (output: OutputData) => {
                       <td class="text-center w-16">
                         <button
                           type="button"
-                          class="d-btn d-btn-ghost d-btn-sm d-btn-square"
+                          class="d-btn d-btn-ghost d-btn-xs d-btn-square"
                           disabled={loading()}
                           onClick={async () => {
                             await navigate('/attended-events/');
@@ -144,8 +133,8 @@ const OutputContent = (output: OutputData) => {
             </table>
           </div>
           <Pagination {...placePaginationProps()} />
-        </Match>
-      </Switch>
-    </>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 import { type ActionError, actions } from 'astro:actions';
-import { createSignal, onMount } from 'solid-js';
+import { createMemo, createSignal, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { InputData, OutputData } from '../../actions/coactingEvents';
 
@@ -7,7 +7,8 @@ const INPUT_STORE_KEY = 'coactingEvents.inputStore';
 const [input, setInput] = createStore<InputData>({
   actorNames: ['', ''],
 });
-const [output, setOutput] = createSignal<OutputData>();
+const [outputs, setOutputs] = createSignal<OutputData[]>([]);
+const [selectedOutputIndex, setSelectedOutputIndex] = createSignal(0);
 const [loading, setLoading] = createSignal(false);
 const [error, setError] = createSignal<ActionError>();
 
@@ -36,12 +37,25 @@ export const removeActorName = () => {
   localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(input.actorNames));
 };
 
-export { output, loading, error };
+export { outputs, selectedOutputIndex, loading, error };
 
 export const search = async () => {
   setLoading(true);
   setError(undefined);
   const { data, error } = await actions.coactingEvents(input);
   setLoading(false);
-  error ? setError(error) : setOutput(data);
+  if (error) {
+    setError(error);
+  } else {
+    setOutputs((outputs) => [data, ...outputs]);
+    setSelectedOutputIndex(0);
+  }
+};
+
+export const selectedOutput = createMemo(
+  () => outputs()[selectedOutputIndex()],
+);
+
+export const selectOutput = (index: number) => {
+  setSelectedOutputIndex(index);
 };
