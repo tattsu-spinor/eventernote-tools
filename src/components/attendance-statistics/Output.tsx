@@ -26,6 +26,7 @@ const OutputContent = (output: OutputData) => {
     <div role="tablist" class="d-tabs d-tabs-border">
       <input
         type="radio"
+        role="tab"
         name="tabs"
         aria-label="出演者"
         checked
@@ -83,7 +84,13 @@ const OutputContent = (output: OutputData) => {
         </div>
       </div>
 
-      <input type="radio" name="tabs" aria-label="会場" class="d-tab" />
+      <input
+        type="radio"
+        role="tab"
+        name="tabs"
+        aria-label="会場"
+        class="d-tab"
+      />
       <div class="d-tab-content">
         <div class="d-card p-2 gap-4">
           <ClipboardCopy

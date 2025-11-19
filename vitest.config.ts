@@ -10,5 +10,6 @@ export default getViteConfig({
       headless: true,
       instances: [{ browser: 'chromium' }],
     },
+    setupFiles: ['./tests/setup.ts'],
   },
 });
