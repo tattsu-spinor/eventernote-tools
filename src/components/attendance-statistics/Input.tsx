@@ -6,7 +6,7 @@ export const Input = () => {
   const canNotSearch = () => !inputStore.userId;
 
   return (
-    <form class="grid gap-4 p-2 max-w-xs sm:max-w-sm md:max-w-md">
+    <form class="d-card p-2 gap-4">
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input
@@ -21,7 +21,7 @@ export const Input = () => {
         />
       </label>
 
-      <div>
+      <div class="d-card-actions">
         <button
           type="button"
           onClick={search}

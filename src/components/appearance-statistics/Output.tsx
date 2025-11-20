@@ -26,18 +26,16 @@ const OutputContent = (props: OutputContentProps) => {
   );
   const { paginationProps, pagedItems } = usePagination(mergedActorCounts);
   return (
-    <>
-      <div class="flex justify-end">
-        <ClipboardCopy
-          getText={() =>
-            mergedActorCounts()
-              .map(({ actorName, counts, totalCount }) =>
-                [actorName, ...counts, totalCount].join(','),
-              )
-              .join('\n')
-          }
-        />
-      </div>
+    <div class="d-card p-2 gap-4">
+      <ClipboardCopy
+        getText={() =>
+          mergedActorCounts()
+            .map(({ actorName, counts, totalCount }) =>
+              [actorName, ...counts, totalCount].join(','),
+            )
+            .join('\n')
+        }
+      />
       <Pagination {...paginationProps()} />
       <div class="overflow-x-auto">
         <table class="d-table">
@@ -97,7 +95,7 @@ const OutputContent = (props: OutputContentProps) => {
         </table>
       </div>
       <Pagination {...paginationProps()} />
-    </>
+    </div>
   );
 };
 

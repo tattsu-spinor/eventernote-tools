@@ -14,7 +14,7 @@ export const Input = () => {
   const canNotSearch = () => inputStore.actorNames.some((v) => !v);
 
   return (
-    <form class="grid gap-4 p-2 max-w-xs sm:max-w-sm md:max-w-md">
+    <form class="d-card p-2 gap-4">
       <Index each={inputStore.actorNames}>
         {(actorName, index) => (
           <label class="d-floating-label">
@@ -33,7 +33,7 @@ export const Input = () => {
         )}
       </Index>
 
-      <div>
+      <div class="d-card-actions">
         <button
           type="button"
           onClick={search}
@@ -49,7 +49,7 @@ export const Input = () => {
           type="button"
           onClick={addActorName}
           disabled={loading()}
-          class="d-btn d-btn-secondary ml-3"
+          class="d-btn d-btn-secondary"
         >
           追加
         </button>
@@ -57,7 +57,7 @@ export const Input = () => {
           type="button"
           onClick={removeActorName}
           disabled={loading() || inputStore.actorNames.length <= 1}
-          class="d-btn d-btn-warning ml-3"
+          class="d-btn d-btn-warning"
         >
           削除
         </button>
@@ -65,7 +65,7 @@ export const Input = () => {
 
       <Show when={error()} keyed>
         {(error) => (
-          <div role="alert" class="d-alert d-alert-error">
+          <div role="alert" class="d-alert d-alert-error w-fit">
             <span>
               {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
                 ? error.message

@@ -16,22 +16,24 @@ export const ClipboardCopy: Component<ClipboardCopyProps> = (props) => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      class="d-btn d-btn-soft d-btn-sm d-tooltip d-tooltip-accent d-tooltip-left text-sm"
-      data-tip="データをCSVとしてコピーする"
-    >
-      <Switch>
-        <Match when={copied()}>
-          <ClipboardCheckIcon size={16} />
-          <span>Copied!</span>
-        </Match>
-        <Match when={true}>
-          <ClipboardCopyIcon size={16} />
-          <span>Copy</span>
-        </Match>
-      </Switch>
-    </button>
+    <div class="d-card-actions justify-end">
+      <button
+        type="button"
+        onClick={handleCopy}
+        class="d-btn d-btn-soft d-btn-sm d-tooltip d-tooltip-accent d-tooltip-left text-sm"
+        data-tip="データをCSVとしてコピーする"
+      >
+        <Switch>
+          <Match when={copied()}>
+            <ClipboardCheckIcon size={16} />
+            <span>Copied!</span>
+          </Match>
+          <Match when={true}>
+            <ClipboardCopyIcon size={16} />
+            <span>Copy</span>
+          </Match>
+        </Switch>
+      </button>
+    </div>
   );
 };
