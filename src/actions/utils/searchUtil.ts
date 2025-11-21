@@ -17,8 +17,8 @@ export const searchActorEventList = async (
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
-  const actorId = await searchActorId(actorName, session);
-  const eventList = await searchEventList(
+  const actorId = await searchActorId(actorName);
+  const eventList = await searchEventListCore(
     `https://www.eventernote.com/actors/${actorId}/events?limit=10000`,
     `出演者が見つかりません: "${actorName}"`,
   );
@@ -39,7 +39,7 @@ export const searchUserEventList = async (
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
-  const eventList = await searchEventList(
+  const eventList = await searchEventListCore(
     `https://www.eventernote.com/users/${userId}/events?limit=10000`,
     `ユーザーが見つかりません: "${userId}"`,
   );
@@ -60,7 +60,7 @@ export const searchSpecificEventList = async (
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
-  const eventCount = await searchSpecificEventCount(searchUrl, session);
+  const eventCount = await searchSpecificEventCount(searchUrl);
   if (eventCount > 10000) {
     throw new ActionError({
       code: 'BAD_REQUEST',
@@ -70,7 +70,7 @@ export const searchSpecificEventList = async (
   const limit = 100;
   const eventLists = await Promise.all(
     range(eventCount / limit).map((page) =>
-      searchEventList(`${searchUrl}&limit=${limit}&page=${page + 1}`),
+      searchEventListCore(`${searchUrl}&limit=${limit}&page=${page + 1}`),
     ),
   );
   const eventList = eventLists.flat();
@@ -78,7 +78,10 @@ export const searchSpecificEventList = async (
   return eventList;
 };
 
-const searchEventList = async (url: string, notFoundErrorMessage?: string) => {
+const searchEventListCore = async (
+  url: string,
+  notFoundErrorMessage?: string,
+) => {
   const response = await fetch(url);
   if (!response.ok) {
     throw notFoundErrorMessage && response.status === 404
@@ -113,16 +116,7 @@ const searchEventList = async (url: string, notFoundErrorMessage?: string) => {
     .toArray();
 };
 
-const searchActorId = async (
-  actorName: string,
-  session?: AstroSession,
-): Promise<number> => {
-  const cacheKey = `${searchActorId.name}:${actorName}`;
-  const cachedActorId = await session?.get<number>(cacheKey);
-  if (cachedActorId) {
-    console.log(`cache hit:`, cacheKey);
-    return cachedActorId;
-  }
+const searchActorId = async (actorName: string): Promise<number> => {
   const res = await fetch(
     `https://www.eventernote.com/actors/search?keyword=${actorName}`,
   );
@@ -145,21 +139,10 @@ const searchActorId = async (
       message: `出演者が見つかりません: "${actorName}"`,
     });
   }
-  const actorId = parseInt(href.substring(href.lastIndexOf('/') + 1), 10);
-  session?.set(cacheKey, actorId, { ttl: 60 * 60 * 24 * 30 });
-  return actorId;
+  return parseInt(href.substring(href.lastIndexOf('/') + 1), 10);
 };
 
-const searchSpecificEventCount = async (
-  searchUrl: string,
-  session?: AstroSession,
-) => {
-  const cacheKey = `${searchSpecificEventCount.name}:${searchUrl}`;
-  const cachedCount = await session?.get<number>(cacheKey);
-  if (cachedCount) {
-    console.log(`cache hit:`, cacheKey);
-    return cachedCount;
-  }
+const searchSpecificEventCount = async (searchUrl: string) => {
   const res = await fetch(searchUrl);
   if (!res.ok) {
     throw new ActionError({
@@ -178,6 +161,5 @@ const searchSpecificEventCount = async (
       message: '指定された条件での検索結果が見つかりませんでした。',
     });
   }
-  session?.set(cacheKey, count);
   return count;
 };
