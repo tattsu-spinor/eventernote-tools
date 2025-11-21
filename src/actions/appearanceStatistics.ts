@@ -15,7 +15,6 @@ export type InputData = {
 
 export type OutputData = {
   readonly searchUrl: string;
-  readonly eventCount: number;
   readonly actorCounts: ReadonlyArray<readonly [string, number]>;
 };
 
@@ -57,7 +56,6 @@ export const appearanceStatistics = defineAction({
     const actorCounts = await searchActorCounts(searchUrl, eventCount);
     return {
       searchUrl,
-      eventCount,
       actorCounts: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
