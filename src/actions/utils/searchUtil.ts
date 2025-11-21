@@ -14,7 +14,7 @@ export const searchActorEventList = async (
   const cacheKey = `${searchActorEventList.name}:${actorName}`;
   const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
-    console.log(`cache ${cacheKey}:`, cachedEventList);
+    console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
   const actorId = await searchActorId(actorName, session);
@@ -36,7 +36,7 @@ export const searchUserEventList = async (
   const cacheKey = `${searchUserEventList.name}:${userId}`;
   const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
-    console.log(`cache ${cacheKey}:`, cachedEventList);
+    console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
   const eventList = await searchEventList(
@@ -57,7 +57,7 @@ export const searchSpecificEventList = async (
   const cacheKey = `${searchSpecificEventList.name}:${searchUrl}`;
   const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
-    console.log(`cache ${cacheKey}:`, cachedEventList);
+    console.log(`cache hit:`, cacheKey);
     return cachedEventList;
   }
   const eventCount = await searchSpecificEventCount(searchUrl, session);
@@ -120,7 +120,7 @@ const searchActorId = async (
   const cacheKey = `${searchActorId.name}:${actorName}`;
   const cachedActorId = await session?.get<number>(cacheKey);
   if (cachedActorId) {
-    console.log(`cache ${cacheKey}:`, cachedActorId);
+    console.log(`cache hit:`, cacheKey);
     return cachedActorId;
   }
   const res = await fetch(
@@ -157,7 +157,7 @@ const searchSpecificEventCount = async (
   const cacheKey = `${searchSpecificEventCount.name}:${searchUrl}`;
   const cachedCount = await session?.get<number>(cacheKey);
   if (cachedCount) {
-    console.log(`cache ${cacheKey}:`, cachedCount);
+    console.log(`cache hit:`, cacheKey);
     return cachedCount;
   }
   const res = await fetch(searchUrl);
