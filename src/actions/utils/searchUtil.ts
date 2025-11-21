@@ -1,6 +1,6 @@
 import { ActionError } from 'astro:actions';
 import type { AstroSession } from 'astro';
-import { range } from 'es-toolkit';
+import { mapAsync, range } from 'es-toolkit';
 import { parseHTML } from 'linkedom';
 import type { EventWithActors } from '../../types/event';
 
@@ -68,10 +68,8 @@ export const searchSpecificEventList = async (
     });
   }
   const limit = 100;
-  const eventLists = await Promise.all(
-    range(eventCount / limit).map((page) =>
-      searchEventListCore(`${searchUrl}&limit=${limit}&page=${page + 1}`),
-    ),
+  const eventLists = await mapAsync(range(eventCount / limit), (page) =>
+    searchEventListCore(`${searchUrl}&limit=${limit}&page=${page + 1}`),
   );
   const eventList = eventLists.flat();
   session?.set(cacheKey, eventList);

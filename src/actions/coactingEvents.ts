@@ -1,6 +1,6 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { intersectionBy, omit } from 'es-toolkit';
+import { intersectionBy, mapAsync, omit } from 'es-toolkit';
 import type { Event } from '../types/event';
 import { searchActorEventList } from './utils/searchUtil';
 
@@ -18,10 +18,8 @@ export const coactingEvents = defineAction({
     actorNames: z.array(z.string().trim()).readonly(),
   }),
   handler: async ({ actorNames }: InputData, context) => {
-    const eventLists = await Promise.all(
-      actorNames.map((actorName) =>
-        searchActorEventList(actorName, context.session),
-      ),
+    const eventLists = await mapAsync(actorNames, (actorName) =>
+      searchActorEventList(actorName, context.session),
     );
     return {
       searchName: JSON.stringify(actorNames, null, 1),
