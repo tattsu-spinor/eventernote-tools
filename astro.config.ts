@@ -12,6 +12,7 @@ export default defineConfig({
     driver: 'vercel-runtime-cache',
     options: {
       ttl: 600,
+      tags: ['eventernote-tools'],
     },
   },
   integrations: [
