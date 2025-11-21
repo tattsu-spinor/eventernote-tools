@@ -1,7 +1,8 @@
-import { ActionError, defineAction } from 'astro:actions';
+import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { parseHTML } from 'linkedom';
+import { omit } from 'es-toolkit';
 import type { Event } from '../types/event';
+import { searchUserEventList } from './utils/searchUtil';
 
 export type InputData = {
   userId: string;
@@ -20,53 +21,16 @@ export const attendedEvents = defineAction({
     actorName: z.string().trim(),
     placeName: z.string().trim(),
   }),
-  handler: async ({ userId, actorName, placeName }: InputData) => {
-    const res = await fetch(
-      `https://www.eventernote.com/users/${userId}/events?limit=10000`,
-    );
-    if (!res.ok) {
-      throw res.status === 404
-        ? new ActionError({
-            code: 'BAD_REQUEST',
-            message: `ユーザーが見つかりません: "${userId}"`,
-          })
-        : new ActionError({
-            code: 'BAD_GATEWAY',
-            message: `{res.status} ${res.statusText}: ${res.url}`,
-          });
-    }
-    const events = parseHTML(await res.text())
-      .document.querySelectorAll(
-        'body > div.container > div.row > div.span8.page > div.gb_event_list.clearfix > ul > li',
-      )
-      .values()
-      .filter(
-        (element) =>
-          !actorName ||
-          element
-            .querySelectorAll('div.event > div.actor > ul > li > a')
-            .values()
-            .some((actorElement) => actorElement.textContent === actorName),
-      )
-      .filter(
-        (element) =>
-          !placeName ||
-          element.querySelector('div.event > div.place > a')?.textContent ===
-            placeName,
-      )
-      .map((element) => {
-        const eventElement = element.querySelector('div.event > h4 > a');
-        return {
-          name: eventElement?.textContent ?? '',
-          href: eventElement?.getAttribute('href') ?? '',
-          date: element.querySelector('div.date > p')?.textContent ?? '',
-          place: element.querySelector('div.place > a')?.textContent ?? '',
-        } as Event;
-      })
-      .toArray();
+  handler: async ({ userId, actorName, placeName }: InputData, context) => {
+    const eventList = await searchUserEventList(userId, context.session);
     return {
       searchName: JSON.stringify([userId, actorName, placeName], null, 1),
-      events,
+      events: eventList
+        .values()
+        .filter((event) => event.actors.includes(actorName))
+        .filter((event) => event.place === placeName)
+        .map((event) => omit(event, ['actors']) as Event)
+        .toArray(),
     } as OutputData;
   },
 });
