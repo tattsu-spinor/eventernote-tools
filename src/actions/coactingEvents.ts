@@ -19,9 +19,9 @@ export const coactingEvents = defineAction({
   }),
   handler: async ({ actorNames }: InputData, context) => {
     const eventLists = await Promise.all(
-      actorNames
-        .values()
-        .map((actorName) => searchActorEventList(actorName, context.session)),
+      actorNames.map((actorName) =>
+        searchActorEventList(actorName, context.session),
+      ),
     );
     return {
       searchName: JSON.stringify(actorNames, null, 1),
