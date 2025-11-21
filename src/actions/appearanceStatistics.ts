@@ -36,16 +36,12 @@ export const appearanceStatistics = defineAction({
       }
       return input;
     }),
-  handler: async ({
-    keyword,
-    year,
-    month,
-    day,
-    areaId,
-    prefectureId,
-  }: InputData) => {
+  handler: async (
+    { keyword, year, month, day, areaId, prefectureId }: InputData,
+    context,
+  ) => {
     const searchUrl = `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
-    const eventList = await searchSpecificEventList(searchUrl);
+    const eventList = await searchSpecificEventList(searchUrl, context.session);
     const actorCounts = eventList
       .values()
       .flatMap((element) => element.actors)

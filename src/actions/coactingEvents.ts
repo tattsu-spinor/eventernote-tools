@@ -18,11 +18,10 @@ export const coactingEvents = defineAction({
     actorNames: z.array(z.string().trim()).readonly(),
   }),
   handler: async ({ actorNames }: InputData, context) => {
-    const session = context.session;
     const eventLists = await Promise.all(
       actorNames
         .values()
-        .map((actorName) => searchActorEventList(actorName, session)),
+        .map((actorName) => searchActorEventList(actorName, context.session)),
     );
     return {
       searchName: JSON.stringify(actorNames, null, 1),
