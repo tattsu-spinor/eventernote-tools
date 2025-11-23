@@ -10,9 +10,12 @@ import type { EventWithActors } from '../../types/event';
 export const searchActorEventList = async (
   actorName: string,
   session?: AstroSession,
+  noCache?: boolean,
 ) => {
   const cacheKey = `${searchActorEventList.name}:${actorName}`;
-  const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
+  const cachedEventList = noCache
+    ? undefined
+    : await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;
@@ -32,9 +35,12 @@ export const searchActorEventList = async (
 export const searchUserEventList = async (
   userId: string,
   session?: AstroSession,
+  noCache?: boolean,
 ) => {
   const cacheKey = `${searchUserEventList.name}:${userId}`;
-  const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
+  const cachedEventList = noCache
+    ? undefined
+    : await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;
@@ -53,9 +59,12 @@ export const searchUserEventList = async (
 export const searchSpecificEventList = async (
   searchUrl: string,
   session?: AstroSession,
+  noCache?: boolean,
 ) => {
   const cacheKey = `${searchSpecificEventList.name}:${searchUrl}`;
-  const cachedEventList = await session?.get<EventWithActors[]>(cacheKey);
+  const cachedEventList = noCache
+    ? undefined
+    : await session?.get<EventWithActors[]>(cacheKey);
   if (cachedEventList) {
     console.log(`cache hit:`, cacheKey);
     return cachedEventList;

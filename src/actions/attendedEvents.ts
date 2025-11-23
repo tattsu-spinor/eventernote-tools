@@ -8,6 +8,7 @@ export type InputData = {
   userId: string;
   actorName: string;
   placeName: string;
+  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -20,9 +21,17 @@ export const attendedEvents = defineAction({
     userId: z.string().trim(),
     actorName: z.string().trim(),
     placeName: z.string().trim(),
+    noCache: z.boolean().default(false),
   }),
-  handler: async ({ userId, actorName, placeName }: InputData, context) => {
-    const eventList = await searchUserEventList(userId, context.session);
+  handler: async (
+    { userId, actorName, placeName, noCache }: InputData,
+    context,
+  ) => {
+    const eventList = await searchUserEventList(
+      userId,
+      context.session,
+      noCache,
+    );
     return {
       searchName: JSON.stringify([userId, actorName, placeName], null, 1),
       events: eventList

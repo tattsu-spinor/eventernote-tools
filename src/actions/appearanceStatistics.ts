@@ -10,6 +10,7 @@ export type InputData = {
   areaId: string;
   prefectureId: string;
   isPrefectureMode: boolean;
+  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -27,6 +28,7 @@ export const appearanceStatistics = defineAction({
       areaId: z.string().trim(),
       prefectureId: z.string().trim(),
       isPrefectureMode: z.boolean(),
+      noCache: z.boolean().default(false),
     })
     .transform((input) => {
       if (input.isPrefectureMode) {
@@ -37,11 +39,15 @@ export const appearanceStatistics = defineAction({
       return input;
     }),
   handler: async (
-    { keyword, year, month, day, areaId, prefectureId }: InputData,
+    { keyword, year, month, day, areaId, prefectureId, noCache }: InputData,
     context,
   ) => {
     const searchUrl = `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
-    const eventList = await searchSpecificEventList(searchUrl, context.session);
+    const eventList = await searchSpecificEventList(
+      searchUrl,
+      context.session,
+      noCache,
+    );
     const actorCounts = eventList
       .values()
       .flatMap((element) => element.actors)

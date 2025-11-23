@@ -4,6 +4,7 @@ import { searchUserEventList } from './utils/searchUtil';
 
 export type InputData = {
   userId: string;
+  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -15,9 +16,14 @@ export type OutputData = {
 export const attendanceStatistics = defineAction({
   input: z.object({
     userId: z.string().trim(),
+    noCache: z.boolean().default(false),
   }),
-  handler: async ({ userId }: InputData, context) => {
-    const eventList = await searchUserEventList(userId, context.session);
+  handler: async ({ userId, noCache }: InputData, context) => {
+    const eventList = await searchUserEventList(
+      userId,
+      context.session,
+      noCache,
+    );
     const actorCounts = eventList
       .values()
       .flatMap((element) => element.actors)
