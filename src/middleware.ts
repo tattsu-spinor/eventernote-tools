@@ -1,18 +1,17 @@
 import { defineMiddleware } from 'astro:middleware';
-import { parseHTML } from 'linkedom';
 
 export const onRequest = defineMiddleware(async (_, next) => {
-  const response = await next();
-  const { document } = parseHTML(await response.text());
-  document.querySelectorAll('a[href^="https://"]').forEach((element) => {
-    element.setAttribute('target', '_blank');
-    const relValue = element.getAttribute('rel') ?? '';
-    if (!relValue.includes('noreferrer')) {
-      element.setAttribute('rel', `${relValue} noreferrer`.trim());
-    }
+  const rewriter = new HTMLRewriter().on('a[href^="https://"]', {
+    element: (element) => {
+      element.setAttribute('target', '_blank');
+      const relValue = element.getAttribute('rel') ?? '';
+      if (!relValue.includes('noreferrer')) {
+        element.setAttribute('rel', `${relValue} noreferrer`.trim());
+      }
+    },
   });
-
-  return new Response(document.toString(), {
+  const response = await next();
+  return new Response(rewriter.transform(await response.text()), {
     headers: response.headers,
     status: response.status,
     statusText: response.statusText,
