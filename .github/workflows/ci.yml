@@ -11,14 +11,14 @@ jobs:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
       - run: bun ci
-      - run: bun --bun biome ci --reporter=github --error-on-warnings
+      - run: bun run biome:ci
   check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
       - run: bun ci
-      - run: bun --bun astro check
+      - run: bun run check
   test:
     runs-on: macos-latest
     steps:
@@ -26,4 +26,4 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun ci
       - run: bunx playwright install --only-shell chromium
-      - run: bun --bun vitest --reporter=github-actions
+      - run: bun run test --reporter=github-actions
