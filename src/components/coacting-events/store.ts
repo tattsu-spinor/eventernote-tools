@@ -1,53 +1,61 @@
 import { type ActionError, actions } from 'astro:actions';
-import { batch, onMount } from 'solid-js';
+import { createMemo, createSignal, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { InputData, OutputData } from '../../actions/coactingEvents';
 
 const INPUT_STORE_KEY = 'coactingEvents.inputStore';
-const [_inputStore, _setInputStore] = createStore<InputData>({
+const [input, setInput] = createStore<InputData>({
   actorNames: ['', ''],
 });
-const [_outputStore, _setOutputStore] = createStore({
-  data: undefined as OutputData | undefined,
-  loading: false,
-  error: undefined as ActionError | undefined,
-});
+const [outputs, setOutputs] = createSignal<OutputData[]>([]);
+const [selectedOutputIndex, setSelectedOutputIndex] = createSignal(0);
+const [loading, setLoading] = createSignal(false);
+const [error, setError] = createSignal<ActionError>();
 
 export const useInputStore = () => {
   onMount(() => {
     const input = localStorage.getItem(INPUT_STORE_KEY);
     if (input) {
-      _setInputStore('actorNames', JSON.parse(input));
+      setInput('actorNames', JSON.parse(input));
     }
   });
-  return _inputStore;
+  return input;
 };
 
-export const useOutputStore = () => _outputStore;
-
 export const setActorName = (index: number, name: string) => {
-  _setInputStore('actorNames', (actorNames) => actorNames.with(index, name));
-  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(_inputStore.actorNames));
+  setInput('actorNames', (actorNames) => actorNames.with(index, name));
+  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(input.actorNames));
 };
 
 export const addActorName = () => {
-  _setInputStore('actorNames', (actorNames) => actorNames.concat(''));
-  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(_inputStore.actorNames));
+  setInput('actorNames', (actorNames) => actorNames.concat(''));
+  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(input.actorNames));
 };
 
 export const removeActorName = () => {
-  _setInputStore('actorNames', (actorNames) => actorNames.slice(0, -1));
-  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(_inputStore.actorNames));
+  setInput('actorNames', (actorNames) => actorNames.slice(0, -1));
+  localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(input.actorNames));
 };
 
+export { outputs, selectedOutputIndex, loading, error };
+
 export const search = async () => {
-  batch(() => {
-    _setOutputStore('loading', true);
-    _setOutputStore('error', undefined);
-  });
-  const { data, error } = await actions.coactingEvents(_inputStore);
-  batch(() => {
-    _setOutputStore('loading', false);
-    error ? _setOutputStore('error', error) : _setOutputStore('data', data);
-  });
+  setLoading(true);
+  setError(undefined);
+  const { data, error } = await actions.coactingEvents(input);
+  setLoading(false);
+  if (error) {
+    setError(error);
+  } else {
+    setOutputs((outputs) => [data, ...outputs]);
+    setSelectedOutputIndex(0);
+  }
+};
+
+export const selectedOutput = createMemo(
+  () => outputs()[selectedOutputIndex()],
+);
+
+export const selectOutput = (index: number) => {
+  setSelectedOutputIndex(index);
 };

@@ -25,6 +25,7 @@ test('参加イベント検索_出力検証', async () => {
   // 検索実行
   attendedEventsMock.mockResolvedValueOnce({
     data: {
+      searchName: 'name1',
       events: createEvents(2),
     },
   });
@@ -34,6 +35,7 @@ test('参加イベント検索_出力検証', async () => {
   // 検索再実行
   attendedEventsMock.mockResolvedValueOnce({
     data: {
+      searchName: 'name2',
       events: createEvents(1),
     },
   });

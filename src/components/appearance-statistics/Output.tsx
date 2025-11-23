@@ -4,14 +4,12 @@ import type { OutputData } from '../../actions/appearanceStatistics';
 import { ClipboardCopy } from '../common/ClipboardCopy';
 import { Pagination } from '../common/Pagination';
 import { usePagination } from '../common/usePagination';
-import { removeOutputData, useOutputStore } from './store';
+import { outputs, removeOutputs } from './store';
 
 export const Output = () => {
-  const outputStore = useOutputStore();
-
   return (
-    <Show when={outputStore.data.length > 0}>
-      <OutputContent outputs={outputStore.data} />
+    <Show when={outputs().length > 0}>
+      <OutputContent outputs={outputs()} />
     </Show>
   );
 };
@@ -28,18 +26,16 @@ const OutputContent = (props: OutputContentProps) => {
   );
   const { paginationProps, pagedItems } = usePagination(mergedActorCounts);
   return (
-    <>
-      <div class="flex justify-end">
-        <ClipboardCopy
-          getText={() =>
-            mergedActorCounts()
-              .map(({ actorName, counts, totalCount }) =>
-                [actorName, ...counts, totalCount].join(','),
-              )
-              .join('\n')
-          }
-        />
-      </div>
+    <div class="d-card p-2 gap-4">
+      <ClipboardCopy
+        getText={() =>
+          mergedActorCounts()
+            .map(({ actorName, counts, totalCount }) =>
+              [actorName, ...counts, totalCount].join(','),
+            )
+            .join('\n')
+        }
+      />
       <Pagination {...paginationProps()} />
       <div class="overflow-x-auto">
         <table class="d-table">
@@ -67,7 +63,7 @@ const OutputContent = (props: OutputContentProps) => {
                         <li>
                           <button
                             type="button"
-                            onClick={() => removeOutputData(index())}
+                            onClick={() => removeOutputs(index())}
                           >
                             削除
                           </button>
@@ -99,7 +95,7 @@ const OutputContent = (props: OutputContentProps) => {
         </table>
       </div>
       <Pagination {...paginationProps()} />
-    </>
+    </div>
   );
 };
 

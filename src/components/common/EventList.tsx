@@ -11,7 +11,7 @@ export const EventList: Component<EventListProps> = (props) => {
   const { paginationProps, pagedItems } = usePagination(() => props.events);
 
   return (
-    <>
+    <div class="d-card p-2 gap-4">
       <p>{props.events.length}件のイベントが見つかりました。</p>
       <Pagination {...paginationProps()} />
       <ul class="d-list">
@@ -19,13 +19,16 @@ export const EventList: Component<EventListProps> = (props) => {
           {({ item: event }) => (
             <li class="d-list-row">
               <div>
-                <a
-                  href={`https://www.eventernote.com${event.href}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {event.name}
-                </a>
+                <h4>
+                  <a
+                    href={`https://www.eventernote.com${event.href}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="d-link d-link-hover"
+                  >
+                    {event.name}
+                  </a>
+                </h4>
                 <div class="text-xs">{event.date}</div>
                 <div class="text-xs">{event.place}</div>
               </div>
@@ -33,7 +36,9 @@ export const EventList: Component<EventListProps> = (props) => {
           )}
         </For>
       </ul>
-      <Pagination {...paginationProps()} />
-    </>
+      <div class="d-card-actions justify-center">
+        <Pagination {...paginationProps()} />
+      </div>
+    </div>
   );
 };

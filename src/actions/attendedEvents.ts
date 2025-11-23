@@ -10,6 +10,7 @@ export type InputData = {
 };
 
 export type OutputData = {
+  readonly searchName: string;
   readonly events: ReadonlyArray<Event>;
 };
 
@@ -63,6 +64,9 @@ export const attendedEvents = defineAction({
         } as Event;
       })
       .toArray();
-    return { events } as OutputData;
+    return {
+      searchName: JSON.stringify([userId, actorName, placeName], null, 1),
+      events,
+    } as OutputData;
   },
 });

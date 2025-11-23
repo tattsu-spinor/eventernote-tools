@@ -9,6 +9,7 @@ export type InputData = {
 };
 
 export type OutputData = {
+  readonly searchName: string;
   readonly events: ReadonlyArray<Event>;
 };
 
@@ -24,6 +25,7 @@ export const coactingEvents = defineAction({
       }),
     );
     return {
+      searchName: JSON.stringify(actorNames, null, 1),
       events: eventLists.reduce((previous, current) =>
         intersectionBy(previous, current, (event) => event.href),
       ),

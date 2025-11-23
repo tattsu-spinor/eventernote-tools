@@ -1,13 +1,24 @@
 import { Show } from 'solid-js';
 import { EventList } from '../common/EventList';
-import { useOutputStore } from './store';
+import { SelectHistory } from '../common/SelectHistory';
+import {
+  outputs,
+  selectedOutput,
+  selectedOutputIndex,
+  selectOutput,
+} from './store';
 
-export const Output = () => {
-  const outputStore = useOutputStore();
-
-  return (
-    <Show when={outputStore.data}>
-      {(output) => <EventList {...output()} />}
-    </Show>
-  );
-};
+export const Output = () => (
+  <Show when={selectedOutput()}>
+    {(output) => (
+      <>
+        <SelectHistory
+          list={outputs().map((output) => output.searchName)}
+          selectedIndex={selectedOutputIndex()}
+          select={selectOutput}
+        />
+        <EventList {...output()} />
+      </>
+    )}
+  </Show>
+);
