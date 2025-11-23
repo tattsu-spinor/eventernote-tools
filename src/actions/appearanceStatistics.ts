@@ -1,7 +1,6 @@
-import { ActionError, defineAction } from 'astro:actions';
+import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { range } from 'es-toolkit';
-import { parseHTML } from 'linkedom';
+import { searchSpecificEventList } from './utils/searchUtil';
 
 export type InputData = {
   keyword: string;
@@ -11,11 +10,11 @@ export type InputData = {
   areaId: string;
   prefectureId: string;
   isPrefectureMode: boolean;
+  noCache?: boolean;
 };
 
 export type OutputData = {
   readonly searchUrl: string;
-  readonly eventCount: number;
   readonly actorCounts: ReadonlyArray<readonly [string, number]>;
 };
 
@@ -29,6 +28,7 @@ export const appearanceStatistics = defineAction({
       areaId: z.string().trim(),
       prefectureId: z.string().trim(),
       isPrefectureMode: z.boolean(),
+      noCache: z.boolean().default(false),
     })
     .transform((input) => {
       if (input.isPrefectureMode) {
@@ -38,77 +38,29 @@ export const appearanceStatistics = defineAction({
       }
       return input;
     }),
-  handler: async ({
-    keyword,
-    year,
-    month,
-    day,
-    areaId,
-    prefectureId,
-  }: InputData) => {
+  handler: async (
+    { keyword, year, month, day, areaId, prefectureId, noCache }: InputData,
+    context,
+  ) => {
     const searchUrl = `https://www.eventernote.com/events/search?keyword=${keyword}&year=${year}&month=${month}&day=${day}&area_id=${areaId}&prefecture_id=${prefectureId}`;
-    const eventCount = await searchEventCount(searchUrl);
-    if (eventCount > 10000) {
-      throw new ActionError({
-        code: 'BAD_REQUEST',
-        message: `イベント数が1万件を超えています: ${eventCount}件`,
-      });
-    }
-    const actorCounts = await searchActorCounts(searchUrl, eventCount);
+    const eventList = await searchSpecificEventList(
+      searchUrl,
+      context.session,
+      noCache,
+    );
+    const actorCounts = eventList
+      .values()
+      .flatMap((element) => element.actors)
+      .reduce((counts, actorName) => {
+        const count = counts.get(actorName) ?? 0;
+        counts.set(actorName, count + 1);
+        return counts;
+      }, new Map<string, number>());
     return {
       searchUrl,
-      eventCount,
       actorCounts: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
     } as OutputData;
   },
 });
-
-const searchEventCount = async (searchUrl: string) => {
-  const res = await fetch(searchUrl);
-  if (!res.ok) {
-    throw new ActionError({
-      code: 'BAD_GATEWAY',
-      message: `${res.status} ${res.statusText}: ${res.url}`,
-    });
-  }
-  const eventCountText =
-    parseHTML(await res.text()).document.querySelector(
-      'body > div.container > div > div.span8.page > p:nth-child(4)',
-    )?.textContent ?? '';
-  const count = parseInt(eventCountText, 10);
-  if (!count) {
-    throw new ActionError({
-      code: 'BAD_REQUEST',
-      message: '指定された条件での検索結果が見つかりませんでした。',
-    });
-  }
-  return count;
-};
-
-const searchActorCounts = async (searchUrl: string, eventCount: number) => {
-  const actorList = await Promise.all(
-    range(eventCount / 100).map(async (page) => {
-      const res = await fetch(`${searchUrl}&limit=100&page=${page + 1}`);
-      if (!res.ok) {
-        throw new ActionError({
-          code: 'BAD_GATEWAY',
-          message: `${res.status} ${res.statusText}: ${res.url}`,
-        });
-      }
-      return parseHTML(await res.text())
-        .document.querySelectorAll(
-          'body > div.container > div > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
-        )
-        .values()
-        .map((element) => element.textContent ?? '')
-        .toArray();
-    }),
-  );
-  return actorList.flat().reduce((counts, actorName) => {
-    const count = counts.get(actorName) ?? 0;
-    counts.set(actorName, count + 1);
-    return counts;
-  }, new Map<string, number>());
-};

@@ -10,6 +10,7 @@ test('参加イベント統計アクション_正常系', async ({ request }) =>
       areaId: '',
       prefectureId: '',
       isPrefectureMode: false,
+      noCache: true,
     },
   });
   await expect(response).toBeOK();
@@ -31,6 +32,7 @@ test('参加イベント統計アクション_異常系_イベント数過多', 
       areaId: '',
       prefectureId: '',
       isPrefectureMode: false,
+      noCache: true,
     },
   });
   expect(response.status()).toBe(400);
@@ -48,6 +50,7 @@ test('参加イベント統計アクション_異常系_検索結果なし', asy
       areaId: '',
       prefectureId: '',
       isPrefectureMode: false,
+      noCache: true,
     },
   });
   expect(response.status()).toBe(400);

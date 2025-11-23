@@ -4,6 +4,7 @@ test('共演イベント検索アクション_正常系', async ({ request }) =>
   const response = await request.post('/_actions/coactingEvents', {
     data: {
       actorNames: ['本渡楓', '村上まなつ'],
+      noCache: true,
     },
   });
   await expect(response).toBeOK();
@@ -15,6 +16,7 @@ test('共演イベント検索アクション_異常系', async ({ request }) =>
   const response = await request.post('/_actions/coactingEvents', {
     data: {
       actorNames: ['本渡楓', 'ほげ'],
+      noCache: true,
     },
   });
   expect(response.status()).toBe(400);

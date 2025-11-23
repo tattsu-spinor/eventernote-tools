@@ -4,3 +4,7 @@ export type Event = {
   readonly date: string;
   readonly place: string;
 };
+
+export type EventWithActors = Event & {
+  readonly actors: ReadonlyArray<string>;
+};

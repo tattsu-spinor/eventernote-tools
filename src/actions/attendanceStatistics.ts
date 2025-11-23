@@ -1,9 +1,10 @@
-import { ActionError, defineAction } from 'astro:actions';
+import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { parseHTML } from 'linkedom';
+import { searchUserEventList } from './utils/searchUtil';
 
 export type InputData = {
   userId: string;
+  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -15,40 +16,25 @@ export type OutputData = {
 export const attendanceStatistics = defineAction({
   input: z.object({
     userId: z.string().trim(),
+    noCache: z.boolean().default(false),
   }),
-  handler: async ({ userId }: InputData) => {
-    const res = await fetch(
-      `https://www.eventernote.com/users/${userId}/events?limit=10000`,
+  handler: async ({ userId, noCache }: InputData, context) => {
+    const eventList = await searchUserEventList(
+      userId,
+      context.session,
+      noCache,
     );
-    if (!res.ok) {
-      throw res.status === 404
-        ? new ActionError({
-            code: 'BAD_REQUEST',
-            message: `ユーザーが見つかりません: "${userId}"`,
-          })
-        : new ActionError({
-            code: 'BAD_GATEWAY',
-            message: `{res.status} ${res.statusText}: ${res.url}`,
-          });
-    }
-    const document = parseHTML(await res.text()).document;
-    const actorCounts = document
-      .querySelectorAll(
-        'body > div.container > div.row > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div.actor > ul > li > a',
-      )
+    const actorCounts = eventList
       .values()
-      .map((element) => element.textContent ?? '')
+      .flatMap((element) => element.actors)
       .reduce((counts, actorName) => {
         const count = counts.get(actorName) ?? 0;
         counts.set(actorName, count + 1);
         return counts;
       }, new Map<string, number>());
-    const placeCounts = document
-      .querySelectorAll(
-        'body > div.container > div.row > div.span8.page > div.gb_event_list.clearfix > ul > li > div.event > div:nth-child(2) > a',
-      )
+    const placeCounts = eventList
       .values()
-      .map((element) => element.textContent ?? '')
+      .map((element) => element.place)
       .reduce((counts, placeName) => {
         const count = counts.get(placeName) ?? 0;
         counts.set(placeName, count + 1);
