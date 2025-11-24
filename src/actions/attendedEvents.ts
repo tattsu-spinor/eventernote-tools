@@ -36,8 +36,8 @@ export const attendedEvents = defineAction({
       searchName: JSON.stringify([userId, actorName, placeName], null, 1),
       events: eventList
         .values()
-        .filter((event) => event.actors.includes(actorName))
-        .filter((event) => event.place === placeName)
+        .filter((event) => !actorName || event.actors.includes(actorName))
+        .filter((event) => !placeName || event.place === placeName)
         .map((event) => omit(event, ['actors']) as Event)
         .toArray(),
     } as OutputData;
