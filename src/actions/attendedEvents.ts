@@ -6,8 +6,8 @@ import { searchUserEventList } from './utils/searchUtil';
 
 export type InputData = {
   userId: string;
-  actorName: string;
-  placeName: string;
+  actorName: string | null;
+  placeName: string | null;
   noCache?: boolean;
 };
 
@@ -17,10 +17,11 @@ export type OutputData = {
 };
 
 export const attendedEvents = defineAction({
+  accept: 'form',
   input: z.object({
     userId: z.string().trim(),
-    actorName: z.string().trim(),
-    placeName: z.string().trim(),
+    actorName: z.string().trim().nullable(),
+    placeName: z.string().trim().nullable(),
     noCache: z.boolean().default(false),
   }),
   handler: async (

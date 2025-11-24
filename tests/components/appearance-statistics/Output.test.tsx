@@ -33,7 +33,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await search();
+  await search(new FormData());
   expect(getRows().length).toBe(3);
   expect(getColumnHeaders().length).toBe(4);
 
@@ -47,7 +47,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await search();
+  await search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 
@@ -55,7 +55,7 @@ test('出演数統計_出力検証', async () => {
   appearanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search();
+  await search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 });

@@ -15,8 +15,9 @@ export type OutputData = {
 };
 
 export const coactingEvents = defineAction({
+  accept: 'form',
   input: z.object({
-    actorNames: z.array(z.string().trim()).readonly(),
+    actorNames: z.array(z.string().trim()),
     noCache: z.boolean().default(false),
   }),
   handler: async ({ actorNames, noCache }: InputData, context) => {

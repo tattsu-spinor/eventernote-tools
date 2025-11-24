@@ -14,6 +14,7 @@ export type OutputData = {
 };
 
 export const attendanceStatistics = defineAction({
+  accept: 'form',
   input: z.object({
     userId: z.string().trim(),
     noCache: z.boolean().default(false),

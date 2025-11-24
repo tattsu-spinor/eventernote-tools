@@ -10,7 +10,13 @@ export const Input = () => {
       .every((v) => !v);
 
   return (
-    <form class="d-card p-2 gap-4">
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await search(new FormData(e.currentTarget));
+      }}
+      class="d-card p-2 gap-4"
+    >
       <div class="max-w-lg">
         <fieldset class="d-fieldset">
           <legend class="d-fieldset-label">キーワード</legend>
@@ -18,7 +24,7 @@ export const Input = () => {
             type="text"
             name="keyword"
             aria-label="キーワード"
-            value={inputStore.keyword}
+            value={inputStore.keyword ?? ''}
             onInput={(e) => {
               setInputStore('keyword', e.target.value);
             }}
@@ -33,7 +39,7 @@ export const Input = () => {
             <select
               name="year"
               aria-label="年"
-              value={inputStore.year}
+              value={inputStore.year ?? ''}
               onInput={(e) => {
                 setInputStore('year', e.target.value);
               }}
@@ -47,7 +53,7 @@ export const Input = () => {
             <select
               name="month"
               aria-label="月"
-              value={inputStore.month}
+              value={inputStore.month ?? ''}
               onInput={(e) => {
                 setInputStore('month', e.target.value);
               }}
@@ -61,7 +67,7 @@ export const Input = () => {
             <select
               name="day"
               aria-label="日"
-              value={inputStore.day}
+              value={inputStore.day ?? ''}
               onInput={(e) => {
                 setInputStore('day', e.target.value);
               }}
@@ -100,7 +106,7 @@ export const Input = () => {
                 <select
                   name="prefectureId"
                   aria-label="都道府県"
-                  value={inputStore.prefectureId}
+                  value={inputStore.prefectureId ?? ''}
                   onInput={(e) => {
                     setInputStore('prefectureId', e.target.value);
                   }}
@@ -120,7 +126,7 @@ export const Input = () => {
                 <select
                   name="areaId"
                   aria-label="地域"
-                  value={inputStore.areaId}
+                  value={inputStore.areaId ?? ''}
                   onInput={(e) => {
                     setInputStore('areaId', e.target.value);
                   }}
@@ -141,8 +147,7 @@ export const Input = () => {
 
       <div class="d-card-actions">
         <button
-          type="button"
-          onClick={search}
+          type="submit"
           disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
         >

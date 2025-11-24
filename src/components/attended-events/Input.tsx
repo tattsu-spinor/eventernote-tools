@@ -6,7 +6,13 @@ export const Input = () => {
   const canNotSearch = () => !inputStore.userId;
 
   return (
-    <form class="d-card p-2 gap-4">
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await search(new FormData(e.currentTarget));
+      }}
+      class="d-card p-2 gap-4"
+    >
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input
@@ -27,7 +33,7 @@ export const Input = () => {
           type="text"
           name="actorName"
           placeholder="出演者名（オプション）"
-          value={inputStore.actorName}
+          value={inputStore.actorName ?? ''}
           onInput={(e) => {
             setInputStore('actorName', e.target.value);
           }}
@@ -41,7 +47,7 @@ export const Input = () => {
           type="text"
           name="placeName"
           placeholder="会場名（オプション）"
-          value={inputStore.placeName}
+          value={inputStore.placeName ?? ''}
           onInput={(e) => {
             setInputStore('placeName', e.target.value);
           }}
@@ -51,8 +57,7 @@ export const Input = () => {
 
       <div class="d-card-actions">
         <button
-          type="button"
-          onClick={search}
+          type="submit"
           disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
         >

@@ -14,14 +14,20 @@ export const Input = () => {
   const canNotSearch = () => inputStore.actorNames.some((v) => !v);
 
   return (
-    <form class="d-card p-2 gap-4">
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await search(new FormData(e.currentTarget));
+      }}
+      class="d-card p-2 gap-4"
+    >
       <Index each={inputStore.actorNames}>
         {(actorName, index) => (
           <label class="d-floating-label">
             <span>{`出演者名${index + 1}`}</span>
             <input
               type="text"
-              name={`actorName${index + 1}`}
+              name={`actorNames`}
               placeholder={`出演者名${index + 1}`}
               value={actorName()}
               onInput={(e) => {
@@ -35,8 +41,7 @@ export const Input = () => {
 
       <div class="d-card-actions">
         <button
-          type="button"
-          onClick={search}
+          type="submit"
           disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
         >
