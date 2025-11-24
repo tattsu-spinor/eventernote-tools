@@ -6,6 +6,7 @@ test('参加イベント検索アクション_正常系', async ({ request }) =>
       userId: 'Tattsu_dagaya_',
       actorName: '本渡楓',
       placeName: '',
+      noCache: true,
     },
   });
   await expect(response).toBeOK();
@@ -19,6 +20,7 @@ test('参加イベント検索アクション_異常系', async ({ request }) =>
       userId: 'test_user',
       actorName: '本渡楓',
       placeName: '',
+      noCache: true,
     },
   });
   expect(response.status()).toBe(400);

@@ -8,6 +8,13 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://eventernote-tools.vercel.app',
   adapter: vercel(),
+  session: {
+    driver: 'vercel-runtime-cache',
+    options: {
+      ttl: 600,
+      tags: ['eventernote-tools'],
+    },
+  },
   integrations: [
     // https://starlight.astro.build/ja/reference/configuration/
     starlight({
