@@ -21,6 +21,8 @@ export const Input = () => {
       }}
       class="d-card p-2 gap-4"
     >
+      <input type="hidden" name="useCache" value="true" />
+
       <Index each={inputStore.actorNames}>
         {(actorName, index) => (
           <label class="d-floating-label">

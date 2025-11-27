@@ -13,6 +13,8 @@ export const Input = () => {
       }}
       class="d-card p-2 gap-4"
     >
+      <input type="hidden" name="useCache" value="true" />
+
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input

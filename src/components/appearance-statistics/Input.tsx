@@ -17,6 +17,8 @@ export const Input = () => {
       }}
       class="d-card p-2 gap-4"
     >
+      <input type="hidden" name="useCache" value="true" />
+
       <div class="max-w-lg">
         <fieldset class="d-fieldset">
           <legend class="d-fieldset-label">キーワード</legend>
