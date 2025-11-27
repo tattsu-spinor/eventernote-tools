@@ -18,9 +18,9 @@ export const ClipboardCopy: Component<ClipboardCopyProps> = (props) => {
   return (
     <div class="d-card-actions justify-end">
       <button
+        class="d-btn d-btn-soft d-btn-sm d-tooltip d-tooltip-accent d-tooltip-left text-sm"
         type="button"
         onClick={handleCopy}
-        class="d-btn d-btn-soft d-btn-sm d-tooltip d-tooltip-accent d-tooltip-left text-sm"
         data-tip="データをCSVとしてコピーする"
       >
         <Switch>
