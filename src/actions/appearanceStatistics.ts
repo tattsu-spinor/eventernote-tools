@@ -10,7 +10,6 @@ export type InputData = {
   areaId: string | null;
   prefectureId: string | null;
   isPrefectureMode: boolean;
-  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -29,7 +28,7 @@ export const appearanceStatistics = defineAction({
       areaId: z.string().nullable(),
       prefectureId: z.string().nullable(),
       isPrefectureMode: z.boolean(),
-      noCache: z.boolean().default(false),
+      useCache: z.boolean(),
     })
     .transform((input) => {
       if (input.isPrefectureMode) {
@@ -39,12 +38,12 @@ export const appearanceStatistics = defineAction({
       }
       return input;
     }),
-  handler: async ({ noCache, ...input }: InputData, context) => {
+  handler: async ({ useCache, ...input }, context) => {
     const searchUrl = createSearchUrl(input);
     const eventList = await searchSpecificEventList(
       searchUrl,
+      useCache,
       context.session,
-      noCache,
     );
     const actorCounts = eventList
       .values()

@@ -6,7 +6,6 @@ import { searchActorEventList } from './utils/searchUtil';
 
 export type InputData = {
   actorNames: ReadonlyArray<string>;
-  noCache?: boolean;
 };
 
 export type OutputData = {
@@ -18,11 +17,11 @@ export const coactingEvents = defineAction({
   accept: 'form',
   input: z.object({
     actorNames: z.array(z.string().trim()),
-    noCache: z.boolean().default(false),
+    useCache: z.boolean(),
   }),
-  handler: async ({ actorNames, noCache }: InputData, context) => {
+  handler: async ({ actorNames, useCache }, context) => {
     const eventLists = await mapAsync(actorNames, (actorName) =>
-      searchActorEventList(actorName, context.session, noCache),
+      searchActorEventList(actorName, useCache, context.session),
     );
     return {
       searchName: JSON.stringify(actorNames, null, 1),
