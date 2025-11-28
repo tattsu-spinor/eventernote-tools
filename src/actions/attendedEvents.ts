@@ -11,7 +11,6 @@ export type InputData = {
 };
 
 export type OutputData = {
-  readonly searchName: string;
   readonly events: ReadonlyArray<Event>;
 };
 
@@ -30,7 +29,6 @@ export const attendedEvents = defineAction({
       context.session,
     );
     return {
-      searchName: JSON.stringify([userId, actorName, placeName], null, 1),
       events: eventList
         .values()
         .filter((event) => !actorName || event.actors.includes(actorName))
