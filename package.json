@@ -19,7 +19,7 @@
     "@tailwindcss/vite": "^4.1.17",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "astro": "^5.15.9",
+    "astro": "^5.16.0",
     "daisyui": "^5.5.5",
     "es-toolkit": "^1.42.0",
     "linkedom": "^0.18.12",
