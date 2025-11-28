@@ -38,10 +38,10 @@ export const removeActorName = () => {
 
 export { output, loading, error };
 
-export const search = async () => {
+export const search = async (form: FormData) => {
   setLoading(true);
   setError(undefined);
-  const { data, error } = await actions.coactingEvents(input);
+  const { data, error } = await actions.coactingEvents(form);
   setLoading(false);
   error ? setError(error) : setOutput(data);
 };

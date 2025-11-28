@@ -33,10 +33,10 @@ export const setInputStore = <K extends keyof InputData>(
 
 export { output, loading, error };
 
-export const search = async () => {
+export const search = async (form: FormData) => {
   setLoading(true);
   setError(undefined);
-  const { data, error } = await actions.attendedEvents(input);
+  const { data, error } = await actions.attendedEvents(form);
   setLoading(false);
   error ? setError(error) : setOutput(data);
 };
@@ -44,5 +44,9 @@ export const search = async () => {
 export const searchFromStatistics = async (input: InputData) => {
   setInput(input);
   localStorage.setItem(INPUT_STORE_KEY, JSON.stringify(input));
-  await search();
+  const form = new FormData();
+  form.append('userId', input.userId);
+  form.append('actorName', input.actorName ?? '');
+  form.append('placeName', input.placeName ?? '');
+  await search(form);
 };

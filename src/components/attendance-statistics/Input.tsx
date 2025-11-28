@@ -6,10 +6,19 @@ export const Input = () => {
   const canNotSearch = () => !inputStore.userId;
 
   return (
-    <form class="d-card p-2 gap-4">
+    <form
+      class="d-card p-2 gap-4"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await search(new FormData(e.currentTarget));
+      }}
+    >
+      <input type="hidden" name="useCache" value="true" />
+
       <label class="d-floating-label">
         <span>ユーザーID</span>
         <input
+          class="d-input"
           type="text"
           name="userId"
           placeholder="ユーザーID"
@@ -17,16 +26,14 @@ export const Input = () => {
           onInput={(e) => {
             setUserId(e.target.value);
           }}
-          class="d-input"
         />
       </label>
 
       <div class="d-card-actions">
         <button
-          type="button"
-          onClick={search}
-          disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
+          type="submit"
+          disabled={loading() || canNotSearch()}
         >
           検索
           <Show when={loading()}>

@@ -10,20 +10,28 @@ export const Input = () => {
       .every((v) => !v);
 
   return (
-    <form class="d-card p-2 gap-4">
+    <form
+      class="d-card p-2 gap-4"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await search(new FormData(e.currentTarget));
+      }}
+    >
+      <input type="hidden" name="useCache" value="true" />
+
       <div class="max-w-lg">
         <fieldset class="d-fieldset">
           <legend class="d-fieldset-label">キーワード</legend>
           <input
+            class="d-input w-full"
             type="text"
             name="keyword"
             aria-label="キーワード"
-            value={inputStore.keyword}
+            value={inputStore.keyword ?? ''}
             onInput={(e) => {
               setInputStore('keyword', e.target.value);
             }}
             placeholder="声優、アイドル、アーティスト名等"
-            class="d-input w-full"
           />
         </fieldset>
 
@@ -31,13 +39,13 @@ export const Input = () => {
           <legend class="d-fieldset-label">開催日</legend>
           <div class="d-join">
             <select
+              class="d-join-item d-select"
               name="year"
               aria-label="年"
-              value={inputStore.year}
+              value={inputStore.year ?? ''}
               onInput={(e) => {
                 setInputStore('year', e.target.value);
               }}
-              class="d-join-item d-select"
             >
               <option selected value="">
                 {' - '}年
@@ -45,13 +53,13 @@ export const Input = () => {
               <For each={YEARS}>{(n) => <option value={n}>{n}年</option>}</For>
             </select>
             <select
+              class="d-join-item d-select"
               name="month"
               aria-label="月"
-              value={inputStore.month}
+              value={inputStore.month ?? ''}
               onInput={(e) => {
                 setInputStore('month', e.target.value);
               }}
-              class="d-join-item d-select"
             >
               <option selected value="">
                 {' - '}月
@@ -59,13 +67,13 @@ export const Input = () => {
               <For each={MONTHS}>{(n) => <option value={n}>{n}月</option>}</For>
             </select>
             <select
+              class="d-join-item d-select"
               name="day"
               aria-label="日"
-              value={inputStore.day}
+              value={inputStore.day ?? ''}
               onInput={(e) => {
                 setInputStore('day', e.target.value);
               }}
-              class="d-join-item d-select"
             >
               <option selected value="">
                 {' - '}日
@@ -98,13 +106,13 @@ export const Input = () => {
             <Switch>
               <Match when={inputStore.isPrefectureMode}>
                 <select
+                  class="d-join-item d-select w-full"
                   name="prefectureId"
                   aria-label="都道府県"
-                  value={inputStore.prefectureId}
+                  value={inputStore.prefectureId ?? ''}
                   onInput={(e) => {
                     setInputStore('prefectureId', e.target.value);
                   }}
-                  class="d-join-item d-select w-full"
                 >
                   <option selected value="">
                     -
@@ -118,13 +126,13 @@ export const Input = () => {
               </Match>
               <Match when={true}>
                 <select
+                  class="d-join-item d-select"
                   name="areaId"
                   aria-label="地域"
-                  value={inputStore.areaId}
+                  value={inputStore.areaId ?? ''}
                   onInput={(e) => {
                     setInputStore('areaId', e.target.value);
                   }}
-                  class="d-join-item d-select"
                 >
                   <option selected value="">
                     -
@@ -141,10 +149,9 @@ export const Input = () => {
 
       <div class="d-card-actions">
         <button
-          type="button"
-          onClick={search}
-          disabled={loading() || canNotSearch()}
           class="d-btn d-btn-primary"
+          type="submit"
+          disabled={loading() || canNotSearch()}
         >
           検索
           <Show when={loading()}>

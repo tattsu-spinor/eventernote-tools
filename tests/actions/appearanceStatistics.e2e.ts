@@ -1,17 +1,16 @@
 import { expect, test } from '@playwright/test';
 
 test('参加イベント統計アクション_正常系', async ({ request }) => {
+  const form = new FormData();
+  form.append('keyword', '本渡楓');
+  form.append('year', '2025');
+  form.append('month', '');
+  form.append('day', '');
+  form.append('areaId', '');
+  form.append('prefectureId', '');
+  form.append('isPrefectureMode', 'false');
   const response = await request.post('/_actions/appearanceStatistics', {
-    data: {
-      keyword: '本渡楓',
-      year: '2025',
-      month: '',
-      day: '',
-      areaId: '',
-      prefectureId: '',
-      isPrefectureMode: false,
-      noCache: true,
-    },
+    form,
   });
   await expect(response).toBeOK();
   const data = await response.json();
@@ -23,17 +22,16 @@ test('参加イベント統計アクション_正常系', async ({ request }) =>
 test('参加イベント統計アクション_異常系_イベント数過多', async ({
   request,
 }) => {
+  const form = new FormData();
+  form.append('keyword', '');
+  form.append('year', '2025');
+  form.append('month', '');
+  form.append('day', '');
+  form.append('areaId', '');
+  form.append('prefectureId', '');
+  form.append('isPrefectureMode', 'false');
   const response = await request.post('/_actions/appearanceStatistics', {
-    data: {
-      keyword: '',
-      year: '2025',
-      month: '',
-      day: '',
-      areaId: '',
-      prefectureId: '',
-      isPrefectureMode: false,
-      noCache: true,
-    },
+    form,
   });
   expect(response.status()).toBe(400);
   const body = await response.json();
@@ -41,17 +39,16 @@ test('参加イベント統計アクション_異常系_イベント数過多', 
 });
 
 test('参加イベント統計アクション_異常系_検索結果なし', async ({ request }) => {
+  const form = new FormData();
+  form.append('keyword', 'ほげ');
+  form.append('year', '2025');
+  form.append('month', '');
+  form.append('day', '');
+  form.append('areaId', '');
+  form.append('prefectureId', '');
+  form.append('isPrefectureMode', 'false');
   const response = await request.post('/_actions/appearanceStatistics', {
-    data: {
-      keyword: 'ほげ',
-      year: '2025',
-      month: '',
-      day: '',
-      areaId: '',
-      prefectureId: '',
-      isPrefectureMode: false,
-      noCache: true,
-    },
+    form,
   });
   expect(response.status()).toBe(400);
   const body = await response.json();

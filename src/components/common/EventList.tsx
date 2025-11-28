@@ -21,10 +21,10 @@ export const EventList: Component<EventListProps> = (props) => {
               <div>
                 <h4>
                   <a
+                    class="d-link d-link-hover"
                     href={`https://www.eventernote.com${event.href}`}
                     target="_blank"
                     rel="noreferrer"
-                    class="d-link d-link-hover"
                   >
                     {event.name}
                   </a>

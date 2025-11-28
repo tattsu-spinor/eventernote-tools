@@ -28,7 +28,7 @@ test('共演イベント検索_出力検証', async () => {
       events: createEvents(2),
     },
   });
-  await search();
+  await search(new FormData());
   expect(getListItems().length).toBe(2);
 
   // 検索再実行
@@ -37,14 +37,14 @@ test('共演イベント検索_出力検証', async () => {
       events: createEvents(1),
     },
   });
-  await search();
+  await search(new FormData());
   expect(getListItems().length).toBe(1);
 
   // 検索失敗
   coactingEventsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search();
+  await search(new FormData());
   expect(getListItems().length).toBe(1);
 });
 
