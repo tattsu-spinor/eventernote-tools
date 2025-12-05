@@ -1,11 +1,10 @@
 import { expect, test } from '@playwright/test';
 
 test('参加イベント統計アクション_正常系', async ({ request }) => {
+  const form = new FormData();
+  form.append('userId', 'Tattsu_dagaya_');
   const response = await request.post('/_actions/attendanceStatistics', {
-    data: {
-      userId: 'Tattsu_dagaya_',
-      noCache: true,
-    },
+    form,
   });
   await expect(response).toBeOK();
   const data = await response.json();
@@ -14,11 +13,10 @@ test('参加イベント統計アクション_正常系', async ({ request }) =>
 });
 
 test('参加イベント統計アクション_異常系', async ({ request }) => {
+  const form = new FormData();
+  form.append('userId', 'test_user');
   const response = await request.post('/_actions/attendanceStatistics', {
-    data: {
-      userId: 'test_user',
-      noCache: true,
-    },
+    form,
   });
   expect(response.status()).toBe(400);
   const body = await response.json();
