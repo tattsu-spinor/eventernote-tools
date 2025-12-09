@@ -27,7 +27,6 @@ test('出演数統計_出力検証', async () => {
   appearanceStatisticsMock.mockResolvedValueOnce({
     data: {
       searchUrl: 'https://www.eventernote.com/events/search',
-      eventCount: 10,
       actorCounts: [
         ['出演者名1', 3],
         ['出演者名2', 2],
@@ -42,7 +41,6 @@ test('出演数統計_出力検証', async () => {
   appearanceStatisticsMock.mockResolvedValueOnce({
     data: {
       searchUrl: 'https://www.eventernote.com/events/search',
-      eventCount: 10,
       actorCounts: [
         ['出演者名1', 2],
         ['出演者名3', 2],
