@@ -40,7 +40,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.astro"],
+      "includes": ["**/*.astro", "**/*.svelte"],
       "linter": {
         "rules": {
           "style": {

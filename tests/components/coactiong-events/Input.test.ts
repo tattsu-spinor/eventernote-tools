@@ -1,7 +1,6 @@
-import { render } from '@solidjs/testing-library';
 import { expect, test } from 'vitest';
-import { page } from 'vitest/browser';
-import { Input } from '../../../src/components/coacting-events/Input';
+import { render } from 'vitest-browser-svelte';
+import Input from '../../../src/components/coacting-events/Input.svelte';
 
 test('共演イベント検索_入力検証', async () => {
   const { getTextBoxes, searchButton, addButton, removeButton } = setup();
@@ -37,8 +36,7 @@ test('共演イベント検索_入力検証', async () => {
 });
 
 const setup = () => {
-  const { baseElement } = render(() => <Input />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Input);
   return {
     getTextBoxes: () => screen.getByRole('textbox').all(),
     searchButton: screen.getByRole('button', { name: '検索' }),

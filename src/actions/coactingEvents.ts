@@ -4,10 +4,6 @@ import { intersectionBy, mapAsync, omit } from 'es-toolkit';
 import type { Event } from '../types/event';
 import { searchActorEventList } from './utils/searchUtil';
 
-export type InputData = {
-  actorNames: ReadonlyArray<string>;
-};
-
 export type OutputData = {
   readonly events: ReadonlyArray<Event>;
 };

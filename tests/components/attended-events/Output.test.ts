@@ -1,9 +1,8 @@
 import { type ActionError, actions } from 'astro:actions';
-import { render } from '@solidjs/testing-library';
 import { expect, test, vi } from 'vitest';
-import { page } from 'vitest/browser';
-import { Output } from '../../../src/components/attended-events/Output';
-import { search } from '../../../src/components/attended-events/store';
+import { render } from 'vitest-browser-svelte';
+import Output from '../../../src/components/attended-events/Output.svelte';
+import { store } from '../../../src/components/attended-events/store.svelte';
 
 vi.mock('astro:actions', () => {
   return {
@@ -28,7 +27,7 @@ test('参加イベント検索_出力検証', async () => {
       events: createEvents(2),
     },
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(queryListItemElements().length).toBe(2);
 
   // 検索再実行
@@ -37,20 +36,19 @@ test('参加イベント検索_出力検証', async () => {
       events: createEvents(1),
     },
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(queryListItemElements().length).toBe(1);
 
   // 検索失敗
   attendedEventsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(queryListItemElements().length).toBe(1);
 });
 
 const setup = () => {
-  const { baseElement } = render(() => <Output />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Output);
   return {
     queryListItemElements: () => screen.getByRole('listitem'),
   } as const;

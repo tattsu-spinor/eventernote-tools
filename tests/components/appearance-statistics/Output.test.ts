@@ -1,9 +1,8 @@
 import { type ActionError, actions } from 'astro:actions';
-import { render } from '@solidjs/testing-library';
 import { expect, test, vi } from 'vitest';
-import { page } from 'vitest/browser';
-import { Output } from '../../../src/components/appearance-statistics/Output';
-import { search } from '../../../src/components/appearance-statistics/store';
+import { render } from 'vitest-browser-svelte';
+import Output from '../../../src/components/appearance-statistics/Output.svelte';
+import { store } from '../../../src/components/appearance-statistics/store.svelte';
 
 vi.mock('astro:actions', () => {
   return {
@@ -33,7 +32,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(getRows().length).toBe(3);
   expect(getColumnHeaders().length).toBe(4);
 
@@ -47,7 +46,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 
@@ -55,14 +54,13 @@ test('出演数統計_出力検証', async () => {
   appearanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search(new FormData());
+  await store.search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 });
 
 const setup = () => {
-  const { baseElement } = render(() => <Output />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Output);
   return {
     getRows: () => screen.getByRole('row').all(),
     getColumnHeaders: () => screen.getByRole('columnheader').all(),
