@@ -28,7 +28,7 @@ class Store {
     if (error) {
       this.#error = error;
     } else {
-      this.#data.splice(0, 0, data);
+      this.#data.push(data);
     }
   }
 

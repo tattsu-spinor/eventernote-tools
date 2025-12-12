@@ -4,7 +4,6 @@ import { store } from './store.svelte';
 </script>
 
 {#if store.data}
-  {#key store.data}
-    <EventList {...store.data} />
-  {/key}
+  {@const {events} = store.data}
+  <EventList {events} />
 {/if}
