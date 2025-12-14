@@ -4,10 +4,6 @@ import { intersectionBy, mapAsync, omit } from 'es-toolkit';
 import type { Event } from '../types/event';
 import { searchActorEventList } from './utils/searchUtil';
 
-export type OutputData = {
-  readonly events: ReadonlyArray<Event>;
-};
-
 export const coactingEvents = defineAction({
   accept: 'form',
   input: z.object({
@@ -24,6 +20,6 @@ export const coactingEvents = defineAction({
           intersectionBy(previous, current, (event) => event.href),
         )
         .map((event) => omit(event, ['actors']) as Event),
-    } as OutputData;
+    } as const;
   },
 });

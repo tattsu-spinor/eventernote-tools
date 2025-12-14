@@ -2,16 +2,6 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { searchUserEventList } from './utils/searchUtil';
 
-export type InputData = {
-  userId: string;
-};
-
-export type OutputData = {
-  readonly userId: string;
-  readonly actorCounts: ReadonlyArray<readonly [string, number]>;
-  readonly placeCounts: ReadonlyArray<readonly [string, number]>;
-};
-
 export const attendanceStatistics = defineAction({
   accept: 'form',
   input: z.object({
@@ -48,6 +38,6 @@ export const attendanceStatistics = defineAction({
       placeCounts: Array.from(placeCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
-    } as OutputData;
+    } as const;
   },
 });

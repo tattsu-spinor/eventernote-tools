@@ -1,21 +1,25 @@
-import { type ActionError, actions } from 'astro:actions';
-import type { OutputData } from '../../actions/appearanceStatistics';
+import { type ActionReturnType, actions } from 'astro:actions';
+
+const action = actions.appearanceStatistics;
+type ActionResult<T extends 'data' | 'error'> = NonNullable<
+  ActionReturnType<typeof action>[T]
+>;
 
 class ActionManager {
-  #data = $state<OutputData[]>([]);
+  #data = $state.raw<ReadonlyArray<ActionResult<'data'>>>([]);
+  #error = $state.raw<ActionResult<'error'>>();
   #loading = $state.raw<boolean>(false);
-  #error = $state.raw<ActionError>();
 
-  get data(): ReadonlyArray<OutputData> {
+  get data() {
     return this.#data;
   }
 
-  get loading(): boolean {
-    return this.#loading;
+  get error() {
+    return this.#error;
   }
 
-  get error(): ActionError | undefined {
-    return this.#error;
+  get loading() {
+    return this.#loading;
   }
 
   async search(form: FormData) {
@@ -28,12 +32,12 @@ class ActionManager {
     if (error) {
       this.#error = error;
     } else {
-      this.#data.push(data);
+      this.#data = this.#data.concat(data);
     }
   }
 
   remove(index: number) {
-    this.#data.splice(index, 1);
+    this.#data = this.#data.filter((_, i) => i !== index);
   }
 }
 

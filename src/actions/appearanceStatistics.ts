@@ -2,21 +2,6 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { searchSpecificEventList } from './utils/searchUtil';
 
-export type InputData = {
-  keyword: string | null;
-  year: string | null;
-  month: string | null;
-  day: string | null;
-  areaId: string | null;
-  prefectureId: string | null;
-  isPrefectureMode: boolean;
-};
-
-export type OutputData = {
-  readonly searchUrl: string;
-  readonly actorCounts: ReadonlyArray<readonly [string, number]>;
-};
-
 export const appearanceStatistics = defineAction({
   accept: 'form',
   input: z
@@ -58,9 +43,19 @@ export const appearanceStatistics = defineAction({
       actorCounts: Array.from(actorCounts)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 1000),
-    } as OutputData;
+    } as const;
   },
 });
+
+type Input = {
+  keyword: string | null;
+  year: string | null;
+  month: string | null;
+  day: string | null;
+  areaId: string | null;
+  prefectureId: string | null;
+  isPrefectureMode: boolean;
+};
 
 const createSearchUrl = ({
   keyword,
@@ -69,7 +64,7 @@ const createSearchUrl = ({
   day,
   areaId,
   prefectureId,
-}: InputData) => {
+}: Input) => {
   const url = new URL('https://www.eventernote.com/events/search');
   keyword && url.searchParams.set('keyword', keyword);
   year && url.searchParams.set('year', year);

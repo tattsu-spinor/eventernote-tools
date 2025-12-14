@@ -4,16 +4,6 @@ import { omit } from 'es-toolkit';
 import type { Event } from '../types/event';
 import { searchUserEventList } from './utils/searchUtil';
 
-export type InputData = {
-  userId: string;
-  actorName: string | null;
-  placeName: string | null;
-};
-
-export type OutputData = {
-  readonly events: ReadonlyArray<Event>;
-};
-
 export const attendedEvents = defineAction({
   accept: 'form',
   input: z.object({
@@ -35,6 +25,6 @@ export const attendedEvents = defineAction({
         .filter((event) => !placeName || event.place === placeName)
         .map((event) => omit(event, ['actors']) as Event)
         .toArray(),
-    } as OutputData;
+    } as const;
   },
 });

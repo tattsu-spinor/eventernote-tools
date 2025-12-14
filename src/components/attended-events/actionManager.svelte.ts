@@ -1,28 +1,32 @@
-import { type ActionError, actions } from 'astro:actions';
-import type { OutputData } from '../../actions/attendedEvents';
+import { type ActionReturnType, actions } from 'astro:actions';
+
+const action = actions.attendedEvents;
+type ActionResult<T extends 'data' | 'error'> = NonNullable<
+  ActionReturnType<typeof action>[T]
+>;
 
 class ActionManager {
-  #data = $state.raw<OutputData>();
+  #data = $state.raw<ActionResult<'data'>>();
+  #error = $state.raw<ActionResult<'error'>>();
   #loading = $state.raw<boolean>(false);
-  #error = $state.raw<ActionError>();
 
-  get data(): OutputData | undefined {
+  get data() {
     return this.#data;
   }
 
-  get loading(): boolean {
-    return this.#loading;
+  get error() {
+    return this.#error;
   }
 
-  get error(): ActionError | undefined {
-    return this.#error;
+  get loading() {
+    return this.#loading;
   }
 
   async search(form: FormData) {
     this.#loading = true;
     this.#error = undefined;
 
-    const { data, error } = await actions.attendedEvents(form);
+    const { data, error } = await action(form);
 
     this.#loading = false;
     if (error) {
