@@ -1,8 +1,8 @@
 import { type ActionError, actions } from 'astro:actions';
 import { expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
+import { actionManager } from '../../../src/components/attendance-statistics/actionManager.svelte.js';
 import Output from '../../../src/components/attendance-statistics/Output.svelte';
-import { store } from '../../../src/components/attendance-statistics/store.svelte';
 
 vi.mock('astro:actions', () => {
   return {
@@ -36,7 +36,7 @@ test('参加イベント統計_出力検証', async () => {
       ],
     },
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
@@ -53,7 +53,7 @@ test('参加イベント統計_出力検証', async () => {
       placeCounts: [['会場名1', 2]],
     },
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
@@ -63,7 +63,7 @@ test('参加イベント統計_出力検証', async () => {
   attendanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();

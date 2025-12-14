@@ -1,8 +1,8 @@
 import { type ActionError, actions } from 'astro:actions';
 import { expect, test, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
+import { actionManager } from '../../../src/components/appearance-statistics/actionManager.svelte.js';
 import Output from '../../../src/components/appearance-statistics/Output.svelte';
-import { store } from '../../../src/components/appearance-statistics/store.svelte';
 
 vi.mock('astro:actions', () => {
   return {
@@ -32,7 +32,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   expect(getRows().length).toBe(3);
   expect(getColumnHeaders().length).toBe(4);
 
@@ -46,7 +46,7 @@ test('出演数統計_出力検証', async () => {
       ],
     },
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 
@@ -54,7 +54,7 @@ test('出演数統計_出力検証', async () => {
   appearanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await store.search(new FormData());
+  await actionManager.search(new FormData());
   expect(getRows().length).toBe(4);
   expect(getColumnHeaders().length).toBe(5);
 });

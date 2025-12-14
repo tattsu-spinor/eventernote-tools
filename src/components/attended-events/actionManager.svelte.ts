@@ -1,7 +1,7 @@
 import { type ActionError, actions } from 'astro:actions';
-import type { OutputData } from '../../actions/coactingEvents';
+import type { OutputData } from '../../actions/attendedEvents';
 
-class Store {
+class ActionManager {
   #data = $state.raw<OutputData>();
   #loading = $state.raw<boolean>(false);
   #error = $state.raw<ActionError>();
@@ -22,7 +22,7 @@ class Store {
     this.#loading = true;
     this.#error = undefined;
 
-    const { data, error } = await actions.coactingEvents(form);
+    const { data, error } = await actions.attendedEvents(form);
 
     this.#loading = false;
     if (error) {
@@ -33,4 +33,4 @@ class Store {
   }
 }
 
-export const store = new Store();
+export const actionManager = new ActionManager();

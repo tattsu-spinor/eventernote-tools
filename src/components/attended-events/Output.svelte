@@ -1,9 +1,9 @@
 <script lang="ts">
 import EventList from '../common/EventList.svelte';
-import { store } from './store.svelte';
+import { actionManager } from './actionManager.svelte.js';
 </script>
 
-{#if store.data}
-  {@const {events} = store.data}
+{#if actionManager.data}
+  {@const {events} = actionManager.data}
   <EventList {events} />
 {/if}

@@ -1,16 +1,16 @@
 <script lang="ts">
 import { navigate } from 'astro:transitions/client';
 import { ScanSearchIcon } from 'lucide-svelte';
+import { actionManager as attendedEventsStore } from '../attended-events/actionManager.svelte.js';
 import { INPUT_DATA_KEY } from '../attended-events/Input.svelte';
-import { store as attendedEventsStore } from '../attended-events/store.svelte';
 import Table from '../common/Table.svelte';
-import { store } from './store.svelte';
+import { actionManager } from './actionManager.svelte.js';
 
 type ItemCount = readonly [string, number];
 </script>
 
-{#if store.data}
-  {@const {userId, actorCounts, placeCounts} = store.data}
+{#if actionManager.data}
+  {@const {userId, actorCounts, placeCounts} = actionManager.data}
   <div role="tablist" class="d-tabs d-tabs-border">
     <input
       class="d-tab"

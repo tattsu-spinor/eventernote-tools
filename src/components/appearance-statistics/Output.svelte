@@ -1,10 +1,14 @@
 <script lang="ts">
 import { sum } from 'es-toolkit';
 import Table from '../common/Table.svelte';
-import { store } from './store.svelte';
+import { actionManager } from './actionManager.svelte.js';
 
 const mergedActorCounts = $derived(
-  merge(store.data.map(({ actorCounts }) => Object.fromEntries(actorCounts))),
+  merge(
+    actionManager.data.map(({ actorCounts }) =>
+      Object.fromEntries(actorCounts),
+    ),
+  ),
 );
 $inspect(mergedActorCounts);
 
@@ -35,13 +39,13 @@ function merge(actorCounts: Record<string, number>[]) {
 }
 </script>
 
-{#if store.data.length > 0}
+{#if actionManager.data.length > 0}
   {#snippet header()}
     <th scope="col"></th>
     <th scope="col" class="text-center">
       出演者名
     </th>
-    {#each store.data as { searchUrl }, index}
+    {#each actionManager.data as { searchUrl }, index}
       <th scope="col" class="text-right">
         <div class="d-dropdown d-dropdown-hover w-full">
           出演数{index + 1}
@@ -59,7 +63,7 @@ function merge(actorCounts: Record<string, number>[]) {
             <li>
               <button
                 type="button"
-                onclick={() => store.remove(index)}
+                onclick={() => actionManager.remove(index)}
               >
                 削除
               </button>

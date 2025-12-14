@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { actionManager } from './actionManager.svelte.js';
 import { AREAS, DAYS, MONTHS, PREFECTURES, YEARS } from './const';
-import { store } from './store.svelte';
 
 const INPUT_DATA_KEY = 'appearanceStatistics.inputData';
 let inputData = $state({
@@ -35,7 +35,7 @@ onMount(() => {
   class="d-card p-2 gap-4"
   onsubmit={async (e) => {
     e.preventDefault();
-    await store.search(new FormData(e.currentTarget));
+    await actionManager.search(new FormData(e.currentTarget));
   }}
 >
   <input type="hidden" name="useCache" value="true" />
@@ -175,17 +175,17 @@ onMount(() => {
     <button
       class="d-btn d-btn-primary"
       type="submit"
-      disabled={store.loading || canNotSearch}
+      disabled={actionManager.loading || canNotSearch}
     >
       検索
-      {#if store.loading}
+      {#if actionManager.loading}
         <span class="d-loading d-loading-spinner"></span>
       {/if}
     </button>
   </div>
 
-  {#if store.error}
-    {@const error = store.error}
+  {#if actionManager.error}
+    {@const error = actionManager.error}
     <div class="d-alert d-alert-error" role="alert">
       <span>
         {error.code !== 'INTERNAL_SERVER_ERROR' && error.message

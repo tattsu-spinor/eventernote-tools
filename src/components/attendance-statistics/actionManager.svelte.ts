@@ -1,12 +1,12 @@
 import { type ActionError, actions } from 'astro:actions';
-import type { OutputData } from '../../actions/appearanceStatistics';
+import type { OutputData } from '../../actions/attendanceStatistics';
 
-class Store {
-  #data = $state<OutputData[]>([]);
+class ActionManager {
+  #data = $state.raw<OutputData>();
   #loading = $state.raw<boolean>(false);
   #error = $state.raw<ActionError>();
 
-  get data(): ReadonlyArray<OutputData> {
+  get data(): OutputData | undefined {
     return this.#data;
   }
 
@@ -22,19 +22,15 @@ class Store {
     this.#loading = true;
     this.#error = undefined;
 
-    const { data, error } = await actions.appearanceStatistics(form);
+    const { data, error } = await actions.attendanceStatistics(form);
 
     this.#loading = false;
     if (error) {
       this.#error = error;
     } else {
-      this.#data.push(data);
+      this.#data = data;
     }
-  }
-
-  remove(index: number) {
-    this.#data.splice(index, 1);
   }
 }
 
-export const store = new Store();
+export const actionManager = new ActionManager();
