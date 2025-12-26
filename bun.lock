@@ -15,7 +15,7 @@
         "daisyui": "^5.5.14",
         "es-toolkit": "^1.43.0",
         "linkedom": "^0.18.12",
-        "lucide-solid": "^0.561.0",
+        "lucide-solid": "^0.562.0",
         "sharp": "^0.34.5",
         "solid-js": "^1.9.10",
         "tailwindcss": "^4.1.18",
@@ -951,7 +951,7 @@
 
     "lru-cache": ["lru-cache@10.4.3", "", {}, "sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ=="],
 
-    "lucide-solid": ["lucide-solid@0.561.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-9pi76feeX4PCYBvbJQ5eKPE8iVeo+yqcHXUxzmrfFNt5bKabIEc/RJMyKhYNrQg1CH/FMpC3c7qvShc1JNyQKA=="],
+    "lucide-solid": ["lucide-solid@0.562.0", "", { "peerDependencies": { "solid-js": "^1.4.7" } }, "sha512-RzxujbWUoa4KqnV+/mYPINzyf1W969bv0jukSKcGExIl96QmRuylvBQ+d0UcOeZL/ASToPOWS34p9MfdzdvS9Q=="],
 
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 
