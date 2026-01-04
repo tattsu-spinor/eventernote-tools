@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.deployment_status.environment == 'Production' && github.event.deployment_status.state == 'success' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
       - run: bun ci
       - run: bunx playwright test --reporter=github
