@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
   "files": {
     "includes": ["**", "!!dist", "!!.vercel"]
   },
@@ -37,6 +37,10 @@
     "parser": {
       "tailwindDirectives": true
     }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": { "enabled": true }
   },
   "overrides": [
     {

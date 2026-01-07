@@ -42,29 +42,21 @@ function merge(actorCounts: Record<string, number>[]) {
 {#if actionManager.data.length > 0}
   {#snippet header()}
     <th scope="col"></th>
-    <th scope="col" class="text-center">
-      出演者名
-    </th>
+    <th scope="col" class="text-center">出演者名</th>
     {#each actionManager.data as { searchUrl }, index}
       <th scope="col" class="text-right">
         <div class="d-dropdown d-dropdown-hover w-full">
           出演数{index + 1}
           <ul
-            class="d-dropdown-content d-menu text-base-content font-medium bg-base-200 rounded-box w-36 z-1 p-2 shadow-sm">
+            class="d-dropdown-content d-menu text-base-content font-medium bg-base-200 rounded-box w-36 z-1 p-2 shadow-sm"
+          >
             <li>
-              <a
-                href={searchUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={searchUrl} target="_blank" rel="noreferrer">
                 検索結果を開く
               </a>
             </li>
             <li>
-              <button
-                type="button"
-                onclick={() => actionManager.remove(index)}
-              >
+              <button type="button" onclick={() => actionManager.remove(index)}>
                 削除
               </button>
             </li>
@@ -72,9 +64,7 @@ function merge(actorCounts: Record<string, number>[]) {
         </div>
       </th>
     {/each}
-    <th scope="col" class="text-right">
-      総出演数
-    </th>
+    <th scope="col" class="text-right">総出演数</th>
   {/snippet}
 
   {#snippet row(item: MergedActorCount, index: number)}
@@ -95,7 +85,6 @@ function merge(actorCounts: Record<string, number>[]) {
         .map(({ actorName, counts, totalCount }) =>
           [actorName, ...counts, totalCount].join(','),
         )
-        .join('\n')
-    }
+        .join('\n')}
   />
 {/if}

@@ -25,7 +25,7 @@ const handleCopy = async () => {
     {#if copied}
       <ClipboardCheckIcon size={16} />
       <span>Copied!</span>
-    {:else }
+    {:else}
       <ClipboardCopyIcon size={16} />
       <span>Copy</span>
     {/if}

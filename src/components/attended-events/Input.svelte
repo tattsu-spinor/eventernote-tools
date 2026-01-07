@@ -3,7 +3,7 @@ export const INPUT_DATA_KEY = 'attendedEvents.inputData';
 </script>
 
 <script lang="ts">
-import { onMount, tick } from "svelte";
+import { onMount, tick } from 'svelte';
 import { actionManager } from './actionManager.svelte.js';
 
 let inputData = $state({
@@ -43,7 +43,7 @@ onMount(async () => {
     await actionManager.search(new FormData(e.currentTarget));
   }}
 >
-  <input type="hidden" name="useCache" value="true" />
+  <input type="hidden" name="useCache" value="true">
 
   <label class="d-floating-label">
     <span>ユーザーID</span>
@@ -57,7 +57,7 @@ onMount(async () => {
         inputData.userId = inputData.userId.trim();
         saveInputData();
       }}
-    />
+    >
   </label>
 
   <label class="d-floating-label">
@@ -72,7 +72,7 @@ onMount(async () => {
         inputData.actorName = inputData.actorName.trim();
         saveInputData();
       }}
-    />
+    >
   </label>
 
   <label class="d-floating-label">
@@ -87,7 +87,7 @@ onMount(async () => {
         inputData.placeName = inputData.placeName.trim();
         saveInputData();
       }}
-    />
+    >
   </label>
 
   <div class="d-card-actions">
@@ -105,12 +105,10 @@ onMount(async () => {
 
   {#if actionManager.error}
     {@const error = actionManager.error}
-    <div class="d-alert d-alert-error" role="alert">
-      <span>
-        {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
+    <div class="d-alert d-alert-error" role="alert"><span>
+      {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
           ? error.message
           : '予期せぬエラーが発生しました。'}
-      </span>
-    </div>
+    </span></div>
   {/if}
 </form>

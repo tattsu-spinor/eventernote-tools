@@ -38,7 +38,7 @@ onMount(() => {
     await actionManager.search(new FormData(e.currentTarget));
   }}
 >
-  <input type="hidden" name="useCache" value="true" />
+  <input type="hidden" name="useCache" value="true">
 
   <div class="max-w-lg">
     <fieldset class="d-fieldset">
@@ -54,7 +54,7 @@ onMount(() => {
           inputData.keyword = inputData.keyword.trim();
           saveInputData();
         }}
-      />
+      >
     </fieldset>
 
     <fieldset class="d-fieldset">
@@ -69,9 +69,7 @@ onMount(() => {
             saveInputData();
           }}
         >
-          <option selected value="">
-            {' - '}年
-          </option>
+          <option selected value="">{' - '}年</option>
           {#each YEARS as year}
             <option value={year}>{year}年</option>
           {/each}
@@ -85,9 +83,7 @@ onMount(() => {
             saveInputData();
           }}
         >
-          <option selected value="">
-            {' - '}月
-          </option>
+          <option selected value="">{' - '}月</option>
           {#each MONTHS as month}
             <option value={month}>{month}月</option>
           {/each}
@@ -101,9 +97,7 @@ onMount(() => {
             saveInputData();
           }}
         >
-          <option selected value="">
-            {' - '}日
-          </option>
+          <option selected value="">{' - '}日</option>
           {#each DAYS as day}
             <option value={day}>{day}日</option>
           {/each}
@@ -128,7 +122,7 @@ onMount(() => {
               }
               saveInputData();
             }}
-          />
+          >
           <span class="d-swap-on">都道府県:</span>
           <span class="d-swap-off">地域:</span>
         </label>
@@ -142,9 +136,7 @@ onMount(() => {
               saveInputData();
             }}
           >
-            <option selected value="">
-              -
-            </option>
+            <option selected value="">-</option>
             {#each PREFECTURES as prefecture}
               <option value={prefecture.id}>{prefecture.name}</option>
             {/each}
@@ -159,9 +151,7 @@ onMount(() => {
               saveInputData();
             }}
           >
-            <option selected value="">
-              -
-            </option>
+            <option selected value="">-</option>
             {#each AREAS as area}
               <option value={area.id}>{area.name}</option>
             {/each}
@@ -186,12 +176,10 @@ onMount(() => {
 
   {#if actionManager.error}
     {@const error = actionManager.error}
-    <div class="d-alert d-alert-error" role="alert">
-      <span>
-        {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
+    <div class="d-alert d-alert-error" role="alert"><span>
+      {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
           ? error.message
           : '予期せぬエラーが発生しました。'}
-      </span>
-    </div>
+    </span></div>
   {/if}
 </form>

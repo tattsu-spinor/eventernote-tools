@@ -19,7 +19,7 @@ type ItemCount = readonly [string, number];
       name="tabs"
       aria-label="出演者"
       checked
-    />
+    >
     <div class="d-tab-content">
       {#snippet actorHeader()}
         <th></th>
@@ -62,13 +62,7 @@ type ItemCount = readonly [string, number];
       />
     </div>
 
-    <input
-      class="d-tab"
-      type="radio"
-      role="tab"
-      name="tabs"
-      aria-label="会場"
-    />
+    <input class="d-tab" type="radio" role="tab" name="tabs" aria-label="会場">
     <div class="d-tab-content">
       {#snippet placeHeader()}
         <th></th>

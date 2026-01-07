@@ -15,9 +15,7 @@ const pageManager = new PageManager(() => items);
 </script>
 
 <div class="d-card p-2 gap-4">
-  <ClipboardCopy
-    text={copyText}
-  />
+  <ClipboardCopy text={copyText} />
   <Pagination
     totalPages={pageManager.totalPages}
     bind:currentPage={pageManager.currentPage}
@@ -25,15 +23,11 @@ const pageManager = new PageManager(() => items);
   <div class="overflow-x-auto">
     <table class="d-table">
       <thead>
-        <tr>
-          {@render header()}
-        </tr>
+        <tr>{@render header()}</tr>
       </thead>
       <tbody>
         {#each pageManager.pagedItems as { item, index }}
-          <tr>
-            {@render row(item, index)}
-          </tr>
+          <tr>{@render row(item, index)}</tr>
         {/each}
       </tbody>
     </table>
