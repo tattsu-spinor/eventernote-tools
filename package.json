@@ -35,7 +35,7 @@
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/user-event": "^14.6.1",
     "@vitest/browser-playwright": "^4.0.16",
-    "lefthook": "^2.0.12",
+    "lefthook": "^2.0.13",
     "vitest": "^4.0.16"
   }
 }
