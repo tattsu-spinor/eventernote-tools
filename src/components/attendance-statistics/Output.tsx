@@ -25,12 +25,12 @@ const OutputContent = (output: OutputData) => {
   return (
     <div role="tablist" class="d-tabs d-tabs-border">
       <input
+        class="d-tab"
         type="radio"
         role="tab"
         name="tabs"
         aria-label="出演者"
         checked
-        class="d-tab"
       />
       <div class="d-tab-content">
         <div class="d-card p-2 gap-4">
@@ -59,8 +59,8 @@ const OutputContent = (output: OutputData) => {
                       <td class="text-right">{count}</td>
                       <td class="text-center w-16">
                         <button
-                          type="button"
                           class="d-btn d-btn-ghost d-btn-xs d-btn-square"
+                          type="button"
                           disabled={loading()}
                           onClick={async () => {
                             await navigate('/attended-events/');
@@ -85,11 +85,11 @@ const OutputContent = (output: OutputData) => {
       </div>
 
       <input
+        class="d-tab"
         type="radio"
         role="tab"
         name="tabs"
         aria-label="会場"
-        class="d-tab"
       />
       <div class="d-tab-content">
         <div class="d-card p-2 gap-4">
@@ -118,8 +118,8 @@ const OutputContent = (output: OutputData) => {
                       <td class="text-right">{count}</td>
                       <td class="text-center w-16">
                         <button
-                          type="button"
                           class="d-btn d-btn-ghost d-btn-xs d-btn-square"
+                          type="button"
                           disabled={loading()}
                           onClick={async () => {
                             await navigate('/attended-events/');
