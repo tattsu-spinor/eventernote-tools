@@ -41,5 +41,8 @@
     "svelte-check": "^4.4.6",
     "vitest": "^4.1.2",
     "vitest-browser-svelte": "^2.1.0"
+  },
+  "overrides": {
+    "vite": "^6"
   }
 }
