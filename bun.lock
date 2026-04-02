@@ -16,7 +16,7 @@
         "daisyui": "^5.5.19",
         "es-toolkit": "^1.45.1",
         "linkedom": "^0.18.12",
-        "lucide-svelte": "^0.559.0",
+        "lucide-svelte": "^1.0.1",
         "sharp": "^0.34.5",
         "solid-js": "^1.9.12",
         "svelte": "^5.55.1",
@@ -924,7 +924,7 @@
 
     "lru-cache": ["lru-cache@11.2.7", "", {}, "sha512-aY/R+aEsRelme17KGQa/1ZSIpLpNYYrhcrepKTZgE+W3WM16YMCaPwOHLHsmopZHELU0Ojin1lPVxKR0MihncA=="],
 
-    "lucide-svelte": ["lucide-svelte@0.559.0", "", { "peerDependencies": { "svelte": "^3 || ^4 || ^5.0.0-next.42" } }, "sha512-/R/4nywMW3yk+OCYF27IocERb+Cf6F/P7CdWL446U+MNb5Pa5OvcA4x9WZgSMGgs4ZM42xUDXB2BfKBzv+u1mg=="],
+    "lucide-svelte": ["lucide-svelte@1.0.1", "", { "peerDependencies": { "svelte": "^3 || ^4 || ^5.0.0-next.42" } }, "sha512-WvzZgk0pqzgda+AErLvgWxHkfg/+GgUwqKMRHvzt0IqyMdmyEDzDCk3Z+Wo/3y753oIgx8u9Q4eUbWkghFa8Jg=="],
 
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 
