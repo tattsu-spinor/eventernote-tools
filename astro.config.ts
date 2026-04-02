@@ -1,4 +1,3 @@
-import solidJs from '@astrojs/solid-js';
 import starlight from '@astrojs/starlight';
 import { default as svelte, vitePreprocess } from '@astrojs/svelte';
 import vercel from '@astrojs/vercel';
@@ -56,7 +55,6 @@ export default defineConfig({
         PageFrame: './src/overrides/PageFrame.astro',
       },
     }),
-    solidJs(),
     svelte({ preprocess: vitePreprocess() }),
   ],
   vite: {
