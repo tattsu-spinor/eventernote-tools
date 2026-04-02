@@ -15,6 +15,9 @@ updates:
       minor:
         update-types:
           - "minor"
+      major:
+        update-types:
+          - "major"
     ignore:
       - dependency-name: "@biomejs/biome"
     open-pull-requests-limit: 10
