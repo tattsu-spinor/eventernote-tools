@@ -81,10 +81,12 @@ onMount(() => {
 
   {#if actionManager.error}
     {@const error = actionManager.error}
-    <div class="d-alert d-alert-error" role="alert"><span>
-      {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
+    <div class="d-alert d-alert-error" role="alert">
+      <span>
+        {error.code !== 'INTERNAL_SERVER_ERROR' && error.message
           ? error.message
           : '予期せぬエラーが発生しました。'}
-    </span></div>
+      </span>
+    </div>
   {/if}
 </form>

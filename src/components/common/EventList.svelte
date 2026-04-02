@@ -18,21 +18,21 @@ const pageManager = new PageManager(() => events);
     bind:currentPage={pageManager.currentPage}
   />
   <ul class="d-list">
-    {#each pageManager.pagedItems as { item: event }}
+    {#each pageManager.pagedItems as { item }}
       <li class="d-list-row">
         <div>
           <h4>
             <a
               class="d-link d-link-hover"
-              href={`https://www.eventernote.com${event.href}`}
+              href={`https://www.eventernote.com${item.href}`}
               target="_blank"
               rel="noreferrer"
             >
-              {event.name}
+              {item.name}
             </a>
           </h4>
-          <div class="text-xs">{event.date}</div>
-          <div class="text-xs">{event.place}</div>
+          <div class="text-xs">{item.date}</div>
+          <div class="text-xs">{item.place}</div>
         </div>
       </li>
     {/each}

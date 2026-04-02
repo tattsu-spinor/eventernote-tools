@@ -23,11 +23,15 @@ const pageManager = new PageManager(() => items);
   <div class="overflow-x-auto">
     <table class="d-table">
       <thead>
-        <tr>{@render header()}</tr>
+        <tr>
+          {@render header()}
+        </tr>
       </thead>
       <tbody>
         {#each pageManager.pagedItems as { item, index }}
-          <tr>{@render row(item, index)}</tr>
+          <tr>
+            {@render row(item, index)}
+          </tr>
         {/each}
       </tbody>
     </table>
