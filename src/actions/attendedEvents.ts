@@ -4,32 +4,19 @@ import { omit } from 'es-toolkit';
 import type { Event } from '../types/event';
 import { searchUserEventList } from './utils/searchUtil';
 
-export type InputData = {
-  userId: string;
-  actorName: string;
-  placeName: string;
-  noCache?: boolean;
-};
-
-export type OutputData = {
-  readonly events: ReadonlyArray<Event>;
-};
-
 export const attendedEvents = defineAction({
+  accept: 'form',
   input: z.object({
     userId: z.string().trim(),
-    actorName: z.string().trim(),
-    placeName: z.string().trim(),
-    noCache: z.boolean().default(false),
+    actorName: z.string().trim().nullable(),
+    placeName: z.string().trim().nullable(),
+    useCache: z.boolean(),
   }),
-  handler: async (
-    { userId, actorName, placeName, noCache }: InputData,
-    context,
-  ) => {
+  handler: async ({ userId, actorName, placeName, useCache }, context) => {
     const eventList = await searchUserEventList(
       userId,
+      useCache,
       context.session,
-      noCache,
     );
     return {
       events: eventList
@@ -38,6 +25,6 @@ export const attendedEvents = defineAction({
         .filter((event) => !placeName || event.place === placeName)
         .map((event) => omit(event, ['actors']) as Event)
         .toArray(),
-    } as OutputData;
+    } as const;
   },
 });

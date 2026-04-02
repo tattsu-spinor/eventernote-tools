@@ -1,7 +1,6 @@
-import { render } from '@solidjs/testing-library';
 import { expect, test } from 'vitest';
-import { page } from 'vitest/browser';
-import { Input } from '../../../src/components/attended-events/Input';
+import { render } from 'vitest-browser-svelte';
+import Input from '../../../src/components/attended-events/Input.svelte';
 
 test('参加イベント検索_入力検証', async () => {
   const { userIdTextBox, actorNameTextBox, placeNameTextBox, searchButton } =
@@ -41,8 +40,7 @@ test('参加イベント検索_入力検証', async () => {
 
 const setup = () => {
   window.localStorage.clear();
-  const { baseElement } = render(() => <Input />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Input);
   return {
     userIdTextBox: screen.getByRole('textbox', { name: 'ユーザーID' }),
     actorNameTextBox: screen.getByRole('textbox', { name: '出演者名' }),

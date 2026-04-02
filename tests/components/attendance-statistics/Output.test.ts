@@ -1,9 +1,8 @@
 import { type ActionError, actions } from 'astro:actions';
-import { render } from '@solidjs/testing-library';
 import { expect, test, vi } from 'vitest';
-import { page } from 'vitest/browser';
-import { Output } from '../../../src/components/attendance-statistics/Output';
-import { search } from '../../../src/components/attendance-statistics/store';
+import { render } from 'vitest-browser-svelte';
+import { actionManager } from '../../../src/components/attendance-statistics/actionManager.svelte.js';
+import Output from '../../../src/components/attendance-statistics/Output.svelte';
 
 vi.mock('astro:actions', () => {
   return {
@@ -37,7 +36,8 @@ test('参加イベント統計_出力検証', async () => {
       ],
     },
   });
-  await search();
+  await actionManager.search(new FormData());
+  await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
   expect(queryRowElements().length).toBe(4);
@@ -53,24 +53,25 @@ test('参加イベント統計_出力検証', async () => {
       placeCounts: [['会場名1', 2]],
     },
   });
-  await search();
-  expect(queryRowElements().length).toBe(2);
+  await actionManager.search(new FormData());
   await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
+  await getPlaceTabElement().click();
+  expect(queryRowElements().length).toBe(2);
 
   // 検索失敗
   attendanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search();
+  await actionManager.search(new FormData());
+  await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
   expect(queryRowElements().length).toBe(2);
 });
 
 const setup = () => {
-  const { baseElement } = render(() => <Output />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Output);
   return {
     queryRowElements: () => screen.getByRole('row'),
     getActorTabElement: () => screen.getByRole('tab', { name: '出演者' }),

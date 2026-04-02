@@ -1,7 +1,6 @@
-import { render } from '@solidjs/testing-library';
 import { expect, test } from 'vitest';
-import { page } from 'vitest/browser';
-import { Input } from '../../../src/components/attendance-statistics/Input';
+import { render } from 'vitest-browser-svelte';
+import Input from '../../../src/components/attendance-statistics/Input.svelte';
 
 test('参加イベント統計_入力検証', async () => {
   const { userIdTextBox, searchButton } = setup();
@@ -16,8 +15,7 @@ test('参加イベント統計_入力検証', async () => {
 
 const setup = () => {
   window.localStorage.clear();
-  const { baseElement } = render(() => <Input />);
-  const screen = page.elementLocator(baseElement);
+  const screen = render(Input);
   return {
     userIdTextBox: screen.getByRole('textbox', { name: 'ユーザーID' }),
     searchButton: screen.getByRole('button', { name: '検索' }),
