@@ -37,7 +37,7 @@ test('参加イベント統計_出力検証', async () => {
       ],
     },
   });
-  await search();
+  await search(new FormData());
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
   expect(queryRowElements().length).toBe(4);
@@ -53,7 +53,7 @@ test('参加イベント統計_出力検証', async () => {
       placeCounts: [['会場名1', 2]],
     },
   });
-  await search();
+  await search(new FormData());
   expect(queryRowElements().length).toBe(2);
   await getActorTabElement().click();
   expect(queryRowElements().length).toBe(3);
@@ -62,7 +62,7 @@ test('参加イベント統計_出力検証', async () => {
   attendanceStatisticsMock.mockResolvedValueOnce({
     error: {} as ActionError,
   });
-  await search();
+  await search(new FormData());
   expect(queryRowElements().length).toBe(3);
   await getPlaceTabElement().click();
   expect(queryRowElements().length).toBe(2);

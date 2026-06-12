@@ -37,10 +37,10 @@ export const setInputStore = <K extends keyof InputData>(
 
 export { outputs, loading, error };
 
-export const search = async () => {
+export const search = async (form: FormData) => {
   setLoading(true);
   setError(undefined);
-  const { data, error } = await actions.appearanceStatistics(input);
+  const { data, error } = await actions.appearanceStatistics(form);
   setLoading(false);
   error ? setError(error) : setOutputs((outputs) => outputs.concat(data));
 };
